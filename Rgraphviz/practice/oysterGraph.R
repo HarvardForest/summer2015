@@ -21,6 +21,8 @@ library(Rgraphviz)
 
 g1 <- new("graphNEL", nodes=rownames(F), edgemode="directed") # Declare new graph
 
-graphInfo <- agopen(g1, name="oyster") # Object used to store graph properties
+graphInfo <- agopen(g1, name="g1Properties") # Object used to store graph properties
+
+which(F > 0, arr.in=TRUE)
 
 plot(g1)
