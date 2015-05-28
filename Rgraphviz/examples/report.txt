@@ -1,0 +1,19 @@
+The Rgraphviz package is a powerful framework for constructing graphs
+(including subgraphs, bipartite graphs, cluster graphs, and networks).
+
+A graph object may assume a handful of different layouts and types (directed or undirected).
+Node shapes, colors, text, and a variety of other attributes can be customized.
+Edge labels, weights, colors, and a variety of other attributes may also be customized.
+
+Plotting a graph object is modular and default attributes will be applied when not
+specified. The package auto-adjusts the plot output based on attribute deffinitions
+(including number of edges and nodes, sub-graph clustering, label-length, etc.)
+
+Rgraphviz undoubtedly a well implemented framework, but there doesn't appear to
+be a convenient and explicit means of assigning properties to the nodes. The
+nodes themselves don't seem to be objects.
+
+This package could be utilized with additional development:
+1) Data could be stored as objects, stored in an adjacency matrix, and then
+drawn accordingly as a graph. Referencing a specific node could be as simple as
+searching the adjacency matrix.

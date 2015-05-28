@@ -1,0 +1,24 @@
+## Requires BioInstaller package
+library("Rgraphviz")
+
+set.seed(123)
+V <- letters[1:5] # Determines number of Nodes
+M <- 1:4 # Set (vector) of values assigned to V to determine build
+p <- .2 # Value between 0-1 - determines probability of selecing an element of M
+# Any two elements of V that share an element of M (based on p) are connected
+g1 <- randomGraph(V, M, p)
+
+plot(g1)
+
+## Reciprocated edges
+
+rEG <- new("graphNEL", nodes=c("A", "B", "C", "D"), edgemode="directed") # Declares new graph
+rEG <- addEdge ("A", "B", rEG, 1) # Declares new edge: to, from, graph, weight
+rEG <- addEdge ("A", "C", rEG, 1)
+rEG <- addEdge ("B", "D", rEG, 1)
+rEG <- addEdge ("D", "A", rEG, 1)
+rEG <- addEdge ("C", "A", rEG, 1)
+
+# Options: combines (double-sided edge) and distinct (seperate edges)
+plot(rEG, recipEdges="distinct")
+
