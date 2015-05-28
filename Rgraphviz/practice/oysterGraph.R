@@ -26,9 +26,9 @@ graphInfo <- agopen(g1, name="g1Properties") # Object used to store graph proper
 edges <- which(F > 0, arr.in=TRUE) # Find all edges
 
 for (i in 1:length(edges[,1])) {
-  x[i] <- F[edges[i]]
-  print(i)
-  #g1 <- addEdge (rownames(F)[1], colnames(F)[2], g1, 1)
+  x[i] <- F[edges[i], edges[i,2]]
+  print(edges[i])
+  g1 <- addEdge (rownames(F)[edges[i,1], colnames(F)edges[i,2]], g1, F[edges[i], edges[i,2]])
 }
 
 plot(g1)
