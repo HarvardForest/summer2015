@@ -39,7 +39,7 @@ attrs <- list(node=list(shape="ellipse", fixedsize=FALSE))
 ew <- as.character(unlist(edgeWeights(g1)))
 
 # Determine edges to remove - necessary if recipEdges=TRUE (Default)
-ew <- ew[setdiff(seq(along=ew), removedEdges(g1))]
+#ew <- ew[setdiff(seq(along=ew), removedEdges(g1))]
 
 # Get the set of edge names
 names(ew) <- edgeNames(g1)
@@ -49,4 +49,6 @@ eAttrs$label <- ew
 attrs$edge$fontsize <- 27
 
 plot(g1, recipEdges="distinct", edgeAttrs=eAttrs, attrs=attrs)
+
+#######Issue: Reciprocal edges aren't labeled
 
