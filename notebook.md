@@ -14,3 +14,5 @@ NVJ - Investigated hosting Shiny app on Github - much more complicated than anti
 
 NVJ - Added REU2015 events to shared Google Calendar
 
+NVJ - Worked on oyster-system graph using Rgraphviz
+
