@@ -1,7 +1,5 @@
 ### http://127.0.0.1:15876/library/Rgraphviz/doc/Rgraphviz.pdf
 
-### Requires BioInstaller package
-
 library("Rgraphviz")
 
 set.seed(123)
