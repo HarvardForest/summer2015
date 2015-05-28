@@ -23,6 +23,13 @@ g1 <- new("graphNEL", nodes=rownames(F), edgemode="directed") # Declare new grap
 
 graphInfo <- agopen(g1, name="g1Properties") # Object used to store graph properties
 
-which(F > 0, arr.in=TRUE)
+edges <- which(F > 0, arr.in=TRUE) # Find all edges
+
+for (i in 1:length(edges[,1])) {
+  x[i] <- F[edges[i]]
+  print(i)
+  #g1 <- addEdge (rownames(F)[1], colnames(F)[2], g1, 1)
+}
 
 plot(g1)
+
