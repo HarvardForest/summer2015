@@ -16,3 +16,11 @@ NVJ - Added REU2015 events to shared Google Calendar
 
 NVJ - Worked on oyster-system graph using Rgraphviz
 
+29May2015
+
+NVJ - Read Sirota paper (thoroughly, a few times)
+
+NVJ + MKL - Went on a nice walk :)
+
+NVJ - Looked at Rgraphviz code with Matt, tested with different networks.
+
