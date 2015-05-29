@@ -11,6 +11,8 @@ data(enaModels) # Declare data (.rda) - relative location
 
 ##### Functions #####
 
+# Input: a network object from the enaModels library
+# Output: a graph/diagram of the model-network object
 enaPlot = function(x) {
 
   attach(unpack(x)) # Allows access to unpacked network object elements
