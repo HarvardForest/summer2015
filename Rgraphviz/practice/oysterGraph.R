@@ -13,7 +13,7 @@ data(enaModels) # Declare data (.rda) - relative location
 
 # Input: a network object from the enaModels library
 # Output: a graph/diagram of the model-network object
-enaPlot = function(x) {
+enaPlot <- function(x) {
 
   attach(unpack(x)) # Allows access to unpacked network object elements
 
@@ -42,9 +42,6 @@ enaPlot = function(x) {
 
   ## Add edge labels (by weight=flow) ##
 
-  eAttrs <- list()
-  attrs <- list(node=list(shape="ellipse", fixedsize=FALSE))
-
   # Get edge weights, unlist them, provide in vector format
   ew <- as.character(unlist(edgeWeights(g1)))
 
@@ -54,21 +51,35 @@ enaPlot = function(x) {
   # Get the set of edge names
   names(ew) <- edgeNames(g1)
 
-  # Set global attributes
-  eAttrs$label <- ew
-  attrs$edge$fontsize <- 27
-
   ## Adjust edge width by weight ##
+  ##########...####################
 
-  plot(g1, recipEdges="distinct", edgeAttrs=eAttrs, attrs=attrs)
+  ## Set global attributes ##
+  eAttrs <- list() # Global edge attributes
+  nAttrs <- list() # Global node attributes
+  attrs <- list(node=list(shape="ellipse", fixedsize=FALSE)) # General attributes
+
+  eAttrs$label <- ew # Assign edge-weights to edge labels
+  attrs$edge$fontsize <- 25 # Adjust edge label font-size
+
+  # Remove node labels
+  #nw <- strsplit(packageDescription("Rgraphviz")$Description, " ")[[1]]
+  nw <- list()
+  for (i in 1:numNodes(g1)){
+    nw[i] <- " "
+  }
+
+  names(nw) <- nodes(g1)
+  nAttrs$label <- nw
+
+  plot(g1, recipEdges="distinct", edgeAttrs=eAttrs, attrs=attrs, nodeAttrs=nAttrs)
 
   detach(unpack(x))
 }
 
 ###############################################################################
 
-
-enaPlot(enaModels[[3]])
+enaPlot(enaModels[[4]])
 
 ##### Bugs:
 # 1) Reciprocal edges aren't completely labeled
