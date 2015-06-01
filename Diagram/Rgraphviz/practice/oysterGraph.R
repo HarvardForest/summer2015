@@ -40,7 +40,13 @@ enaPlot <- function(x) {
                    F[edges[i], edges[i,2]])
   }
 
-  ## Add edge labels (by weight=flow) ##
+  ### Set global attributes ###
+
+  ## Edge Attributes: ##
+
+  eAttrs <- list() # Global edge attributes
+
+  # Add edge labels (by weight=flow) #
 
   # Get edge weights, unlist them, provide in vector format
   ew <- as.character(unlist(edgeWeights(g1)))
@@ -51,18 +57,16 @@ enaPlot <- function(x) {
   # Get the set of edge names
   names(ew) <- edgeNames(g1)
 
-  ## Adjust edge width by weight ##
+  eAttrs$label <- ew # Assign edge-weights to edge labels
+
+  # Adjust edge width by weight #
   ##########...####################
 
-  ## Set global attributes ##
-  eAttrs <- list() # Global edge attributes
+  ## Node Attributes: ##
+
   nAttrs <- list() # Global node attributes
-  attrs <- list(node=list(shape="ellipse", fixedsize=FALSE)) # General attributes
 
-  eAttrs$label <- ew # Assign edge-weights to edge labels
-  attrs$edge$fontsize <- 25 # Adjust edge label font-size
-
-  # Remove node labels
+  # Remove node labels #
   #nw <- strsplit(packageDescription("Rgraphviz")$Description, " ")[[1]]
   nw <- list()
   for (i in 1:numNodes(g1)){
@@ -72,6 +76,13 @@ enaPlot <- function(x) {
   names(nw) <- nodes(g1)
   nAttrs$label <- nw
 
+  ## General Attributes: ##
+
+  attrs <- list(node=list(shape="circle", fixedsize=FALSE))
+  attrs$edge$fontsize <- 12 # Adjust edge label font-size
+
+  ## Plot with attribute changes ##
+
   plot(g1, recipEdges="distinct", edgeAttrs=eAttrs, attrs=attrs, nodeAttrs=nAttrs)
 
   detach(unpack(x))
@@ -79,10 +90,5 @@ enaPlot <- function(x) {
 
 ###############################################################################
 
-enaPlot(enaModels[[4]])
+enaPlot(enaModels[[6]])
 
-##### Bugs:
-# 1) Reciprocal edges aren't completely labeled
-
-##### Issues:
-# 1) Rgraphviz does not support edge width

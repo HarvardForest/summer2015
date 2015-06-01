@@ -24,3 +24,11 @@ NVJ + MKL - Went on a nice walk :)
 
 NVJ - Looked at Rgraphviz code with Matt, tested with different networks.
 
+01June2015
+
+NVJ - Met with Aaron and Matt to establish project scope, goals, and final product
+
+NVJ - Talked history, biology, and the meaning of life with Matt
+
+NVJ - Looked at simecol for Lotka-Volterra equation implementation
+
