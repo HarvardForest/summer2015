@@ -32,3 +32,4 @@ NVJ - Talked history, biology, and the meaning of life with Matt
 
 NVJ - Looked at simecol for Lotka-Volterra equation implementation
 
+NVJ - Worked on implementing Lotka-Volterra predator-prey function
