@@ -34,4 +34,4 @@ NVJ - Looked at simecol for Lotka-Volterra equation implementation
 
 NVJ - Worked on implementing Lotka-Volterra predator-prey function
 
-NVJ - Built Shiny-app for Lotka-Volterra predator-prey model
+NVJ - Built Shiny-app for Lotka-Volterra predator-prey model - https://nthnjustice.shinyapps.io/lvPredPrey/
