@@ -26,7 +26,7 @@ lotVpredPrey <- function(time, initState, params){
   # deSolve method to solve initial value problems (IVP)
   output <- ode(y=initState, times=time, func=lotVPPeqs, parms=params)
   # Plot matrix
-  matplot(output[,-1], type="l", xlab="Time", ylab="Population")
+  matplot(output[,-1], type="l", xlab="Time", ylab=input$y-axis)
   legend("topleft", c("Prey", "Predator"), lty=c(1, 2), col=c(1, 2),
          bty="n")
 }

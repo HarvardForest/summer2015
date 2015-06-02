@@ -12,9 +12,9 @@ shinyServer(
     })
 
     output$plot <- renderPlot({
-      matplot(theModel(), type="l", xlab="Time", ylab="Population")
-      legend("topleft", c("Prey", "Predator"), lty=c(1, 2), col=c(1, 2),
-             bty="n")
+      matplot(theModel(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+      legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+             col=c(1, 2), bty="n")
     })
 
     output$alpha2 <- renderUI({

@@ -43,7 +43,11 @@ shinyUI(fluidPage(
       plotOutput("plot"),
       fluidRow(
         column(12, align="center",
-          h1("Customization here")
+          h3("Customize graph:"),
+          textInput("yaxis", "y-axis", value="Population"),
+          textInput("xaxis", "x-axis", value="Time"),
+          textInput("preyLabel", "Prey", value="Prey"),
+          textInput("predatorLabel", "Predator", value="Predator")
         )
       )
     )
