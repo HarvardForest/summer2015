@@ -44,10 +44,13 @@ shinyUI(fluidPage(
       fluidRow(
         column(12, align="center",
           h3("Customize graph:"),
+          textInput("plotTitle", "Plot Titile", value="Predator-Prey Model"),
           textInput("yaxis", "y-axis", value="Population"),
           textInput("xaxis", "x-axis", value="Time"),
           textInput("preyLabel", "Prey", value="Prey"),
-          textInput("predatorLabel", "Predator", value="Predator")
+          textInput("predatorLabel", "Predator", value="Predator"),
+          downloadButton("downloadPlot", "Download Plot"),
+          downloadButton("downloadData", "Download Data")
         )
       )
     )

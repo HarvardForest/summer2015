@@ -13,6 +13,7 @@ shinyServer(
 
     output$plot <- renderPlot({
       matplot(theModel(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+      title(main=input$plotTitle)
       legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
              col=c(1, 2), bty="n")
     })
