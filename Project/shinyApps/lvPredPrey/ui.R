@@ -8,27 +8,31 @@ shinyUI(fluidPage(
     sidebarPanel(
       numericInput("prey",
         label=h4("Number of Prey:"),
-        value=0
+        value=500
       ),
       numericInput("predators",
         label=h4("Number of Predators:"),
-        value=0
+        value=10
+      ),
+      numericInput("time",
+        label=h4("Time:"),
+        value=100
       ),
       sliderInput("alpha",
         label=h4("The growth rate of prey:"),
-        min=0, max=10, value=0, step=0.001
+        min=0, max=5, value=1.5, step=0.001
       ),
       sliderInput("beta",
         label=h4("The rate at which predators kill prey:"),
-        min=0, max=10, value=0, step=0.001
+        min=0, max=3, value=0.02, step=0.001
       ),
       sliderInput("delta",
         label=h4("The death rate of predators:"),
-        min=0, max=10, value=0, step=0.001
+        min=0, max=3, value=0.4, step=0.001
       ),
       sliderInput("gamma",
         label=h4("The rate at which predators increase by consuming prey:"),
-        min=0, max=10, value=0, step=0.001
+        min=0, max=3, value=0.01, step=0.001
       )
     ),
     mainPanel(

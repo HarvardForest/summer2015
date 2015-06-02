@@ -5,7 +5,7 @@ shinyServer(
   function(input, output, session){
 
     theModel <- reactive({
-     lotVpredPrey(seq(0, 100, by=1),
+     lotVpredPrey(seq(0, input$time, by=1),
                   c(prey=input$prey, predator=input$predators),
                   c(alpha=input$alpha, beta=input$beta, delta=input$delta,
                     gamma=input$gamma))
