@@ -40,7 +40,12 @@ shinyUI(fluidPage(
       uiOutput("gamma2")
     ),
     mainPanel(
-      plotOutput("plot")
+      plotOutput("plot"),
+      fluidRow(
+        column(12, align="center",
+          h1("Customization here")
+        )
+      )
     )
   )
 ))
