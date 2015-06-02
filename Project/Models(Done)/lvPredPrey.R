@@ -1,3 +1,7 @@
+### Lotka-Volterra predator-prey model
+## By: Nathan Justice
+# Latest Edit: 6/1/15
+
 # Load dependencies
 library(deSolve)
 
