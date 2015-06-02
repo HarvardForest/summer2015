@@ -6,11 +6,11 @@ shinyUI(fluidPage(
 
   sidebarLayout(position="left",
     sidebarPanel(
-      numericInput("initPrey",
+      numericInput("prey",
         label=h4("Number of Prey:"),
         value=0
       ),
-      numericInput("initPredator",
+      numericInput("predators",
         label=h4("Number of Predators:"),
         value=0
       ),
@@ -31,7 +31,7 @@ shinyUI(fluidPage(
         min=0, max=10, value=0, step=0.001
       )
     ),
-    mainPanel("main panel",
+    mainPanel(
       plotOutput("plot")
     )
   )
