@@ -90,3 +90,6 @@ update_x()
 time <- time + 1
 update_x()
 #update_w()
+
+## Write single update_x() function, a is 1 (not 0), until food is added, then it is changed
+# a is initialized to 1 to reflect solely photosynthesis until food is added

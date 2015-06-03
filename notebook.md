@@ -45,3 +45,7 @@ NVJ - Worked on Pitcher Plant simulation stack algorithm
 03June2015
 
 NVJ - Refined Pitcher Plant simulation stack algorithm
+
+NVJ - Began implementing Pitcher Plant stack algorithm
+
+NVJ - Worked on Shiny-app for Lotka VOlterra predator-prey model

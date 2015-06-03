@@ -40,5 +40,9 @@ shinyServer(
       updateSliderInput(session, "delta", value=input$delta2)
       updateSliderInput(session, "gamma", value=input$gamma2)
     })
+
+    output$table <- renderDataTable({
+      mNew <- cbind(time=0:(input$time), theModel())
+    })
   }
 )
