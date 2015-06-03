@@ -39,3 +39,9 @@ NVJ - Built Shiny-app for Lotka-Volterra predator-prey model - https://nthnjusti
 02June2015
 
 NVJ - Updated Shiny-app for Lotka-Volterra predator-prey model
+
+NVJ - Worked on Pitcher Plant simulation stack algorithm
+
+03June2015
+
+NVJ - Refined Pitcher Plant simulation stack algorithm
