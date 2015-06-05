@@ -67,26 +67,71 @@ shinyServer(
     })
 
     output$tpTwo <- renderUI({
-      if(is.null(input$breakpointType)){
+      if(input$dataType == " "){
+        return()
+      }
+
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
         return()
       }
 
       switch(input$breakpointType,
-        "with Negative Binomial Distribution" = selectInput("CENB", "Distribution to simulate break-point locations:",
+        "with Negative Binomial Distribution" = selectInput("distributionType", "Distribution to simulate break-point locations:",
                                                   choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
                                                 ),
-        "for Continuous Data" = selectInput("CENB", "Distribution to simulate break-point locations:",
+        "for Continuous Data" = selectInput("distributionType", "Distribution to simulate break-point locations:",
                                                             choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
         ),
-        "with Zero-Inflated Negative Binomial Distribution" = selectInput("CENB", "Distribution to simulate break-point locations:",
+        "with Zero-Inflated Negative Binomial Distribution" = selectInput("distributionType", "Distribution to simulate break-point locations:",
                                                             choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
         )
       )
     })
 
-    #output$CE_NB_1_prey <- renderText({
-     # toString(CE.NB(data=theModel()[1], distyp=1, parallel=TRUE)[[1]])
-    #})
+    output$tpRun <- renderUI({
+      if(input$dataType == " "){
+        return()
+      }
+
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      actionButton("run", "Run")
+    })
+
+    TPanalysis <- eventReactive(input$run, function(){
+      if(input$dataType == "Prey"){
+        if(input$breakpointType == "with Negative Binomial Distribution"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.NB(theModel()[1], distyp=1, parallel=TRUE)
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.NB(theModel()[1], distyp=2, parallel=TRUE)
+          }
+        }
+      }
+
+      if(input$dataType == "Predator"){
+        if(input$breakpointType == "with Negative Binomial Distribution"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.NB(theModel()[2], distyp=1, parallel=TRUE)
+         # }
+        #  if(input$distributionType == "Truncated Normal Distribution"){
+         #   CE.NB(theModel()[2], distyp=2, parallel=TRUE)
+          #}
+        #}
+      #}
+
+    })
+
+    output$tpAnalysis <- renderPrint({
+      TPanalysis()
+    })
 
   }
 )

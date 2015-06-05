@@ -39,22 +39,22 @@ lotVpredPrey <- function(time, initState, params){
 #data <- lotVpredPrey(time, initState, params)
 
 #### Simulated data example ###
-blah <- function(){segs <- 6 # Number of segements
-M <- c(1500, 2200, 800, 2500, 1000, 2000) # Segment width
+blah <- function(){segs <- 2 # Number of segements
+M <- c(1500, 2200)#, 800, 2500, 1000, 2000) # Segment width
 #true.locations <- c(1501, 3701, 4501, 7001, 8001)  # True break-point locations
 seg <- NULL
-p <- c(0.45, 0.25, 0.4, 0.2, 0.3, 0.6) # Specification of p's for each segment
+p <- c(0.45, 0.25)#, 0.4, 0.2, 0.3, 0.6) # Specification of p's for each segment
 for(j in 1:segs){
   seg <- c(seg, rnbinom(M[j], size =10, prob = p[j]))
 }
 simdata <- as.data.frame(seg)
 rm(p, M, seg, segs, j)
-#plot(data[, 1])
+plot(simdata[, 1])
 
 ## Not run:
 ## CE with the four parameter beta distribution ##
 
-obj1 <- CE.NB(simdata, distyp = 1, parallel = TRUE) # Parallel computation
+obj1 <- CE.NB(simdata, distyp = 1, parallel = FALSE, M=200, Nmax=2) # Parallel computation
 
 return(obj1)
 }

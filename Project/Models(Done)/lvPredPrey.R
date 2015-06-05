@@ -4,6 +4,7 @@
 
 # Load dependencies
 library(deSolve)
+library(breakpoint)
 
 lotVpredPrey <- function(time, initState, params){
 # Function for ordinary differential equations (ODE)

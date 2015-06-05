@@ -54,11 +54,19 @@ shinyUI(fluidPage(
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Tipping Point analysis",
-                  column(12, align="left",
-                    selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
-                    uiOutput("tpOne"),
-                    uiOutput("tpTwo")
-                  ) # column
+                  fluidRow(
+                    column(5, align="left",
+                      br(),
+                      selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                      uiOutput("tpOne"),
+                      uiOutput("tpTwo"),
+                      uiOutput("tpRun")
+                    ), # column
+                    column(5, offset=1, align="center",
+                      br(),
+                      textOutput("tpAnalysis")
+                    ) # column
+                  ) # fluidRow
                 ), # tabPanel
                 tabPanel(title="Early Warning Signal analysis"),
                 tabPanel(title="Customize graph",
