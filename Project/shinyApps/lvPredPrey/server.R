@@ -45,5 +45,11 @@ shinyServer(
       mNew <- cbind(time=0:(input$time), theModel())
     })
 
+    observe({})
+
+    #output$CE_NB_1_prey <- renderText({
+     # toString(CE.NB(data=theModel()[1], distyp=1, parallel=TRUE)[[1]])
+    #})
+
   }
 )

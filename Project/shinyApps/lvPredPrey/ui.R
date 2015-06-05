@@ -8,15 +8,15 @@ shinyUI(fluidPage(
     sidebarPanel(
       numericInput("prey",
         label=h4("Number of Prey:"),
-        value=500
+        value=5
       ),
       numericInput("predators",
         label=h4("Number of Predators:"),
-        value=10
+        value=1
       ),
       numericInput("time",
         label=h4("Time:"),
-        value=100
+        value=10
       ),
       sliderInput("alpha",
         label=h4("The growth rate of prey:"),
@@ -53,7 +53,22 @@ shinyUI(fluidPage(
             plotOutput("plot"),
             column(12, align="center",
               tabsetPanel(
-                tabPanel(title="Tipping Point analysis"), # tabPanel
+                tabPanel(title="Tipping Point analysis",
+                  selectInput("breakpointType", "Choose Data:", choices=c("Prey", "Predator")),
+                  uiOutput("predPreyChoice")
+
+                  #h2("Break-point Detection with Negative Binomial Distribution:"),
+                  #h3("Four parameter beta distribution:"),
+                  #h4("Prey"),
+                  #textOutput("CE_NB_1_prey"),
+                  #h4("Predator"),
+                  #textOutput("CE_NB_1_predator"),
+                  #h3("Truncated Normal Distribution:"),
+                  #h4("Prey"),
+                  #textOutput("CE_NB_2_prey"),
+                  #h4("Predator"),
+                  #textOutput("CE_NB_2_predator")
+                ), # tabPanel
                 tabPanel(title="Early Warning Signal analysis"),
                 tabPanel(title="Customize graph",
                     br(),

@@ -31,7 +31,7 @@ lotVpredPrey <- function(time, initState, params){
 
 ## Test-values
 params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
-initState <- c(prey=50, predator=5)
+initState <- c(prey=5, predator=1)
 time <- seq(0, 10, by=1)
 
 ## Function-call
@@ -39,7 +39,7 @@ data <- lotVpredPrey(time, initState, params)
 
 matplot(data, type="l")
 
-obj1 <- CE.NB(data[1], distyp = 1, parallel = TRUE) # Parallel computation
+obj1 <- CE.NB(data[1], distyp = 1, parallel = FALSE) # Parallel computation
 obj1
 
 #### Simulated data example ###
