@@ -75,7 +75,12 @@ shinyServer(
         "with Negative Binomial Distribution" = selectInput("CENB", "Distribution to simulate break-point locations:",
                                                   choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
                                                 ),
-        "for Continuous Data" = selectInput("TEMP", "TEMP", choice=c("one", "two"))
+        "for Continuous Data" = selectInput("CENB", "Distribution to simulate break-point locations:",
+                                                            choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
+        ),
+        "with Zero-Inflated Negative Binomial Distribution" = selectInput("CENB", "Distribution to simulate break-point locations:",
+                                                            choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
+        )
       )
     })
 
