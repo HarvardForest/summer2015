@@ -44,5 +44,6 @@ shinyServer(
     output$table <- renderDataTable({
       mNew <- cbind(time=0:(input$time), theModel())
     })
+
   }
 )

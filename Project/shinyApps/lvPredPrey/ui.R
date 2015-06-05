@@ -53,7 +53,7 @@ shinyUI(fluidPage(
             plotOutput("plot"),
             column(12, align="center",
               tabsetPanel(
-                tabPanel(title="Tipping Point analysis"),
+                tabPanel(title="Tipping Point analysis"), # tabPanel
                 tabPanel(title="Early Warning Signal analysis"),
                 tabPanel(title="Customize graph",
                     br(),
