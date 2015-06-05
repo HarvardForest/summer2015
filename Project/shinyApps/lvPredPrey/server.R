@@ -45,7 +45,39 @@ shinyServer(
       mNew <- cbind(time=0:(input$time), theModel())
     })
 
-    observe({})
+    negBinDistUI <- renderUI({
+      input$CENB
+    })
+
+    output$tpOne <- renderUI({
+      if(input$dataType == " "){
+        return()
+      }
+
+      switch(input$dataType,
+        "Prey" =  selectInput("breakpointType", "Analysis:",
+                    choice=c(" ", "with Negative Binomial Distribution", "for Continuous Data",
+                      "with Zero-Inflated Negative Binomial Distribution")
+                  ),
+        "Predator" =  selectInput("breakpointType", "Analysis:",
+                              choice=c(" ", "with Negative Binomial Distribution", "for Continuous Data",
+                                       "with Zero-Inflated Negative Binomial Distribution")
+        )
+      )
+    })
+
+    output$tpTwo <- renderUI({
+      if(is.null(input$breakpointType)){
+        return()
+      }
+
+      switch(input$breakpointType,
+        "with Negative Binomial Distribution" = selectInput("CENB", "Distribution to simulate break-point locations:",
+                                                  choice=c(" ", "Four Parameter Beta Distribution", "Truncated Normal Distribution")
+                                                ),
+        "for Continuous Data" = selectInput("TEMP", "TEMP", choice=c("one", "two"))
+      )
+    })
 
     #output$CE_NB_1_prey <- renderText({
      # toString(CE.NB(data=theModel()[1], distyp=1, parallel=TRUE)[[1]])

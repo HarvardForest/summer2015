@@ -54,20 +54,11 @@ shinyUI(fluidPage(
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Tipping Point analysis",
-                  selectInput("breakpointType", "Choose Data:", choices=c("Prey", "Predator")),
-                  uiOutput("predPreyChoice")
-
-                  #h2("Break-point Detection with Negative Binomial Distribution:"),
-                  #h3("Four parameter beta distribution:"),
-                  #h4("Prey"),
-                  #textOutput("CE_NB_1_prey"),
-                  #h4("Predator"),
-                  #textOutput("CE_NB_1_predator"),
-                  #h3("Truncated Normal Distribution:"),
-                  #h4("Prey"),
-                  #textOutput("CE_NB_2_prey"),
-                  #h4("Predator"),
-                  #textOutput("CE_NB_2_predator")
+                  column(12, align="left",
+                    selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                    uiOutput("tpOne"),
+                    uiOutput("tpTwo")
+                  ) # column
                 ), # tabPanel
                 tabPanel(title="Early Warning Signal analysis"),
                 tabPanel(title="Customize graph",
