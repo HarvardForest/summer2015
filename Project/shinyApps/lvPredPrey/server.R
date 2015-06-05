@@ -105,64 +105,97 @@ shinyServer(
     })
 
     TPanalysis <- eventReactive(input$run, function(){
-      if(input$dataType == "Prey"){
-        if(input$breakpointType == "with Negative Binomial Distribution"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.NB(theModel()[1], distyp=1, parallel=TRUE)
+      withProgress(message="Analyzing breakpoints", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          if(input$dataType == "Prey"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(theModel()[1], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(theModel()[1], distyp=2, parallel=TRUE)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+              }
+            }
+            else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+              }
+            }
           }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.NB(theModel()[1], distyp=2, parallel=TRUE)
-          }
-        }
-        else if(input$breakpointType == "for Continuous Data"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
-          }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
-          }
-        }
-        else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
-          }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
-          }
-        }
-      }
 
-      else if(input$dataType == "Predator"){
-        if(input$breakpointType == "with Negative Binomial Distribution"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.NB(theModel()[2], distyp=1, parallel=TRUE)
+          else if(input$dataType == "Predator"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(theModel()[2], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(theModel()[2], distyp=2, parallel=TRUE)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+              }
+            }
+            else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+              }
+            }
           }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.NB(theModel()[2], distyp=2, parallel=TRUE)
-          }
-        }
-        else if(input$breakpointType == "for Continuous Data"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
-          }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
-          }
-        }
-        else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
-          if(input$distributionType == "Four Parameter Beta Distribution"){
-            CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
-          }
-          else if(input$distributionType == "Truncated Normal Distribution"){
-            CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
-          }
-        }
-      }
-
+        }) # withProgress
+      }) # withProgress
     })
 
-    output$tpAnalysis <- renderPrint({
-      TPanalysis()
+    output$tpAnalysis_one <- renderText({
+      TPanalysis()[[1]]
+    })
+
+    output$tpAnalysis_two <- renderText({
+      if(length(TPanalysis()) > 1){
+       paste(TPanalysis()[[2]], collapse=", ")
+      }
+    })
+
+    output$plotLinesButton <- renderUI({
+      if(length(TPanalysis()) > 1){
+        actionButton("plotLinesButton", "Add to Plot")
+      }
+    })
+
+    output$location <- renderText({
+      if(length(TPanalysis()) > 1){
+        "Location:"
+      }
+    })
+
+    temp <- eventReactive(input$plotLinesButton, function(){
+      theModel()
+    })
+
+    output$plot2 <- renderPlot({
+      matplot(temp(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+      title(main=input$plotTitle)
+      legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+             col=c(1, 2), bty="n")
+      abline(v=TPanalysis()[[2[1]]], col="blue")
     })
 
   }

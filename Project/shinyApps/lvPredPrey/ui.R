@@ -64,9 +64,15 @@ shinyUI(fluidPage(
                     ), # column
                     column(5, offset=1, align="center",
                       br(),
-                      textOutput("tpAnalysis")
+                      h4("Number of breakpoints detected:"),
+                      h3(textOutput("tpAnalysis_one")),
+                      h3(textOutput("location")),
+                      h4(textOutput("tpAnalysis_two")),
+                      br(),
+                      uiOutput("plotLinesButton")
                     ) # column
-                  ) # fluidRow
+                  ), # fluidRow
+                  plotOutput("plot2")
                 ), # tabPanel
                 tabPanel(title="Early Warning Signal analysis"),
                 tabPanel(title="Customize graph",
