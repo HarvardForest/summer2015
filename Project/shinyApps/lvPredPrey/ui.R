@@ -8,15 +8,15 @@ shinyUI(fluidPage(
     sidebarPanel(
       numericInput("prey",
         label=h4("Number of Prey:"),
-        value=5
+        value=500
       ),
       numericInput("predators",
         label=h4("Number of Predators:"),
-        value=1
+        value=10
       ),
       numericInput("time",
         label=h4("Time:"),
-        value=10
+        value=100
       ),
       sliderInput("alpha",
         label=h4("The growth rate of prey:"),

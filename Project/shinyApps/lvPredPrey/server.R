@@ -114,18 +114,50 @@ shinyServer(
             CE.NB(theModel()[1], distyp=2, parallel=TRUE)
           }
         }
+        else if(input$breakpointType == "for Continuous Data"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+          }
+        }
+        else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+          }
+        }
       }
 
-      if(input$dataType == "Predator"){
+      else if(input$dataType == "Predator"){
         if(input$breakpointType == "with Negative Binomial Distribution"){
           if(input$distributionType == "Four Parameter Beta Distribution"){
             CE.NB(theModel()[2], distyp=1, parallel=TRUE)
-         # }
-        #  if(input$distributionType == "Truncated Normal Distribution"){
-         #   CE.NB(theModel()[2], distyp=2, parallel=TRUE)
-          #}
-        #}
-      #}
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.NB(theModel()[2], distyp=2, parallel=TRUE)
+          }
+        }
+        else if(input$breakpointType == "for Continuous Data"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+          }
+        }
+        else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
+          if(input$distributionType == "Four Parameter Beta Distribution"){
+            CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+          }
+          else if(input$distributionType == "Truncated Normal Distribution"){
+            CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+          }
+        }
+      }
 
     })
 
