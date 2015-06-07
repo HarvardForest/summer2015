@@ -73,8 +73,21 @@ shinyUI(fluidPage(
                     ) # column
                   ), # fluidRow
                   plotOutput("plot2")
-                ), # tabPanel
-                tabPanel(title="Early Warning Signal analysis"),
+                ), # tabPanel - Tipping Point analysis
+                tabPanel(title="Early Warning Signal analysis",
+                  fluidRow(
+                    column(5, align="left",
+                      br(),
+                      selectInput("dataType_2", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                      uiOutput("tpOne_2"),
+                      uiOutput("tpTwo_2"),
+                      uiOutput("ewsRun")
+                    ), # column
+                    column(5, offset=1, align="center",
+                      textOutput("ewsAnalysis")
+                    )
+                  ) # fluidRow
+                ), # tabPanel - Early Warning Signal analysis
                 tabPanel(title="Customize graph",
                     br(),
                     br(),
@@ -92,7 +105,20 @@ shinyUI(fluidPage(
           fluidRow(
             dataTableOutput("table")
           ) # fluidRow
-        ) # tabPanel - Data Table
+        ), # tabPanel - Data Table
+        tabPanel(title="Model",
+          h2("Lotka-Volterra predator-prey model"),
+          br(),
+          h4("Ordinary Differential Equation:"),
+          br(),
+          h3("dx <- (alpha * prey) - (beta * prey * predator)"),
+          h3("dy <- (gamma * prey * predator) - (delta * predator)"),
+          br(),
+          h5("alpha = the growth rate of prey"),
+          h5("beta = the rate at which predators kill prey"),
+          h5("delta = the death rate of predators"),
+          h5("gamma = the rate at which predators increase by consuming prey")
+        ) # tabPanel - Source
       ) # tabsetPanel
     ) # mainPanel
   ) # sidebarLayout

@@ -198,5 +198,52 @@ shinyServer(
       abline(v=TPanalysis()[[2[1]]], col="blue")
     })
 
-  }
+    output$tpOne_2 <- renderUI({
+      if(is.null(input$dataType_2)){
+        return()
+      }
+      else if(input$dataType_2 == " "){
+        return()
+      }
+
+      switch(input$dataType_2,
+             "Prey" =  selectInput("ewsType", "Method:",
+                        choice=c(" ", "Quick Detection for Generic Early Warning Signals",
+                                 "Generic Early Warning Signals")
+             ),
+             "Predator" =  selectInput("ewsType", "Method:",
+                        choice=c(" ", "Quick Detection for Generic Early Warning Signals",
+                                 "Generic Early Warning Signals")
+             )
+      )
+    })
+
+    output$tpTwo_2 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+
+      selectInput("ok", "ok", choice=c("a", "b"))
+    })
+
+    output$ewsRun <- renderUI({
+      actionButton("run_2", "Run")
+    })
+
+    ewsResults <- eventReactive(input$run_2, function(){
+      #ewsInfo <- qda_ews(theModel()[,1], param=NULL, winsize=50, detrending='gaussian', bandwidth=NULL,
+       #       boots=50, s_level=0.05, cutoff=0.05, detection.threshold=0.002, grid.size=50,
+        #      logtransform=FALSE, interpolate=FALSE)
+
+      return()
+    })
+
+    output$ewsAnalysis <- renderText({
+      #ewsResults()
+    })
+
+  } # End
 )
