@@ -3,7 +3,6 @@
 
 shinyServer(
   function(input, output, session){
-
     theModel <- reactive({
      lotVpredPrey(seq(0, input$time, by=1),
                   c(prey=input$prey, predator=input$predators),
@@ -226,23 +225,23 @@ shinyServer(
         return()
       }
 
-      selectInput("ok", "ok", choice=c("a", "b"))
+      selectInput("temp", "temp", choice=c("temp", "temp"))
     })
 
     output$ewsRun <- renderUI({
       actionButton("run_2", "Run")
     })
 
-    ewsResults <- eventReactive(input$run_2, function(){
-      #ewsInfo <- qda_ews(theModel()[,1], param=NULL, winsize=50, detrending='gaussian', bandwidth=NULL,
-       #       boots=50, s_level=0.05, cutoff=0.05, detection.threshold=0.002, grid.size=50,
-        #      logtransform=FALSE, interpolate=FALSE)
+    EWSanalysis <- eventReactive(input$run_2, function(){
+      ewsInfo <- qda_ews(theModel()[,1], param=NULL, winsize=50, detrending='gaussian', bandwidth=NULL,
+              boots=50, s_level=0.05, cutoff=0.05, detection.threshold=0.002, grid.size=50,
+              logtransform=FALSE, interpolate=FALSE)
 
-      return()
+      return(ewsInfo)
     })
 
-    output$ewsAnalysis <- renderText({
-      #ewsResults()
+    output$ewsAnalysis <- renderPrint({
+      EWSanalysis()
     })
 
   } # End

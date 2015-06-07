@@ -57,6 +57,10 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(5, align="left",
                       br(),
+                      helpText(a("Click here to view the R 'breakpoint' Package documentation.",
+                                  href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
+                                  target="_blank")),
+                      br(),
                       selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
                       uiOutput("tpOne"),
                       uiOutput("tpTwo"),
@@ -77,6 +81,10 @@ shinyUI(fluidPage(
                 tabPanel(title="Early Warning Signal analysis",
                   fluidRow(
                     column(5, align="left",
+                      br(),
+                      helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
+                                  href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                                  target="_blank")),
                       br(),
                       selectInput("dataType_2", "Choose Data:", choices=c(" ", "Prey", "Predator")),
                       uiOutput("tpOne_2"),

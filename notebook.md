@@ -53,3 +53,13 @@ NVJ - Worked on Shiny-app for Lotka Volterra predator-prey model
 04June2015
 
 NVJ - Worked on implementing Tipping Point and Early Warning Signal features in Lotka Volterra predator-prey model app
+
+05June2015
+
+NVJ - Finished implementing Tipping Point analysis feature in Lotka Volterra predator-prey model app
+
+07June2015
+
+NVJ - Worked on implementing Early Warning Signal feature and UI in Lotka-Volterra predator-prey model app
+
+NVJ - Added Help features to LV predator-prey app
