@@ -83,18 +83,40 @@ shinyUI(fluidPage(
                     column(5, align="left",
                       br(),
                       helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
-                                  href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
-                                  target="_blank")),
+                                href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                                target="_blank")),
+                      helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
+                                href="http://www.early-warning-signals.org/",
+                                target="_blank")),
                       br(),
                       selectInput("dataType_2", "Choose Data:", choices=c(" ", "Prey", "Predator")),
-                      uiOutput("tpOne_2"),
-                      uiOutput("tpTwo_2"),
-                      uiOutput("ewsRun")
+                      uiOutput("ewsOne"),
+                      uiOutput("e1"),
+                      uiOutput("e2"),
+                      uiOutput("e3")
                     ), # column
                     column(5, offset=1, align="center",
-                      textOutput("ewsAnalysis")
+                           br(),
+                           br(),
+                           uiOutput("e4"),
+                           uiOutput("e5"),
+                           uiOutput("e6"),
+                           uiOutput("e7"),
+                           uiOutput("e8"),
+                           uiOutput("e9"),
+                           uiOutput("e10"),
+                           uiOutput("e11"),
+                           uiOutput("ewsRun"),
+                           br()
                     )
-                  ) # fluidRow
+                  ), # fluidRow
+                  fluidRow(
+                    column(12,
+                      plotOutput("ewsPlot"),
+                      hr(),
+                      dataTableOutput("ewsTable")
+                    ) #column
+                  ) #fluidRow
                 ), # tabPanel - Early Warning Signal analysis
                 tabPanel(title="Customize graph",
                     br(),

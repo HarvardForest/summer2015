@@ -197,50 +197,157 @@ shinyServer(
       abline(v=TPanalysis()[[2[1]]], col="blue")
     })
 
-    output$tpOne_2 <- renderUI({
-      if(is.null(input$dataType_2)){
-        return()
-      }
-      else if(input$dataType_2 == " "){
+    output$ewsOne <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
         return()
       }
 
       switch(input$dataType_2,
              "Prey" =  selectInput("ewsType", "Method:",
-                        choice=c(" ", "Quick Detection for Generic Early Warning Signals",
-                                 "Generic Early Warning Signals")
+                        choice=c(" ", "Generic Early Warning Signals")
              ),
              "Predator" =  selectInput("ewsType", "Method:",
-                        choice=c(" ", "Quick Detection for Generic Early Warning Signals",
-                                 "Generic Early Warning Signals")
+                        choice=c(" ", "Generic Early Warning Signals")
              )
       )
     })
 
-    output$tpTwo_2 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$e1 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      selectInput("detrending", label="Detrended/filtered prior to analysis:",
+                  choice=c("no", "gaussian", "loess", "linear", "first-differencing"))
+    })
+
+    output$e2 <- renderUI({
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
 
-      selectInput("temp", "temp", choice=c("temp", "temp"))
+      if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      numericInput("bandwidth", label="Bandwidth used for the Gaussian kernel when gaussian filtering
+                  is applied. It is expressed as percentage of the timeseries length
+                  (must be numeric between 0 and 100):",
+                  value=5)
+    })
+
+    output$e3 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      numericInput("winsize", label="The size of the rolling window expressed as
+                percentage of the timeseries length (must be numeric between 0 and 100):",
+                value=50)
+    })
+
+    output$e4 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      numericInput("span", label="Parameter that controls the degree of smoothing
+                (numeric between 0 and 100):",
+                value=25)
+    })
+
+    output$e5 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      numericInput("degree", label="The degree of polynomial to be used for when loess
+                fitting is applied, normally 1 or 2:",
+                value=2)
+    })
+
+    output$e6 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      selectInput("logtransform", label="If TRUE data are logtransformed prior to analysis as log(X+1):",
+                choice=c(FALSE, TRUE))
+    })
+
+    output$e7 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      selectInput("interpolate", label="If TRUE linear interpolation is applied to produce a timeseries of equal length as
+                the original. (FALSE assumes there are no gaps in the timeseries):",
+                choice=c(FALSE, TRUE))
+    })
+
+    output$e8 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      selectInput("AR_n", label="If TRUE the best fitted AR(n) model is fitted to the data:",
+                  choice=c(FALSE, TRUE))
+    })
+
+    output$e9 <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+      else if(input$ewsType != "Generic Early Warning Signals"){
+        return()
+      }
+
+      selectInput("powerspectrum", label="If TRUE the power spectrum within each rolling window is plotted:",
+                  choice=c(FALSE, TRUE))
     })
 
     output$ewsRun <- renderUI({
+      if(is.null(input$ewsType) || input$ewsType == " "){
+        return()
+      }
+
       actionButton("run_2", "Run")
     })
 
     EWSanalysis <- eventReactive(input$run_2, function(){
-      ewsInfo <- qda_ews(theModel()[,1], param=NULL, winsize=50, detrending='gaussian', bandwidth=NULL,
-              boots=50, s_level=0.05, cutoff=0.05, detection.threshold=0.002, grid.size=50,
-              logtransform=FALSE, interpolate=FALSE)
-
-      return(ewsInfo)
+      ews <- generic_ews(timeseries=subset(data2, select=prey), winsize=input$winsize,
+                         detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                         degree=input$degree, logtransform=input$logtransform,
+                         interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+      return(ews)
     })
 
-    output$ewsAnalysis <- renderPrint({
+    output$ewsPlot <- renderPlot({
+      EWSanalysis()
+    })
+
+    output$ewsTable <- renderDataTable({
       EWSanalysis()
     })
 
