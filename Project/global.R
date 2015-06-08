@@ -3,10 +3,14 @@
 # Latest Edit: 6/1/15
 
 # Load dependencies
+library(shiny)
+library(shinyapps)
 library(deSolve)
 library(breakpoint)
 library(earlywarnings)
 library(ggplot2)
+library(Cairo)
+options(shiny.usecairo=T)
 
 lotVpredPrey <- function(time, initState, params){
   # Function for ordinary differential equations (ODE)

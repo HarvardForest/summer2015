@@ -1,5 +1,37 @@
 ### Lotka-Volterra predator-prey model
 # server.R
+library(shiny)
+library(shinyapps)
+library(deSolve)
+library(breakpoint)
+library(earlywarnings)
+library(ggplot2)
+library(Cairo)
+options(shiny.usecairo=T)
+
+lotVpredPrey <- function(time, initState, params){
+  # Function for ordinary differential equations (ODE)
+  lotVPPeqs <-function(time, initState, params){
+    with(as.list(c(initState, params)),{
+
+      # Lotka-Volterra predator-prey model
+      dx <- (alpha * prey) - (beta * prey * predator)
+      dy <- (gamma * prey * predator) - (delta * predator)
+
+      # alpha = the growth rate of prey
+      # beta = the rate at which predators kill prey
+      # delta = the death rate of predators
+      # gamma = the rate at which predators increase by consuming prey
+
+      list(c(dx, dy))
+    })
+  }
+
+  # deSolve method to solve initial value problems (IVP)
+  output <- data.frame(ode(y=initState, times=time, func=lotVPPeqs, parms=params)[,-1])
+
+  return(output)
+}
 
 shinyServer(
   function(input, output, session){
@@ -213,6 +245,9 @@ shinyServer(
     })
 
     output$e1 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -221,10 +256,13 @@ shinyServer(
       }
 
       selectInput("detrending", label="Detrended/filtered prior to analysis:",
-                  choice=c("no", "gaussian", "loess", "linear", "first-differencing"))
+                  choice=c("no", "gaussian", "loess", "linear", "first-diff"))
     })
 
     output$e2 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -240,6 +278,9 @@ shinyServer(
     })
 
     output$e3 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -253,6 +294,9 @@ shinyServer(
     })
 
     output$e4 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -266,6 +310,9 @@ shinyServer(
     })
 
     output$e5 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -279,6 +326,9 @@ shinyServer(
     })
 
     output$e6 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -291,6 +341,9 @@ shinyServer(
     })
 
     output$e7 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -304,6 +357,9 @@ shinyServer(
     })
 
     output$e8 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -316,6 +372,9 @@ shinyServer(
     })
 
     output$e9 <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -328,6 +387,9 @@ shinyServer(
     })
 
     output$ewsRun <- renderUI({
+      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+        return()
+      }
       if(is.null(input$ewsType) || input$ewsType == " "){
         return()
       }
@@ -336,19 +398,52 @@ shinyServer(
     })
 
     EWSanalysis <- eventReactive(input$run_2, function(){
-      ews <- generic_ews(timeseries=subset(data2, select=prey), winsize=input$winsize,
-                         detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
-                         degree=input$degree, logtransform=input$logtransform,
-                         interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
-      return(ews)
+      if(input$dataType_2 == "Prey"){
+        ews <- generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
+                          detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                          degree=input$degree, logtransform=input$logtransform,
+                          interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+        return(ews)
+      }
+      else if(input$dataType_2 == "Predator"){
+        ews <- generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
+                           detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                           degree=input$degree, logtransform=input$logtransform,
+                           interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+        return(ews)
+      }
     })
 
     output$ewsPlot <- renderPlot({
-      EWSanalysis()
-    })
+        EWSanalysis()
+    }, height=850, width=1200)
 
     output$ewsTable <- renderDataTable({
       EWSanalysis()
+    }, options=list(pageLength=10))
+
+    add_ewsTableGuide <- eventReactive(input$run_2, function(){
+      "tim = the time index.
+
+        ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
+
+       sd = the standard deviation of the data estimated within each rolling window.
+
+        sk	= the skewness of the data estimated within each rolling window.
+
+        kurt	= the kurtosis of the data estimated within each rolling window.
+
+        cv	= the coefficient of variation of the data estimated within each rolling window.
+
+        returnrate	= the return rate of the data estimated as 1-ar(1) cofficient within each rolling window.
+
+        densratio	= the density ratio of the power spectrum of the data estimated as the ratio of low frequencies over high frequencies within each rolling window.
+
+        acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
+    })
+
+    output$ewsTableGuide <- renderText({
+        add_ewsTableGuide()
     })
 
   } # End

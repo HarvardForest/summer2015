@@ -1,5 +1,13 @@
 ### Lotka-Volterra predator-prey model
 # ui.R
+library(shiny)
+library(shinyapps)
+library(deSolve)
+library(breakpoint)
+library(earlywarnings)
+library(ggplot2)
+library(Cairo)
+options(shiny.usecairo=T)
 
 shinyUI(fluidPage(
   titlePanel("Lotka-Volterra predator-prey model"),
@@ -111,12 +119,14 @@ shinyUI(fluidPage(
                     )
                   ), # fluidRow
                   fluidRow(
-                    column(12,
-                      plotOutput("ewsPlot"),
-                      hr(),
+                    column(7,
+                      verbatimTextOutput("ewsTableGuide")
+                    ), # column
+                    column(5,
                       dataTableOutput("ewsTable")
-                    ) #column
-                  ) #fluidRow
+                    ) # column
+                  ), # fluidRow
+                  plotOutput("ewsPlot", width="100%", height="100%")
                 ), # tabPanel - Early Warning Signal analysis
                 tabPanel(title="Customize graph",
                     br(),
