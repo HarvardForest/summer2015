@@ -8,18 +8,19 @@
 
 ## Variables ##
 
-minute <- 0 # t/time variable
 days <- 10 # total number of days
 totalMinutes <- days*1440 # total number of minutes
 k <- 1 # carrying capacity
 food <- FALSE # presence of food
 feedingTime <- 720 # time at which food is added
+foodWeight <- 5 # weight of food
 aMax <- 10 # maximum value of augmentation
 aMin <- 1 # minimum value of augmentation
 beta <- 0.0005 # constant
-s <- 1 # constant
+s <- -1 # constant
 d <- 0.5 # constant
 c <- 1 # constant
+minute <- vector(mode="numeric") # t/time variable
 x <- vector(mode="numeric") # amount of o2
 a <- vector(mode="numeric") # augmentation function
 P <- vector(mode="numeric") # photosynthesis
@@ -53,9 +54,6 @@ n <- 0
 # initial augmentation value
 a <- (aMax-aMin)/(1+exp(s*n*d))
 
-# initial amount of food
-w <- 0
-
 # initial biological o2 demand
 B <- 0/(k+0)
 
@@ -73,7 +71,40 @@ for(i in 1:(feedingTime-2)){
 
   # calculate o2 amount - product of photosynthesis alone (no food)
   x <- c(x, (a[i]*P[i])-B[i])
+
+  # amount of food - no food
+  w <- c(w, 0)
+
+  # amount of nutrients - no nutrients
+  n <- c(n, 0)
+
+  # adjust minute
+  minute <- c(minute, i)
 }
 
 # adjust minute
-minute <- i
+minute <- c(minute, length(minute)+1)
+
+# add Food
+food <- TRUE
+w <- c(w, foodWeight)
+
+# run simulation for a full day
+for(j in 1:1440){
+  # adjust minute
+  minute <- c(minute, length(minute)+1)
+
+  # adjust amount of food
+  w <- c(w, w[length(minute)-1]*exp(beta*length(minute)))
+
+  # adjust biological o2 demand
+  B <- c(B, w[length(minute)]/(k+w[length(minute)]))
+
+  # adjust amount of nutrients
+  n <- c(n, w[length(minute)]*x[length(minute)-1])
+
+  # adjust augmentation value
+  a <- c(a, (aMax-aMin)/(1+exp(s*n[length(minute)]*d)))
+
+  x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+}
