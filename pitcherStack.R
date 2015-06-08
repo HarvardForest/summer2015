@@ -17,9 +17,9 @@ foodWeight <- 5 # weight of food
 aMax <- 10 # maximum value of augmentation
 aMin <- 1 # minimum value of augmentation
 beta <- 0.0005 # constant
-s <- -1 # constant
+s <- 10 # constant
 d <- 0.5 # constant
-c <- 1 # constant
+c <- 100 # constant
 minute <- vector(mode="numeric") # t/time variable
 x <- vector(mode="numeric") # amount of o2
 a <- vector(mode="numeric") # augmentation function
@@ -64,7 +64,7 @@ x <- (a*0)-B
 # loop runs until feedingTime-2 b/c food is added AT minute=720
 for(i in 1:(feedingTime-2)){
   # augmentation function - default value
-  a <- c(a, (aMax-aMin)/(1+exp(s*n*d)))
+  a <- c(a, (aMax-aMin)/(1+exp(-s*n[i]*d)))
 
   # biological oxygen demand - default value (no food = no microbes)
   B <- c(B, 0/(k+0))
@@ -85,26 +85,34 @@ for(i in 1:(feedingTime-2)){
 # adjust minute
 minute <- c(minute, length(minute)+1)
 
-# add Food
+# adjust amount of food
+w <- c(w, w[length(w)])
+
+# add food
 food <- TRUE
 w <- c(w, foodWeight)
 
 # run simulation for a full day
-for(j in 1:1440){
+for(j in 1:1439){
   # adjust minute
   minute <- c(minute, length(minute)+1)
-
-  # adjust amount of food
-  w <- c(w, w[length(minute)-1]*exp(beta*length(minute)))
 
   # adjust biological o2 demand
   B <- c(B, w[length(minute)]/(k+w[length(minute)]))
 
   # adjust amount of nutrients
-  n <- c(n, w[length(minute)]*x[length(minute)-1])
+  n <- c(n, (w[length(minute)]*x[length(minute)-1])/c)
 
   # adjust augmentation value
-  a <- c(a, (aMax-aMin)/(1+exp(s*n[length(minute)]*d)))
+  a <- c(a, ((aMax-aMin)/(1+exp(-(s*n[length(minute)]-d))+aMin)))
 
   x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+
+  if(j < 1439){
+    # adjust amount of food
+    w <- c(w, w[length(minute)]*exp(-beta*length(minute)))
+  }
 }
+
+data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
+pairs(data)
