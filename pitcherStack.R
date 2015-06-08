@@ -63,6 +63,17 @@ B <- 0/(k+0)
 x <- (a*0)-B
 
 # simulate until food is first added (feedingTime=720)
-for(i in 1:length(feedingTime)){
+# loop runs until feedingTime-2 b/c food is added AT minute=720
+for(i in 1:(feedingTime-2)){
+  # augmentation function - default value
+  a <- c(a, (aMax-aMin)/(1+exp(s*n*d)))
 
+  # biological oxygen demand - default value (no food = no microbes)
+  B <- c(B, 0/(k+0))
+
+  # calculate o2 amount - product of photosynthesis alone (no food)
+  x <- c(x, (a[i]*P[i])-B[i])
 }
+
+# adjust minute
+minute <- i
