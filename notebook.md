@@ -63,3 +63,9 @@ NVJ - Finished implementing Tipping Point analysis feature in Lotka Volterra pre
 NVJ - Worked on implementing Early Warning Signal feature and UI in Lotka-Volterra predator-prey model app
 
 NVJ - Added Help features to LV predator-prey app
+
+08June2015
+
+NVJ - Touched up Lotka-Volterra predator-prey Shiny app
+
+NVJ - Restarted Pitcher Plant simulation implementation

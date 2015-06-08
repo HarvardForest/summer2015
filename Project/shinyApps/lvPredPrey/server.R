@@ -420,26 +420,26 @@ shinyServer(
 
     output$ewsTable <- renderDataTable({
       EWSanalysis()
-    }, options=list(pageLength=10))
+    }, options=list(pageLength=5))
 
     add_ewsTableGuide <- eventReactive(input$run_2, function(){
-      "tim = the time index.
+"tim = the time index.
 
-        ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
+ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
 
-       sd = the standard deviation of the data estimated within each rolling window.
+sd = the standard deviation of the data estimated within each rolling window.
 
-        sk	= the skewness of the data estimated within each rolling window.
+sk	= the skewness of the data estimated within each rolling window.
 
-        kurt	= the kurtosis of the data estimated within each rolling window.
+kurt	= the kurtosis of the data estimated within each rolling window.
 
-        cv	= the coefficient of variation of the data estimated within each rolling window.
+cv	= the coefficient of variation of the data estimated within each rolling window.
 
-        returnrate	= the return rate of the data estimated as 1-ar(1) cofficient within each rolling window.
+returnrate	= the return rate of the data estimated as 1-ar(1) cofficient within each rolling window.
 
-        densratio	= the density ratio of the power spectrum of the data estimated as the ratio of low frequencies over high frequencies within each rolling window.
+densratio	= the density ratio of the power spectrum of the data estimated as the ratio of low frequencies over high frequencies within each rolling window.
 
-        acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
+acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
     })
 
     output$ewsTableGuide <- renderText({

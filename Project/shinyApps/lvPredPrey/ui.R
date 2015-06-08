@@ -119,12 +119,10 @@ shinyUI(fluidPage(
                     )
                   ), # fluidRow
                   fluidRow(
-                    column(7,
-                      verbatimTextOutput("ewsTableGuide")
-                    ), # column
-                    column(5,
+                    column(12,
+                      verbatimTextOutput("ewsTableGuide"),
                       dataTableOutput("ewsTable")
-                    ) # column
+                    )
                   ), # fluidRow
                   plotOutput("ewsPlot", width="100%", height="100%")
                 ), # tabPanel - Early Warning Signal analysis
