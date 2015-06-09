@@ -1,5 +1,10 @@
 ### Lotka-Volterra predator-prey model
-# server.R
+## By: Nathan Justice
+# Last edited: 09June2015
+
+# server.R #
+
+# load dependencies
 library(shiny)
 library(shinyapps)
 library(deSolve)
@@ -9,12 +14,14 @@ library(ggplot2)
 library(Cairo)
 options(shiny.usecairo=T)
 
+## global functions ##
+
 lotVpredPrey <- function(time, initState, params){
-  # Function for ordinary differential equations (ODE)
+  # function for ordinary differential equations (ODE)
   lotVPPeqs <-function(time, initState, params){
     with(as.list(c(initState, params)),{
 
-      # Lotka-Volterra predator-prey model
+      # lotka-Volterra predator-prey model
       dx <- (alpha * prey) - (beta * prey * predator)
       dy <- (gamma * prey * predator) - (delta * predator)
 
@@ -33,7 +40,9 @@ lotVpredPrey <- function(time, initState, params){
   return(output)
 }
 
+## start server ##
 shinyServer(
+  # predator-prey model
   function(input, output, session){
     theModel <- reactive({
      lotVpredPrey(seq(0, input$time, by=1),
@@ -42,13 +51,7 @@ shinyServer(
                     gamma=input$gamma))
     })
 
-    output$plot <- renderPlot({
-      matplot(theModel(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-      title(main=input$plotTitle)
-      legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-             col=c(1, 2), bty="n")
-    })
-
+    # load user-input boxes #
     output$alpha2 <- renderUI({
       numericInput("alpha2", label="", value=input$alpha)
     })
@@ -64,7 +67,9 @@ shinyServer(
     output$gamma2 <- renderUI({
       numericInput("gamma2", label="", value=input$gamma)
     })
+    # end load user-input boxes #
 
+    # link user-input box values with respective slider values
     observe({
       updateSliderInput(session, "alpha", value=input$alpha2)
       updateSliderInput(session, "beta", value=input$beta2)
@@ -72,15 +77,16 @@ shinyServer(
       updateSliderInput(session, "gamma", value=input$gamma2)
     })
 
-    output$table <- renderDataTable({
-      mNew <- cbind(time=0:(input$time), theModel())
+    # predator-prey plot
+    output$mainPlot <- renderPlot({
+      matplot(theModel(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+      title(main=input$plotTitle)
+      legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+             col=c(1, 2), bty="n")
     })
 
-    negBinDistUI <- renderUI({
-      input$CENB
-    })
-
-    output$tpOne <- renderUI({
+    output$tp1 <- renderUI({
+      # check required information
       if(input$dataType == " "){
         return()
       }
@@ -97,11 +103,11 @@ shinyServer(
       )
     })
 
-    output$tpTwo <- renderUI({
+    output$tp2 <- renderUI({
+      # check required information
       if(input$dataType == " "){
         return()
       }
-
       if(is.null(input$breakpointType) || input$breakpointType == " "){
         return()
       }
@@ -120,24 +126,26 @@ shinyServer(
     })
 
     output$tpRun <- renderUI({
+      # check required information
       if(input$dataType == " "){
         return()
       }
-
       if(is.null(input$breakpointType) || input$breakpointType == " "){
         return()
       }
-
       if(is.null(input$distributionType) || (input$distributionType == " ")){
         return()
       }
 
-      actionButton("run", "Run")
+      actionButton("tpRun", "Run")
     })
 
-    TPanalysis <- eventReactive(input$run, function(){
+    # run tipping point analysis based on user's parameters
+    TPanalysis <- eventReactive(input$tpRun, function(){
+      # loading window
       withProgress(message="Analyzing breakpoints", value=0, {
         withProgress(message="...", detail="This may take awhile", value=0, {
+          # for Prey
           if(input$dataType == "Prey"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
@@ -165,6 +173,7 @@ shinyServer(
             }
           }
 
+          # for predator
           else if(input$dataType == "Predator"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
@@ -195,63 +204,72 @@ shinyServer(
       }) # withProgress
     })
 
-    output$tpAnalysis_one <- renderText({
+    # display number of breakpoints detected
+    output$tpAnalysis1 <- renderText({
       TPanalysis()[[1]]
     })
 
-    output$tpAnalysis_two <- renderText({
-      if(length(TPanalysis()) > 1){
-       paste(TPanalysis()[[2]], collapse=", ")
-      }
-    })
-
-    output$plotLinesButton <- renderUI({
-      if(length(TPanalysis()) > 1){
-        actionButton("plotLinesButton", "Add to Plot")
-      }
-    })
-
+    # display "Location:" text
     output$location <- renderText({
       if(length(TPanalysis()) > 1){
         "Location:"
       }
     })
 
-    temp <- eventReactive(input$plotLinesButton, function(){
+    # display locations of detected breakpoints
+    output$tpAnalysis2 <- renderText({
+      if(length(TPanalysis()) > 1){
+       paste(TPanalysis()[[2]], collapse=", ")
+      }
+    })
+
+    # display button to add breakpoint lines to new plot
+    output$plotLinesButton <- renderUI({
+      if(length(TPanalysis()) > 1){
+        actionButton("plotLinesButton", "Add to Plot")
+      }
+    })
+
+    # generate new instance of mainPlot to draw breakpoint lines
+    tempPlot <- eventReactive(input$plotLinesButton, function(){
       theModel()
     })
 
-    output$plot2 <- renderPlot({
-      matplot(temp(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+    # display new plot with breakpoint lines
+    output$breakpointPlot <- renderPlot({
+      matplot(tempPlot(), type="l", xlab=input$xaxis, ylab=input$yaxis)
       title(main=input$plotTitle)
       legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
              col=c(1, 2), bty="n")
+      # add breakpoint lines
       abline(v=TPanalysis()[[2[1]]], col="blue")
     })
 
-    output$ewsOne <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews1 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
 
-      switch(input$dataType_2,
-             "Prey" =  selectInput("ewsType", "Method:",
+      switch(input$ewsDataType,
+             "Prey" =  selectInput("ewsMethod", "Method:",
                         choice=c(" ", "Generic Early Warning Signals")
              ),
-             "Predator" =  selectInput("ewsType", "Method:",
+             "Predator" =  selectInput("ewsMethod", "Method:",
                         choice=c(" ", "Generic Early Warning Signals")
              )
       )
     })
 
-    output$e1 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews2 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -259,15 +277,16 @@ shinyServer(
                   choice=c("no", "gaussian", "loess", "linear", "first-diff"))
     })
 
-    output$e2 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews3 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
 
-      if(input$ewsType != "Generic Early Warning Signals"){
+      if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -277,14 +296,15 @@ shinyServer(
                   value=5)
     })
 
-    output$e3 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews4 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -293,14 +313,15 @@ shinyServer(
                 value=50)
     })
 
-    output$e4 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews5 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -309,14 +330,15 @@ shinyServer(
                 value=25)
     })
 
-    output$e5 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews6 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -325,14 +347,15 @@ shinyServer(
                 value=2)
     })
 
-    output$e6 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews7 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -340,14 +363,15 @@ shinyServer(
                 choice=c(FALSE, TRUE))
     })
 
-    output$e7 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews8 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -356,14 +380,15 @@ shinyServer(
                 choice=c(FALSE, TRUE))
     })
 
-    output$e8 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews9 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -371,14 +396,15 @@ shinyServer(
                   choice=c(FALSE, TRUE))
     })
 
-    output$e9 <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+    output$ews10 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsType != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -386,26 +412,32 @@ shinyServer(
                   choice=c(FALSE, TRUE))
     })
 
+    # display ewsRun button
     output$ewsRun <- renderUI({
-      if(is.null(input$dataType_2) || input$dataType_2 == " "){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
       }
-      if(is.null(input$ewsType) || input$ewsType == " "){
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
 
-      actionButton("run_2", "Run")
+      actionButton("ewsRunButton", "Run")
     })
 
-    EWSanalysis <- eventReactive(input$run_2, function(){
-      if(input$dataType_2 == "Prey"){
+    # run early warnings analysis based on user's parameters
+    EWSanalysis <- eventReactive(input$ewsRunButton, function(){
+      # for prey
+      if(input$ewsDataType == "Prey"){
         ews <- generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
                           detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
                           degree=input$degree, logtransform=input$logtransform,
                           interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
         return(ews)
       }
-      else if(input$dataType_2 == "Predator"){
+
+      # for predator
+      else if(input$ewsDataType == "Predator"){
         ews <- generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
                            detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
                            degree=input$degree, logtransform=input$logtransform,
@@ -414,15 +446,8 @@ shinyServer(
       }
     })
 
-    output$ewsPlot <- renderPlot({
-        EWSanalysis()
-    }, height=850, width=1200)
-
-    output$ewsTable <- renderDataTable({
-      EWSanalysis()
-    }, options=list(pageLength=5))
-
-    add_ewsTableGuide <- eventReactive(input$run_2, function(){
+    # load guide for ews data table
+    load_ewsTableGuide <- eventReactive(input$ewsRunButton, function(){
 "tim = the time index.
 
 ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
@@ -442,8 +467,24 @@ densratio	= the density ratio of the power spectrum of the data estimated as the
 acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
     })
 
+    # display guide for ews data table
     output$ewsTableGuide <- renderText({
-        add_ewsTableGuide()
+        load_ewsTableGuide()
+    })
+
+    # display ews data table
+    output$ewsTable <- renderDataTable({
+      EWSanalysis()
+    }, options=list(pageLength=5))
+
+    # display ews plot
+    output$ewsPlot <- renderPlot({
+      EWSanalysis()
+    }, height=850, width=1200)
+
+    # predator-prey data table
+    output$mainTable <- renderDataTable({
+      mNew <- cbind(time=0:(input$time), theModel())
     })
 
   } # End

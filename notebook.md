@@ -69,3 +69,9 @@ NVJ - Added Help features to LV predator-prey app
 NVJ - Touched up Lotka-Volterra predator-prey Shiny app
 
 NVJ - Restarted Pitcher Plant simulation implementation
+
+NVJ - Worked with Matt on implementing Pitcher Plant simulation
+
+09June2015
+
+NVJ - Cleaned code for Lotka-Volterra predator-prey model app

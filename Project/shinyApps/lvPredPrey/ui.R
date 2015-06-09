@@ -1,5 +1,10 @@
 ### Lotka-Volterra predator-prey model
-# ui.R
+## By: Nathan Justice
+# Last edited: 09June2015
+
+# ui.R #
+
+# load dependencies
 library(shiny)
 library(shinyapps)
 library(deSolve)
@@ -58,7 +63,7 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel(title="Graph",
           fluidRow(
-            plotOutput("plot"),
+            plotOutput("mainPlot"),
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Tipping Point analysis",
@@ -70,21 +75,21 @@ shinyUI(fluidPage(
                                   target="_blank")),
                       br(),
                       selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
-                      uiOutput("tpOne"),
-                      uiOutput("tpTwo"),
+                      uiOutput("tp1"),
+                      uiOutput("tp2"),
                       uiOutput("tpRun")
                     ), # column
                     column(5, offset=1, align="center",
                       br(),
                       h4("Number of breakpoints detected:"),
-                      h3(textOutput("tpAnalysis_one")),
+                      h3(textOutput("tpAnalysis1")),
                       h3(textOutput("location")),
-                      h4(textOutput("tpAnalysis_two")),
+                      h4(textOutput("tpAnalysis2")),
                       br(),
                       uiOutput("plotLinesButton")
                     ) # column
                   ), # fluidRow
-                  plotOutput("plot2")
+                  plotOutput("breakpointPlot")
                 ), # tabPanel - Tipping Point analysis
                 tabPanel(title="Early Warning Signal analysis",
                   fluidRow(
@@ -97,26 +102,26 @@ shinyUI(fluidPage(
                                 href="http://www.early-warning-signals.org/",
                                 target="_blank")),
                       br(),
-                      selectInput("dataType_2", "Choose Data:", choices=c(" ", "Prey", "Predator")),
-                      uiOutput("ewsOne"),
-                      uiOutput("e1"),
-                      uiOutput("e2"),
-                      uiOutput("e3")
+                      selectInput("ewsDataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                      uiOutput("ews1"),
+                      uiOutput("ews2"),
+                      uiOutput("ews3"),
+                      uiOutput("ews4")
                     ), # column
                     column(5, offset=1, align="center",
                            br(),
                            br(),
-                           uiOutput("e4"),
-                           uiOutput("e5"),
-                           uiOutput("e6"),
-                           uiOutput("e7"),
-                           uiOutput("e8"),
-                           uiOutput("e9"),
-                           uiOutput("e10"),
-                           uiOutput("e11"),
-                           uiOutput("ewsRun"),
+                           uiOutput("ews5"),
+                           uiOutput("ews6"),
+                           uiOutput("ews7"),
+                           uiOutput("ews8"),
+                           uiOutput("ews9"),
+                           uiOutput("ews10"),
+                           uiOutput("ews11"),
+                           uiOutput("ews12"),
+                          uiOutput("ewsRun"),
                            br()
-                    )
+                    ) # column
                   ), # fluidRow
                   fluidRow(
                     column(12,
@@ -124,7 +129,12 @@ shinyUI(fluidPage(
                       dataTableOutput("ewsTable")
                     )
                   ), # fluidRow
-                  plotOutput("ewsPlot", width="100%", height="100%")
+                  fluidRow(
+                    column(12, align="left",
+                      br(),
+                      plotOutput("ewsPlot", width="100%", height="100%")
+                    ) # column
+                  ) # fluidRow
                 ), # tabPanel - Early Warning Signal analysis
                 tabPanel(title="Customize graph",
                     br(),
@@ -141,7 +151,7 @@ shinyUI(fluidPage(
         ), # tabPanel - Graph
         tabPanel(title="Data Table",
           fluidRow(
-            dataTableOutput("table")
+            dataTableOutput("mainTable")
           ) # fluidRow
         ), # tabPanel - Data Table
         tabPanel(title="Model",
