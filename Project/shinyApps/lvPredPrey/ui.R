@@ -13,6 +13,7 @@ library(earlywarnings)
 library(ggplot2)
 library(Cairo)
 options(shiny.usecairo=T)
+source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
   titlePanel("Lotka-Volterra predator-prey model"),
@@ -54,8 +55,7 @@ shinyUI(fluidPage(
       fluidRow(
         br(),
         column(12,
-          downloadButton("downloadGraph", "Download Graph"),
-          downloadButton("downloadData", "Download Data")
+          h4(helpText("Data tables can be copied and pasted into spreadsheet software!"))
         ) # column
       ) # fluidRow
     ), # sidebarPanel
@@ -77,9 +77,18 @@ shinyUI(fluidPage(
                       selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
                       uiOutput("tp1"),
                       uiOutput("tp2"),
-                      uiOutput("tpRun")
+                      uiOutput("tp3"),
+                      uiOutput("tp4"),
+                      uiOutput("tp5")
                     ), # column
                     column(5, offset=1, align="center",
+                      br(),
+                      uiOutput("tp6"),
+                      uiOutput("tp7"),
+                      uiOutput("tp8"),
+                      uiOutput("tp9"),
+                      uiOutput("tpRun"),
+                      br(),
                       br(),
                       h4("Number of breakpoints detected:"),
                       h3(textOutput("tpAnalysis1")),
@@ -106,12 +115,12 @@ shinyUI(fluidPage(
                       uiOutput("ews1"),
                       uiOutput("ews2"),
                       uiOutput("ews3"),
-                      uiOutput("ews4")
+                      uiOutput("ews4"),
+                      uiOutput("ews5")
                     ), # column
                     column(5, offset=1, align="center",
                            br(),
                            br(),
-                           uiOutput("ews5"),
                            uiOutput("ews6"),
                            uiOutput("ews7"),
                            uiOutput("ews8"),
@@ -119,7 +128,9 @@ shinyUI(fluidPage(
                            uiOutput("ews10"),
                            uiOutput("ews11"),
                            uiOutput("ews12"),
-                          uiOutput("ewsRun"),
+                           uiOutput("ewsRun"),
+                           br(),
+                           uiOutput("ewsPlotButtonSlot"),
                            br()
                     ) # column
                   ), # fluidRow

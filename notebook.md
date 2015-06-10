@@ -75,3 +75,5 @@ NVJ - Worked with Matt on implementing Pitcher Plant simulation
 09June2015
 
 NVJ - Cleaned code for Lotka-Volterra predator-prey model app
+
+NVJ - Added user control options for tipping point analysis in Lotka-Volterra predator-prey app

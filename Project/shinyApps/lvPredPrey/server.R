@@ -13,32 +13,7 @@ library(earlywarnings)
 library(ggplot2)
 library(Cairo)
 options(shiny.usecairo=T)
-
-## global functions ##
-
-lotVpredPrey <- function(time, initState, params){
-  # function for ordinary differential equations (ODE)
-  lotVPPeqs <-function(time, initState, params){
-    with(as.list(c(initState, params)),{
-
-      # lotka-Volterra predator-prey model
-      dx <- (alpha * prey) - (beta * prey * predator)
-      dy <- (gamma * prey * predator) - (delta * predator)
-
-      # alpha = the growth rate of prey
-      # beta = the rate at which predators kill prey
-      # delta = the death rate of predators
-      # gamma = the rate at which predators increase by consuming prey
-
-      list(c(dx, dy))
-    })
-  }
-
-  # deSolve method to solve initial value problems (IVP)
-  output <- data.frame(ode(y=initState, times=time, func=lotVPPeqs, parms=params)[,-1])
-
-  return(output)
-}
+source("global.R", local=TRUE)
 
 ## start server ##
 shinyServer(
@@ -125,6 +100,120 @@ shinyServer(
       )
     })
 
+    output$tp3 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("Nmax", "Maximum number of break-points:",
+                   value=10)
+    })
+
+    output$tp4 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("a", "Used in the four parameter beta distribution to smooth both
+                   shape parameters. When simulating from the truncated normal
+                   distribution, this value is used to smooth the estimates of the
+                   mean values:", value=0.8)
+    })
+
+    output$tp5 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("b", "A smoothing parameter value. It is used in the truncated
+                   normal distribution to smooth the estimates of the standard
+                   deviation:", value=0.8)
+    })
+
+    output$tp6 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("h", "Minimum aberration width:", value=5)
+    })
+
+    output$tp7 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("M", "Sample size to be used in simulating the locations of break-points:",
+                   value=200)
+    })
+
+    output$tp8 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("rho", "The fraction which is used to obtain the best performing
+                   set of sample solutions (i.e., elite sample):", value=0.05)
+    })
+
+    output$tp9 <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("eps", "the cut-off value for the stopping criterion in the CE method:",
+                   value=0.01)
+    })
+
     output$tpRun <- renderUI({
       # check required information
       if(input$dataType == " "){
@@ -149,26 +238,32 @@ shinyServer(
           if(input$dataType == "Prey"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(theModel()[1], distyp=1, parallel=TRUE)
+                CE.NB(theModel()[1], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                      rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(theModel()[1], distyp=2, parallel=TRUE)
+                CE.NB(theModel()[1], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                      rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
             else if(input$breakpointType == "for Continuous Data"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+                CE.Normal(theModel()[1], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+                CE.Normal(theModel()[1], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
             else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(theModel()[1], distyp=1, parallel=TRUE)
+                CE.Normal(theModel()[1], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(theModel()[1], distyp=2, parallel=TRUE)
+                CE.Normal(theModel()[1], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
           }
@@ -177,26 +272,32 @@ shinyServer(
           else if(input$dataType == "Predator"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(theModel()[2], distyp=1, parallel=TRUE)
+                CE.NB(theModel()[2], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                      rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(theModel()[2], distyp=2, parallel=TRUE)
+                CE.NB(theModel()[2], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                      rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
             else if(input$breakpointType == "for Continuous Data"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+                CE.Normal(theModel()[2], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+                CE.Normal(theModel()[2], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
             else if(input$breakpointType == "with Zero-Inflated Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(theModel()[2], distyp=1, parallel=TRUE)
+                CE.Normal(theModel()[2], distyp=1, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(theModel()[2], distyp=2, parallel=TRUE)
+                CE.Normal(theModel()[2], distyp=2, parallel=TRUE, Nmax=input$Nmax, eps=input$eps,
+                          rho=input$rho, M=input$M, h=input$h, a=input$a, b=input$b)
               }
             }
           }
@@ -285,7 +386,6 @@ shinyServer(
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-
       if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
@@ -429,20 +529,18 @@ shinyServer(
     EWSanalysis <- eventReactive(input$ewsRunButton, function(){
       # for prey
       if(input$ewsDataType == "Prey"){
-        ews <- generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
+        ews <- local_generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
                           detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
                           degree=input$degree, logtransform=input$logtransform,
                           interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
-        return(ews)
       }
 
       # for predator
       else if(input$ewsDataType == "Predator"){
-        ews <- generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
+        ews <- local_generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
                            detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
                            degree=input$degree, logtransform=input$logtransform,
                            interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
-        return(ews)
       }
     })
 
@@ -469,17 +567,82 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
 
     # display guide for ews data table
     output$ewsTableGuide <- renderText({
-        load_ewsTableGuide()
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      load_ewsTableGuide()
     })
 
     # display ews data table
     output$ewsTable <- renderDataTable({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
       EWSanalysis()
     }, options=list(pageLength=5))
 
+    # load ews plot button
+    ewsPlotButtonLoad <- eventReactive(input$ewsRunButton, function(){
+      actionButton("ewsPlotButton", "Show Plot")
+    })
+
+    # display ews plot button
+    output$ewsPlotButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      ewsPlotButtonLoad()
+    })
+
+    # load ews plot
+    ewsPlotLoad <- eventReactive(input$ewsPlotButton, function(){
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            ews <- local_generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                                     degree=input$degree, logtransform=input$logtransform,
+                                     interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- local_generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                                     degree=input$degree, logtransform=input$logtransform,
+                                     interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+          }
+        })
+      })
+    })
+
     # display ews plot
     output$ewsPlot <- renderPlot({
-      EWSanalysis()
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      ewsPlotLoad()
     }, height=850, width=1200)
 
     # predator-prey data table
