@@ -9,7 +9,7 @@ library(shiny)
 library(shinyapps)
 library(deSolve)
 library(breakpoint)
-library(earlywarnings)
+#library(earlywarnings)
 library(ggplot2)
 library(Cairo)
 options(shiny.usecairo=T)
@@ -146,7 +146,8 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(12, align="left",
                       br(),
-                      plotOutput("ewsPlot", width="100%", height="100%")
+                      plotOutput("ewsPlot", width="100%", height="100%"),
+                      textOutput("temp")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Early Warning Signal analysis

@@ -4,7 +4,6 @@
 
 # Load dependencies
 library(deSolve)
-library(breakpoint)
 
 lotVpredPrey <- function(time, initState, params){
   # function for ordinary differential equations (ODE)
@@ -31,9 +30,9 @@ lotVpredPrey <- function(time, initState, params){
 }
 
 ## Test-values
-params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
-initState <- c(prey=5, predator=10)
-time <- seq(0, 100, by=1)
+#params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
+#initState <- c(prey=100, predator=10)
+#time <- seq(1, 100, by=1)
 
 ## Function-call
-data <- lotVpredPrey(time, initState, params)
+#data <- lotVpredPrey(time, initState, params)
