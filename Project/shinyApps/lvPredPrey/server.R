@@ -60,6 +60,8 @@ shinyServer(
              col=c(1, 2), bty="n")
     })
 
+    ### breakpoint analysis ###
+
     output$tp1 <- renderUI({
       # check required information
       if(input$dataType == " "){
@@ -345,6 +347,41 @@ shinyServer(
       # add breakpoint lines
       abline(v=TPanalysis()[[2[1]]], col="blue")
     })
+
+    # display button to show tp profile-plot
+    output$tpProfileButtonSlot <- renderUI({
+      if(length(TPanalysis()) > 1){
+        actionButton("tpProfileButton", "Mean Profile Plot")
+      }
+    })
+
+    # load profile plot from breakpoint package
+    tempProfilePlot <- eventReactive(input$tpProfileButton, function(){
+      if(input$dataType == "Prey"){
+        profilePlot(TPanalysis(), theModel()[1], x.label=input$dataType)
+      }
+      else if(input$dataType == "Predator"){
+        profilePlot(TPanalysis(), theModel()[2], x.label=input$dataType)
+      }
+    })
+
+    # display tp breakpoint profile
+    output$tpProfilePlot <- renderPlot({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      tempProfilePlot()
+    })
+
+    ### earlywarnings analysis ###
 
     output$ews1 <- renderUI({
       # check required information

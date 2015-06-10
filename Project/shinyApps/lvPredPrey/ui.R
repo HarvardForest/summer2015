@@ -95,10 +95,13 @@ shinyUI(fluidPage(
                       h3(textOutput("location")),
                       h4(textOutput("tpAnalysis2")),
                       br(),
-                      uiOutput("plotLinesButton")
+                      uiOutput("plotLinesButton"),
+                      br(),
+                      uiOutput("tpProfileButtonSlot")
                     ) # column
                   ), # fluidRow
-                  plotOutput("breakpointPlot")
+                  plotOutput("breakpointPlot"),
+                  plotOutput("tpProfilePlot")
                 ), # tabPanel - Tipping Point analysis
                 tabPanel(title="Early Warning Signal analysis",
                   fluidRow(
@@ -177,7 +180,23 @@ shinyUI(fluidPage(
           h5("beta = the rate at which predators kill prey"),
           h5("delta = the death rate of predators"),
           h5("gamma = the rate at which predators increase by consuming prey")
-        ) # tabPanel - Source
+        ), # tabPanel - Model
+        tabPanel(title="References",
+          br(),
+          tags$ul(
+            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012a) A Modified Cross- Entropy Method for Detecting Multiple Change-Points in DNA Count Data, In Proc. of the IEEE Conference on Evolutionary Computation (CEC), 1020-1027, DOI: 10.1109/CEC.2012.6256470.")),
+            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012b) The Cross-Entropy Method and Multiple Change-Points Detection in Zero-Inflated DNA read count data, In: Y. T. Gu, S. C. Saha (Eds.) The 4th International Conference on Computational Methods (ICCM2012), 1-8, ISBN 978-1-921897-54-2.")),
+            tags$li(p("Rubinstein, R., and Kroese, D. (2004) The Cross-Entropy Method: A Unified Approach to Combinatorial Optimization, Monte-Carlo Simulation and Machine Learning. Springer-Verlag, New York.")),
+            tags$li(p("Schwarz, G. (1978) Estimating the dimension of a model, The Annals of Statistics, 6(2), 461-464.")),
+            tags$li(p("Priyadarshana, W. J. R. M., Sofronov G. (2014) Multiple Break-Points Detection in array CGH Data via the Cross-Entropy Method, IEEE/ACM Transactions on Computational Biology and Bioinformatics, no. 1, pp. 1, PrePrints, doi:10.1109/TCBB.2014.2361639, ISSN: 1545-5963.")),
+            tags$li(p("Zhang, N.R., and Siegmund, D.O. (2007) A modified Bayes information criterion with applications to the analysis of comparative genomic hybridization data. Biometrics, 63, 22-32.")),
+            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012b) The Cross-Entropy Method and Multiple Change-Points Detection in Zero-Inflated DNA read count data, In: Y. T. Gu, S. C. Saha (Eds.) The 4th International Conference on Computational Methods (ICCM2012), 1-8, ISBN 978-1-921897-54-2.")),
+            tags$li(p("Schwarz, G. (1978) Estimating the dimension of a model, The Annals of Statistics, 6(2), 461-464.")),
+            tags$li(p("Ives, A. R. (1995). 'Measuring resilience in stochastic systems.' Ecological Monographs 65: 217-233")),
+            tags$li(p("Dakos, V., et al (2008). 'Slowing down as an early warning signal for abrupt climate change.' Proceedings of the National Academy of Sciences 105(38): 14308-14312")),
+            tags$li(p("Dakos, V., et al (2012).'Methods for Detecting Early Warnings of Critical Transitions in Time Series Illustrated Using Simulated Ecological Data.' PLoS ONE 7(7): e41010. doi:10.1371/journal.pone.0041010"))
+          ) # unordered list
+        ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel
   ) # sidebarLayout
