@@ -97,3 +97,5 @@ NVJ - Worked on REU Project Proposal, fixed edits provided by Matt
 NVJ - Worked on Lotka-Volterra predator-prey app interface 
 
 NVJ - Developed Quick Detection Analysis feature with output interface
+
+NVJ - Cleaned code for predator-prey app

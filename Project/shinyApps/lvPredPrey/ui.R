@@ -1,16 +1,10 @@
 ### Lotka-Volterra predator-prey model
 ## By: Nathan Justice
-# Last edited: 09June2015
+# Last edited: 15June2015
 
-# ui.R #
+### User Interface ###
 
 # load dependencies
-library(shiny)
-library(shinyapps)
-library(deSolve)
-library(breakpoint)
-library(ggplot2)
-#library(earlywarnings)
 source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
@@ -68,11 +62,15 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(5, align="left",
                       br(),
-                      helpText(a("Click here to view the R 'breakpoint' Package documentation.",
-                                  href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
-                                  target="_blank")),
+                      helpText(
+                        a("Click here to view the R 'breakpoint' Package
+                          documentation.",
+                          href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
+                          target="_blank")
+                      ), # helpText
                       br(),
-                      selectInput("dataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                      selectInput("dataType", "Choose Data:",
+                                  choices=c(" ", "Prey", "Predator")),
                       uiOutput("tp1"),
                       uiOutput("tp2"),
                       uiOutput("tp3"),
@@ -97,7 +95,7 @@ shinyUI(fluidPage(
                   br(),
                   uiOutput("breakpointPlotSlot"),
                   br(),
-                  uiOutput("meanProfileTitleSlot"),
+                  uiOutput("profilePlotTitleSlot"),
                   uiOutput("profilePlotSlot"),
                   br()
                 ), # tabPanel - Tipping Point analysis

@@ -7,9 +7,9 @@ library(ggplot2)
 #library(earlywarnings)
 
 
-lotVpredPrey <- function(time, initState, params){
+lvPredPreyModel <- function(time, initState, params){
   # function for ordinary differential equations (ODE)
-  lotVPPeqs <-function(time, initState, params){
+  lvPredPreyEqs <-function(time, initState, params){
     with(as.list(c(initState, params)),{
 
       # lotka-Volterra predator-prey model
@@ -26,7 +26,7 @@ lotVpredPrey <- function(time, initState, params){
   }
 
   # deSolve method to solve initial value problems (IVP)
-  output <- data.frame(ode(y=initState, times=time, func=lotVPPeqs, parms=params)[,-1])
+  output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs, parms=params)[,-1])
 
   return(output)
 }
@@ -85,7 +85,7 @@ lotVpredPrey <- function(time, initState, params){
 
 # Author: Vasilis Dakos, January 2, 2012
 
-local_generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
+generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
                                                                  "loess", "linear", "first-diff"), bandwidth = NULL, span = NULL, degree = NULL,
                         logtransform = FALSE, interpolate = FALSE, AR_n = FALSE, powerspectrum = FALSE) {
 
@@ -666,13 +666,11 @@ qda_ews <- function(timeseries, param = NULL, winsize = 50, detrending = c("no",
   dev.new()
   s <- surrogates_RShiny(timeseries, winsize, detrending, bandwidth, boots, s_level,
                          logtransform, interpolate)
-  print(s)
 
   message("Potential analysis")
   p <- movpotential_ews(as.vector(timeseries[, 1]), param, detection.threshold = detection.threshold,
                         grid.size = grid.size, plot.cutoff = cutoff)
   dev.new()
-  print(p)
 
   list(indicators = g, trends = s, potential.plot = p)
 
