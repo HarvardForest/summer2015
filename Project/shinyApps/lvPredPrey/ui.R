@@ -150,8 +150,10 @@ shinyUI(fluidPage(
                       uiOutput("ewsPlotSlot"),
                       uiOutput("ewsPlot1Slot"),
                       uiOutput("ewsData1Slot"),
+                      hr(),
                       uiOutput("ewsPlot2Slot"),
                       uiOutput("ewsData2Slot"),
+                      hr(),
                       uiOutput("ewsPlot3Slot")
                     ) # column
                   ) # fluidRow

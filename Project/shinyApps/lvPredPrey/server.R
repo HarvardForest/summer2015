@@ -1371,7 +1371,7 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
         return()
       }
 
-      ewsPlotLoad3()
+      print(ewsPlotLoad3())
     })
 
     # predator-prey data table

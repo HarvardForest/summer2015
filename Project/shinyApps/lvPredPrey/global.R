@@ -1058,10 +1058,6 @@ PlotPotential <- function(res, title = "", xlab.text, ylab.text, cutoff = 0.5, p
 
 }
 
-
-
-
-
 #' Description: Potential Analysis for univariate data
 #'
 #' \code{livpotential_ews} performs one-dimensional potential estimation derived from a uni-variate timeseries
