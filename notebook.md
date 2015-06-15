@@ -91,3 +91,8 @@ NVJ - Worked on REU Project Proposal
 12June2015
 
 NVJ - Worked on REU Project Proposal, fixed edits provided by Matt
+
+15June2015
+
+NVJ - Worked on Lotka-Volterra predator-prey app interface 
+

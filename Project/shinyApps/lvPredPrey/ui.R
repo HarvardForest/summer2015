@@ -97,10 +97,10 @@ shinyUI(fluidPage(
                     ) # column
                   ), # fluidRow
                   br(),
-                  plotOutput("breakpointPlot"),
+                  uiOutput("breakpointPlotSlot"),
                   br(),
-                  h4(textOutput("meanProfileTitle")),
-                  plotOutput("tpProfilePlot"),
+                  uiOutput("meanProfileTitleSlot"),
+                  uiOutput("profilePlotSlot"),
                   br()
                 ), # tabPanel - Tipping Point analysis
                 tabPanel(title="Early Warning Signal analysis",
@@ -142,7 +142,7 @@ shinyUI(fluidPage(
                   ), # fluidRow
                   fluidRow(
                     column(12,
-                      verbatimTextOutput("ewsTableGuide"),
+                      uiOutput("ewsTableGuideSlot"),
                       dataTableOutput("ewsTable")
                     )
                   ), # fluidRow

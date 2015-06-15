@@ -374,7 +374,7 @@ shinyServer(
     })
 
     # generate new instance of mainPlot to draw breakpoint lines
-    breakpointPlot <- eventReactive(input$tpRun, function(){
+    newPlot <- eventReactive(input$tpRun, function(){
       # check required information
       if(input$dataType == " "){
         return()
@@ -390,6 +390,16 @@ shinyServer(
       }
     })
 
+    # generate new instance of plot output
+    loadBreakpointPlotSlot <- eventReactive(input$tpRun, function(){
+      plotOutput("breakpointPlot")
+    })
+
+    # display new instance of plot output
+    output$breakpointPlotSlot <- renderUI({
+      loadBreakpointPlotSlot()
+    })
+
     # display new plot with breakpoint lines
     output$breakpointPlot <- renderPlot({
       # check required information
@@ -403,13 +413,38 @@ shinyServer(
         return()
       }
       if(length(TPanalysis()) > 1){
-        matplot(breakpointPlot(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+        matplot(newPlot(), type="l", xlab=input$xaxis, ylab=input$yaxis)
         title(main="Breakpoints")
         legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
               col=c(1, 2), bty="n")
         # add breakpoint lines
         abline(v=TPanalysis()[[2[1]]], col="blue")
       }
+    })
+
+    # load mean profile title
+    loadMeanProfileTitle <- eventReactive(input$tpRun, function(){
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+      "Mean Profile Plot"
+    })
+
+    # display mean plot title output-interface
+    output$meanProfileTitleSlot <- renderUI({
+      textOutput("meanProfileTitle")
+    })
+
+    # display mean plot title
+    output$meanProfileTitle <- renderText({
+      loadMeanProfileTitle()
     })
 
     # load profile plot from breakpoint package
@@ -434,25 +469,18 @@ shinyServer(
       }
     })
 
-    # display mean profile plot title
-    output$meanProfileTitle <- renderText({
-      # check required information
-      if(input$dataType == " "){
-        return()
-      }
-      if(is.null(input$breakpointType) || input$breakpointType == " "){
-        return()
-      }
-      if(is.null(input$distributionType) || (input$distributionType == " ")){
-        return()
-      }
-      if(length(TPanalysis()) > 1){
-        "Mean Profile Plot"
-      }
+    # load mean profile plot output
+    loadProfilePlot <- eventReactive(input$tpRun, function(){
+      plotOutput("profilePlot")
     })
 
-    # display tp breakpoint mean profile plot
-    output$tpProfilePlot <- renderPlot({
+    # display mean profile plot-ouput
+    output$profilePlotSlot <- renderUI({
+      loadProfilePlot()
+    })
+
+    # display tp mean profile plot
+    output$profilePlot <- renderPlot({
       # check required information
       if(input$dataType == " "){
         return()
@@ -859,32 +887,17 @@ shinyServer(
       })
     })
 
-    # load guide for ews data table
+    # load guide slot for ews data table
     load_ewsTableGuide <- eventReactive(input$ewsRunButton, function(){
       if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
-"tim = the time index.
 
-ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
-
-sd = the standard deviation of the data estimated within each rolling window.
-
-sk	= the skewness of the data estimated within each rolling window.
-
-kurt	= the kurtosis of the data estimated within each rolling window.
-
-cv	= the coefficient of variation of the data estimated within each rolling window.
-
-returnrate	= the return rate of the data estimated as 1-ar(1) cofficient within each rolling window.
-
-densratio	= the density ratio of the power spectrum of the data estimated as the ratio of low frequencies over high frequencies within each rolling window.
-
-acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
+      verbatimTextOutput("ewsTableGuide")
     })
 
-    # display guide for ews data table
-    output$ewsTableGuide <- renderText({
+    # display guide slot for ews data table
+    output$ewsTableGuideSlot <- renderUI({
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -900,6 +913,27 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       }
 
       load_ewsTableGuide()
+    })
+
+    # display text for ews data table guide
+    output$ewsTableGuide <- renderText({
+"tim = the time index.
+
+ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
+
+sd = the standard deviation of the data estimated within each rolling window.
+
+sk  = the skewness of the data estimated within each rolling window.
+
+kurt  = the kurtosis of the data estimated within each rolling window.
+
+cv	= the coefficient of variation of the data estimated within each rolling window.
+
+returnrate	= the return rate of the data estimated as 1-ar(1) cofficient within each rolling window.
+
+densratio	= the density ratio of the power spectrum of the data estimated as the ratio of low frequencies over high frequencies within each rolling window.
+
+acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
     })
 
     # display ews data table
