@@ -307,65 +307,151 @@ shinyServer(
       }) # withProgress
     })
 
+    # display "Number of breakpoints detected" text
+    output$numBreakpointsText <- renderText({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+      if(length(TPanalysis()) > 1){
+        "Number of breakpoints detected:"
+      }
+    })
+
     # display number of breakpoints detected
     output$tpAnalysis1 <- renderText({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
       TPanalysis()[[1]]
     })
 
     # display "Location:" text
-    output$location <- renderText({
+    output$locationText <- renderText({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
       if(length(TPanalysis()) > 1){
-        "Location:"
+        "Location(s):"
       }
     })
 
     # display locations of detected breakpoints
     output$tpAnalysis2 <- renderText({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
       if(length(TPanalysis()) > 1){
        paste(TPanalysis()[[2]], collapse=", ")
       }
     })
 
-    # display button to add breakpoint lines to new plot
-    output$plotLinesButton <- renderUI({
-      if(length(TPanalysis()) > 1){
-        actionButton("plotLinesButton", "Add to Plot")
-      }
-    })
-
     # generate new instance of mainPlot to draw breakpoint lines
-    tempPlot <- eventReactive(input$plotLinesButton, function(){
-      theModel()
+    breakpointPlot <- eventReactive(input$tpRun, function(){
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+      if(length(TPanalysis()) > 1){
+        theModel()
+      }
     })
 
     # display new plot with breakpoint lines
     output$breakpointPlot <- renderPlot({
-      matplot(tempPlot(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-      title(main=input$plotTitle)
-      legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-             col=c(1, 2), bty="n")
-      # add breakpoint lines
-      abline(v=TPanalysis()[[2[1]]], col="blue")
-    })
-
-    # display button to show tp profile-plot
-    output$tpProfileButtonSlot <- renderUI({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
       if(length(TPanalysis()) > 1){
-        actionButton("tpProfileButton", "Mean Profile Plot")
+        matplot(breakpointPlot(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+        title(main="Breakpoints")
+        legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+              col=c(1, 2), bty="n")
+        # add breakpoint lines
+        abline(v=TPanalysis()[[2[1]]], col="blue")
       }
     })
 
     # load profile plot from breakpoint package
-    tempProfilePlot <- eventReactive(input$tpProfileButton, function(){
-      if(input$dataType == "Prey"){
-        profilePlot(TPanalysis(), theModel()[1], x.label=input$dataType)
+    meanProfilePlot <- eventReactive(input$tpRun, function(){
+      # check required information
+      if(input$dataType == " "){
+        return()
       }
-      else if(input$dataType == "Predator"){
-        profilePlot(TPanalysis(), theModel()[2], x.label=input$dataType)
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+      if(length(TPanalysis()) > 1){
+        if(input$dataType == "Prey"){
+          profilePlot(TPanalysis(), theModel()[1], x.label=input$dataType, y.label="Population")
+        }
+        else if(input$dataType == "Predator"){
+          profilePlot(TPanalysis(), theModel()[2], x.label=input$dataType, y.label="Population")
+        }
       }
     })
 
-    # display tp breakpoint profile
+    # display mean profile plot title
+    output$meanProfileTitle <- renderText({
+      # check required information
+      if(input$dataType == " "){
+        return()
+      }
+      if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+      if(length(TPanalysis()) > 1){
+        "Mean Profile Plot"
+      }
+    })
+
+    # display tp breakpoint mean profile plot
     output$tpProfilePlot <- renderPlot({
       # check required information
       if(input$dataType == " "){
@@ -377,8 +463,9 @@ shinyServer(
       if(is.null(input$distributionType) || (input$distributionType == " ")){
         return()
       }
-
-      tempProfilePlot()
+      if(length(TPanalysis()) > 1){
+        meanProfilePlot()
+      }
     })
 
     ### earlywarnings analysis ###
@@ -391,10 +478,12 @@ shinyServer(
 
       switch(input$ewsDataType,
              "Prey" =  selectInput("ewsMethod", "Method:",
-                        choice=c(" ", "Generic Early Warning Signals")
+                        choice=c(" ", "Quick Detection Analysis for Generic Early Warning Signals",
+                                 "Generic Early Warning Signals")
              ),
              "Predator" =  selectInput("ewsMethod", "Method:",
-                        choice=c(" ", "Generic Early Warning Signals")
+                        choice=c(" ", "Quick Detection Analysis for Generic Early Warning Signals",
+                                 "Generic Early Warning Signals")
              )
       )
     })
@@ -407,12 +496,13 @@ shinyServer(
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != "Generic Early Warning Signals"){
+      else if(input$ewsMethod != "Generic Early Warning Signals" &&
+              input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
 
       selectInput("detrending", label="Detrended/filtered prior to analysis:",
-                  choice=c("no", "gaussian", "loess", "linear", "first-diff"))
+                  choice=c(" ", "gaussian", "loess", "linear", "first-diff", "no"))
     })
 
     output$ews3 <- renderUI({
@@ -423,7 +513,11 @@ shinyServer(
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      if(input$ewsMethod != "Generic Early Warning Signals"){
+      if(input$ewsMethod != "Generic Early Warning Signals" &&
+           input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
         return()
       }
 
@@ -441,7 +535,11 @@ shinyServer(
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != "Generic Early Warning Signals"){
+      if(input$ewsMethod != "Generic Early Warning Signals" &&
+           input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
         return()
       }
 
@@ -449,6 +547,8 @@ shinyServer(
                 percentage of the timeseries length (must be numeric between 0 and 100):",
                 value=50)
     })
+
+    ## Input for Gereic Early Warning Signals ##
 
     output$ews5 <- renderUI({
       # check required information
@@ -461,10 +561,13 @@ shinyServer(
       else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       numericInput("span", label="Parameter that controls the degree of smoothing
-                (numeric between 0 and 100):",
-                value=25)
+                   (numeric between 0 and 100):",
+                   value=25)
     })
 
     output$ews6 <- renderUI({
@@ -478,10 +581,13 @@ shinyServer(
       else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       numericInput("degree", label="The degree of polynomial to be used for when loess
-                fitting is applied, normally 1 or 2:",
-                value=2)
+                   fitting is applied, normally 1 or 2:",
+                   value=2)
     })
 
     output$ews7 <- renderUI({
@@ -495,9 +601,12 @@ shinyServer(
       else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       selectInput("logtransform", label="If TRUE data are logtransformed prior to analysis as log(X+1):",
-                choice=c(FALSE, TRUE))
+                  choice=c(FALSE, TRUE))
     })
 
     output$ews8 <- renderUI({
@@ -511,11 +620,15 @@ shinyServer(
       else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       selectInput("interpolate", label="If TRUE linear interpolation is applied to produce a timeseries of equal length as
-                the original. (FALSE assumes there are no gaps in the timeseries):",
-                choice=c(FALSE, TRUE))
+                  the original. (FALSE assumes there are no gaps in the timeseries):",
+                  choice=c(FALSE, TRUE))
     })
+
 
     output$ews9 <- renderUI({
       # check required information
@@ -526,6 +639,9 @@ shinyServer(
         return()
       }
       else if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
         return()
       }
 
@@ -544,8 +660,145 @@ shinyServer(
       else if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       selectInput("powerspectrum", label="If TRUE the power spectrum within each rolling window is plotted:",
+                  choice=c(FALSE, TRUE))
+    })
+
+    output$ews11 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      numericInput("boots", label="The number of surrogate data to generate from fitting an ARMA(p,1) model:",
+                   value=100)
+    })
+
+    output$ews12 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      numericInput("s_level", label="Significance level:",
+                   value=0.05)
+    })
+
+    output$ews13 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      numericInput("cutoff", label="The cutoff value to visualize the potential landscape:",
+                   value=0.05)
+    })
+
+    output$ews14 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      numericInput("detection.threshold", label="Detection threshold for potential minima:",
+                   value=0.002)
+    })
+
+    output$ews15 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      numericInput("grid.size", label="Grid size(for potential analysis):",
+                   value=50)
+    })
+
+    output$ews16 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      selectInput("logtransform", label="If TRUE, data are logtransformed prior to analysis as log(X+1):",
+                   choice=c(FALSE, TRUE))
+    })
+
+    output$ews17 <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      else if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+
+      selectInput("interpolate", label="If TRUE, linear interpolation is applied to produce timeseries of
+                  equal length as the original (Default FALSE assumes there are no gaps in the timeseries:",
                   choice=c(FALSE, TRUE))
     })
 
@@ -558,31 +811,59 @@ shinyServer(
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       actionButton("ewsRunButton", "Run")
     })
 
     # run early warnings analysis based on user's parameters
     EWSanalysis <- eventReactive(input$ewsRunButton, function(){
-      # for prey
-      if(input$ewsDataType == "Prey"){
-        ews <- local_generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
-                          detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
-                          degree=input$degree, logtransform=input$logtransform,
-                          interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
-      }
+      # loading window
+      withProgress(message="Detecting Early Warning Signals", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            if(input$ewsMethod == "Generic Early Warning Signals"){
+              ews <- local_generic_ews(timeseries=subset(theModel(), select=prey), winsize=input$winsize,
+                              detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                              degree=input$degree, logtransform=input$logtransform,
+                              interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
 
-      # for predator
-      else if(input$ewsDataType == "Predator"){
-        ews <- local_generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
-                           detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
-                           degree=input$degree, logtransform=input$logtransform,
-                           interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
-      }
+            }
+            else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"){
+              ews <- qda_ews(timeseries=theModel()[1], winsize=input$winsize,
+                             detrending=input$detrending, bandwidth=input$bandwidth, boots=input$boots,
+                             s_level=input$s_level, cutoff=input$cutoff, detection.threshold=input$detection.threshold,
+                             grid.size=input$grid.size, logtransform=input$logtransform, interpolate=input$interpolate)
+            }
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            if(input$ewsMethod== "Generic Early Warning Signals"){
+              ews <- local_generic_ews(timeseries=subset(theModel(), select=predator), winsize=input$winsize,
+                                 detrending=input$detrending, bandwidth=input$bandwidth, span=input$span,
+                                 degree=input$degree, logtransform=input$logtransform,
+                                 interpolate=input$interpolate, AR_n=input$AR_n, powerspectrum=input$powerspectrum)
+            }
+            else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"){
+              ews <- qda_ews(timeseries=theModel()[2], winsize=input$winsize,
+                             detrending=input$detrending, bandwidth=input$bandwidth, boots=input$boots,
+                             s_level=input$s_level, cutoff=input$cutoff, detection.threshold=input$detection.threshold,
+                             grid.size=input$grid.size, logtransform=input$logtransform, interpolate=input$interpolate)
+            }
+          }
+        })
+      })
     })
 
     # load guide for ews data table
     load_ewsTableGuide <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
 "tim = the time index.
 
 ar1  = the autoregressive coefficient ar(1) of a first order AR model fitted on the data within the rolling window.
@@ -611,6 +892,12 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
       load_ewsTableGuide()
     })
@@ -624,30 +911,23 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
 
-      EWSanalysis()
+      if(input$ewsMethod == "Generic Early Warning Signals"){
+        EWSanalysis()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"){
+        EWSanalysis()
+      }
     }, options=list(pageLength=5))
 
-    # load ews plot button
-    ewsPlotButtonLoad <- eventReactive(input$ewsRunButton, function(){
-      actionButton("ewsPlotButton", "Show Plot")
-    })
-
-    # display ews plot button
-    output$ewsPlotButtonSlot <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-
-      ewsPlotButtonLoad()
-    })
-
     # load ews plot
-    ewsPlotLoad <- eventReactive(input$ewsPlotButton, function(){
+    ewsPlotLoad <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
       withProgress(message="Plotting Data", value=0, {
         withProgress(message="...", detail="This may take awhile", value=0, {
           # for prey
@@ -682,16 +962,50 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       ewsPlotLoad()
     }, height=850, width=1200)
 
+      # load ews plot
+      ewsPlotLoad1 <- eventReactive(input$ewsPlotButton, function(){
+        if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+          return()
+        }
+        withProgress(message="Plotting Data", value=0, {
+          withProgress(message="...", detail="This may take awhile", value=0, {
+            # for prey
+            if(input$ewsDataType == "Prey"){
+                ews <- plot_generic_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                           detrending=input$detrending, bandwidth=input$bandwidth,
+                                           logtransform=input$logtransform, interpolate=input$interpolate,
+                                           AR_n=FALSE, powerspectrum=FALSE)
+            }
+
+            # for predator
+            else if(input$ewsDataType == "Predator"){
+              ews <- plot_generic_RShiny(timeseries=theModel()[2], winsize=input$winsize,
+                                         detrending=input$detrending, bandwidth=input$bandwidth,
+                                         logtransform=input$logtransform, interpolate=input$interpolate,
+                                         AR_n = FALSE, powerspectrum = FALSE)
+            }
+          })
+        })
+      })
+
+    output$ewsPlot1 <- renderPlot({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      ewsPlotLoad1()
+    })
+
     # predator-prey data table
     output$mainTable <- renderDataTable({
       mNew <- cbind(time=0:(input$time), theModel())
-    })
-
-    output$temp <- renderPrint({
-      data <- theModel()
-      qda_ews(data[1], param = NULL, winsize = 50, detrending='gaussian', bandwidth=NULL,
-                       boots = 50, s_level = 0.05, cutoff=0.05, detection.threshold = 0.002, grid.size = 50,
-                       logtransform=FALSE, interpolate=FALSE)
     })
 
   } # End

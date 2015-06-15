@@ -90,18 +90,18 @@ shinyUI(fluidPage(
                       uiOutput("tpRun"),
                       br(),
                       br(),
-                      h4("Number of breakpoints detected:"),
+                      h4(textOutput("numBreakpointsText")),
                       h3(textOutput("tpAnalysis1")),
-                      h3(textOutput("location")),
-                      h4(textOutput("tpAnalysis2")),
-                      br(),
-                      uiOutput("plotLinesButton"),
-                      br(),
-                      uiOutput("tpProfileButtonSlot")
+                      h3(textOutput("locationText")),
+                      h4(textOutput("tpAnalysis2"))
                     ) # column
                   ), # fluidRow
+                  br(),
                   plotOutput("breakpointPlot"),
-                  plotOutput("tpProfilePlot")
+                  br(),
+                  h4(textOutput("meanProfileTitle")),
+                  plotOutput("tpProfilePlot"),
+                  br()
                 ), # tabPanel - Tipping Point analysis
                 tabPanel(title="Early Warning Signal analysis",
                   fluidRow(
@@ -118,12 +118,12 @@ shinyUI(fluidPage(
                       uiOutput("ews1"),
                       uiOutput("ews2"),
                       uiOutput("ews3"),
-                      uiOutput("ews4"),
-                      uiOutput("ews5")
+                      uiOutput("ews4")
                     ), # column
                     column(5, offset=1, align="center",
                            br(),
                            br(),
+                           uiOutput("ews5"),
                            uiOutput("ews6"),
                            uiOutput("ews7"),
                            uiOutput("ews8"),
@@ -131,9 +131,12 @@ shinyUI(fluidPage(
                            uiOutput("ews10"),
                            uiOutput("ews11"),
                            uiOutput("ews12"),
+                           uiOutput("ews13"),
+                           uiOutput("ews14"),
+                           uiOutput("ews15"),
+                           uiOutput("ews16"),
+                           uiOutput("ews17"),
                            uiOutput("ewsRun"),
-                           br(),
-                           uiOutput("ewsPlotButtonSlot"),
                            br()
                     ) # column
                   ), # fluidRow
@@ -147,7 +150,10 @@ shinyUI(fluidPage(
                     column(12, align="left",
                       br(),
                       plotOutput("ewsPlot", width="100%", height="100%"),
-                      textOutput("temp")
+                      plotOutput("ewsPlot1"),
+                      plotOutput("ewsPlot2"),
+                      plotOutput("ewsPlot3"),
+                      textOutput("ewsText1")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Early Warning Signal analysis
@@ -184,19 +190,20 @@ shinyUI(fluidPage(
         ), # tabPanel - Model
         tabPanel(title="References",
           br(),
-          tags$ul(
-            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012a) A Modified Cross- Entropy Method for Detecting Multiple Change-Points in DNA Count Data, In Proc. of the IEEE Conference on Evolutionary Computation (CEC), 1020-1027, DOI: 10.1109/CEC.2012.6256470.")),
-            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012b) The Cross-Entropy Method and Multiple Change-Points Detection in Zero-Inflated DNA read count data, In: Y. T. Gu, S. C. Saha (Eds.) The 4th International Conference on Computational Methods (ICCM2012), 1-8, ISBN 978-1-921897-54-2.")),
-            tags$li(p("Rubinstein, R., and Kroese, D. (2004) The Cross-Entropy Method: A Unified Approach to Combinatorial Optimization, Monte-Carlo Simulation and Machine Learning. Springer-Verlag, New York.")),
-            tags$li(p("Schwarz, G. (1978) Estimating the dimension of a model, The Annals of Statistics, 6(2), 461-464.")),
-            tags$li(p("Priyadarshana, W. J. R. M., Sofronov G. (2014) Multiple Break-Points Detection in array CGH Data via the Cross-Entropy Method, IEEE/ACM Transactions on Computational Biology and Bioinformatics, no. 1, pp. 1, PrePrints, doi:10.1109/TCBB.2014.2361639, ISSN: 1545-5963.")),
-            tags$li(p("Zhang, N.R., and Siegmund, D.O. (2007) A modified Bayes information criterion with applications to the analysis of comparative genomic hybridization data. Biometrics, 63, 22-32.")),
-            tags$li(p("Priyadarshana, W. J. R. M. and Sofronov, G. (2012b) The Cross-Entropy Method and Multiple Change-Points Detection in Zero-Inflated DNA read count data, In: Y. T. Gu, S. C. Saha (Eds.) The 4th International Conference on Computational Methods (ICCM2012), 1-8, ISBN 978-1-921897-54-2.")),
-            tags$li(p("Schwarz, G. (1978) Estimating the dimension of a model, The Annals of Statistics, 6(2), 461-464.")),
-            tags$li(p("Ives, A. R. (1995). 'Measuring resilience in stochastic systems.' Ecological Monographs 65: 217-233")),
-            tags$li(p("Dakos, V., et al (2008). 'Slowing down as an early warning signal for abrupt climate change.' Proceedings of the National Academy of Sciences 105(38): 14308-14312")),
-            tags$li(p("Dakos, V., et al (2012).'Methods for Detecting Early Warnings of Critical Transitions in Time Series Illustrated Using Simulated Ecological Data.' PLoS ONE 7(7): e41010. doi:10.1371/journal.pone.0041010"))
-          ) # unordered list
+          h3("R:"),
+          p("R Core Team (2015). R: A language and environment for statistical computing.
+              Foundation for Statistical Computing, Vienna, Austria. URL http://www.R-project.org/."),
+          h3("Shiny Package:"),
+          p("Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2015).
+            shiny: Web Application Framework for R. R package version 0.12.0. http://CRAN.R-project.org/package=shiny"),
+          h3("Breakpoint (Tipping Point) Package:"),
+          p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
+              Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
+              http://CRAN.R-project.org/package=breakpoint"),
+          h3("Earlywarnings Package:"),
+          p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
+            in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
+              http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010")
         ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel
