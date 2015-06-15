@@ -936,8 +936,22 @@ densratio	= the density ratio of the power spectrum of the data estimated as the
 acf1	= the autocorrelation at first lag of the data estimated within each rolling window."
     })
 
-    # display ews data table
-    output$ewsTable <- renderDataTable({
+    # load ews Data Table info
+    loadEWStable <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
+
+      EWSanalysis()
+    })
+
+    # load ews Data Table slot
+    output$ewsTableSlot <- renderUI({
+      dataTableOutput("ewsDataTable")
+    })
+
+    # display ews Data Table
+    output$ewsDataTable <- renderDataTable({
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -945,16 +959,14 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
       if(is.null(input$detrending) || input$detrending == " "){
         return()
       }
 
-      if(input$ewsMethod == "Generic Early Warning Signals"){
-        EWSanalysis()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"){
-        EWSanalysis()
-      }
+      loadEWStable()
     }, options=list(pageLength=5))
 
     # load ews plot
@@ -981,6 +993,14 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
           }
         })
       })
+    })
+
+    loadEWSplotSlot <- eventReactive(input$ewsRunButton, function(){
+      plotOutput("ewsPlot", width="100%", height="100%")
+    })
+
+    output$ewsPlotSlot <- renderUI({
+      loadEWSplotSlot()
     })
 
     # display ews plot
