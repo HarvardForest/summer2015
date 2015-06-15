@@ -9,10 +9,8 @@ library(shiny)
 library(shinyapps)
 library(deSolve)
 library(breakpoint)
-#library(earlywarnings)
 library(ggplot2)
-library(Cairo)
-options(shiny.usecairo=T)
+#library(earlywarnings)
 source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
@@ -149,7 +147,12 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(12, align="left",
                       br(),
-                      uiOutput("ewsPlotSlot")
+                      uiOutput("ewsPlotSlot"),
+                      uiOutput("ewsPlot1Slot"),
+                      uiOutput("ewsData1Slot"),
+                      uiOutput("ewsPlot2Slot"),
+                      uiOutput("ewsData2Slot"),
+                      uiOutput("ewsPlot3Slot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Early Warning Signal analysis
@@ -189,17 +192,24 @@ shinyUI(fluidPage(
           h3("R:"),
           p("R Core Team (2015). R: A language and environment for statistical computing.
               Foundation for Statistical Computing, Vienna, Austria. URL http://www.R-project.org/."),
-          h3("Shiny Package:"),
+          h3("shiny Package:"),
           p("Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2015).
             shiny: Web Application Framework for R. R package version 0.12.0. http://CRAN.R-project.org/package=shiny"),
-          h3("Breakpoint (Tipping Point) Package:"),
+          h3("shinyapps Package:"),
+          p("JJ Allaire (2013). shinyapps: Interface to ShinyApps. R package version 0.3.64."),
+          h3("breakpoint (Tipping Point) Package:"),
           p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
               Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
               http://CRAN.R-project.org/package=breakpoint"),
-          h3("Earlywarnings Package:"),
+          h3("earlywarnings Package:"),
           p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
             in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
-              http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010")
+              http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010"),
+          h3("deSolve Package (for dfferential equations):"),
+          p("Karline Soetaert, Thomas Petzoldt, R. Woodrow Setzer (2010). Solving Differential Equations in R:
+            Package deSolve Journal of Statistical Software, 33(9), 1--25.  URL http://www.jstatsoft.org/v33/i09/."),
+          h3("ggplot2:"),
+          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
         ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel

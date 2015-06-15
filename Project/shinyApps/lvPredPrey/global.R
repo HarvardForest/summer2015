@@ -3,10 +3,9 @@ library(shiny)
 library(shinyapps)
 library(deSolve)
 library(breakpoint)
-#library(earlywarnings)
 library(ggplot2)
-library(Cairo)
-options(shiny.usecairo=T)
+#library(earlywarnings)
+
 
 lotVpredPrey <- function(time, initState, params){
   # function for ordinary differential equations (ODE)
@@ -904,8 +903,8 @@ surrogates_RShiny <- function(timeseries, winsize = 50, detrending = c("no", "ga
     for (jj in 0:4) {
       ARMA <- arima(nsmY, order = c(ij, 0, jj), include.mean = FALSE)
       arma[ij, jj + 1] = ARMA$aic
-      print(paste("AR", "MA", "AIC"), quote = FALSE)
-      print(paste(ij, jj, ARMA$aic), zero.print = ".", quote = FALSE)
+      #print(paste("AR", "MA", "AIC"), quote = FALSE)
+      #print(paste(ij, jj, ARMA$aic), zero.print = ".", quote = FALSE)
     }
   }
 

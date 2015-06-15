@@ -9,10 +9,8 @@ library(shiny)
 library(shinyapps)
 library(deSolve)
 library(breakpoint)
-#library(earlywarnings)
 library(ggplot2)
-library(Cairo)
-options(shiny.usecairo=T)
+#library(earlywarnings)
 source("global.R", local=TRUE)
 
 ## start server ##
@@ -787,7 +785,7 @@ shinyServer(
         return()
       }
 
-      numericInput("grid.size", label="Grid size(for potential analysis):",
+      numericInput("grid.size", label="Grid size (for potential analysis):",
                    value=50)
     })
 
@@ -947,6 +945,19 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
 
     # load ews Data Table slot
     output$ewsTableSlot <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
       dataTableOutput("ewsDataTable")
     })
 
@@ -959,10 +970,10 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      if(input$ewsMethod != "Generic Early Warning Signals"){
+      if(is.null(input$detrending) || input$detrending == " "){
         return()
       }
-      if(is.null(input$detrending) || input$detrending == " "){
+      if(input$ewsMethod != "Generic Early Warning Signals"){
         return()
       }
 
@@ -995,10 +1006,25 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       })
     })
 
+    # load ews plot output
     loadEWSplotSlot <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
       plotOutput("ewsPlot", width="100%", height="100%")
     })
 
+    # display ews plot output
     output$ewsPlotSlot <- renderUI({
       loadEWSplotSlot()
     })
@@ -1012,35 +1038,241 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Generic Early Warning Signals"){
+        return()
+      }
 
       ewsPlotLoad()
     }, height=850, width=1200)
 
-      # load ews plot
-      ewsPlotLoad1 <- eventReactive(input$ewsPlotButton, function(){
-        if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
-          return()
-        }
-        withProgress(message="Plotting Data", value=0, {
-          withProgress(message="...", detail="This may take awhile", value=0, {
-            # for prey
-            if(input$ewsDataType == "Prey"){
-                ews <- plot_generic_RShiny(timeseries=theModel()[1], winsize=input$winsize,
-                                           detrending=input$detrending, bandwidth=input$bandwidth,
-                                           logtransform=input$logtransform, interpolate=input$interpolate,
-                                           AR_n=FALSE, powerspectrum=FALSE)
-            }
-
-            # for predator
-            else if(input$ewsDataType == "Predator"){
-              ews <- plot_generic_RShiny(timeseries=theModel()[2], winsize=input$winsize,
+    # load ews plot
+    ewsPlotLoad1 <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+              ews <- plot_generic_RShiny(timeseries=theModel()[1], winsize=input$winsize,
                                          detrending=input$detrending, bandwidth=input$bandwidth,
                                          logtransform=input$logtransform, interpolate=input$interpolate,
-                                         AR_n = FALSE, powerspectrum = FALSE)
-            }
-          })
+                                         AR_n=FALSE, powerspectrum=FALSE)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- plot_generic_RShiny(timeseries=theModel()[2], winsize=input$winsize,
+                                       detrending=input$detrending, bandwidth=input$bandwidth,
+                                       logtransform=input$logtransform, interpolate=input$interpolate,
+                                       AR_n = FALSE, powerspectrum = FALSE)
+          }
         })
       })
+    })
+
+    ewsDataLoad1 <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      withProgress(message="Computing Analysis", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            ews <- generic_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                       detrending=input$detrending, bandwidth=input$bandwidth,
+                                       logtransform=input$logtransform, interpolate=input$interpolate,
+                                       AR_n=FALSE, powerspectrum=FALSE)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- generic_RShiny(timeseries=theModel()[2], winsize=input$winsize,
+                                       detrending=input$detrending, bandwidth=input$bandwidth,
+                                       logtransform=input$logtransform, interpolate=input$interpolate,
+                                       AR_n = FALSE, powerspectrum = FALSE)
+          }
+        })
+      })
+    })
+
+    loadEWSdata1 <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      dataTableOutput("ewsData1")
+    })
+
+    output$ewsData1Slot <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      loadEWSdata1()
+    })
+
+    output$ewsData1 <- renderDataTable({
+      ewsDataLoad1()
+    }, options=list(pageLength=5))
+
+    loadEWSdata2 <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      verbatimTextOutput("ewsTextOutputHere")
+    })
+
+    output$ewsData2Slot <- renderUI({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      loadEWSdata2()
+    })
+
+    output$ewsTextOutputHere <- renderPrint({
+      ewsDataLoad2()
+    })
+
+    # load ews plot
+    ewsPlotLoad2 <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            ews <- surrogates_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth,
+                                     boots= input$boots, s_level=input$s.level, logtransform=input$logtransform, interpolate=input$interpolate)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- surrogates_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth,
+                                     boots= input$boots, s_level=input$s.level, logtransform=input$logtransform, interpolate=input$interpolate)
+          }
+        })
+      })
+    })
+
+    # load ews plot
+    ewsDataLoad2 <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            ews <- surrogates_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth,
+                                     boots= input$boots, s_level=input$s.level, logtransform=input$logtransform, interpolate=input$interpolate)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- surrogates_RShiny(timeseries=theModel()[1], winsize=input$winsize,
+                                     detrending=input$detrending, bandwidth=input$bandwidth,
+                                     boots= input$boots, s_level=input$s.level, logtransform=input$logtransform, interpolate=input$interpolate)
+          }
+        })
+      })
+    })
+
+    # load ews plot
+    ewsPlotLoad3 <- eventReactive(input$ewsRunButton, function(){
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+          # for prey
+          if(input$ewsDataType == "Prey"){
+            ews <- movpotential_ews(as.vector(theModel()[1][, 1]), param=input$param,
+                                    detection.threshold=input$detection.threshold,
+                                    grid.size=input$grid.size, plot.cutoff=input$cutoff)
+          }
+
+          # for predator
+          else if(input$ewsDataType == "Predator"){
+            ews <- movpotential_ews(as.vector(theModel()[2][, 1]), param=input$param,
+                                    detection.threshold=input$detection.threshold,
+                                    grid.size=input$grid.size, plot.cutoff=input$cutoff)
+          }
+        })
+      })
+    })
+
+    loadEWSplot1Slot <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      plotOutput("ewsPlot1")
+    })
+
+    output$ewsPlot1Slot <- renderUI({
+      loadEWSplot1Slot()
+    })
+
 
     output$ewsPlot1 <- renderPlot({
       # check required information
@@ -1050,11 +1282,96 @@ acf1	= the autocorrelation at first lag of the data estimated within each rollin
       if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
       if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
 
       ewsPlotLoad1()
+    })
+
+    loadEWSplot2Slot <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      plotOutput("ewsPlot2")
+    })
+
+    output$ewsPlot2Slot <- renderUI({
+      loadEWSplot2Slot()
+    })
+
+
+    output$ewsPlot2 <- renderPlot({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      ewsPlotLoad2()
+    })
+
+    loadEWSplot3Slot <- eventReactive(input$ewsRunButton, function(){
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      plotOutput("ewsPlot3")
+    })
+
+    output$ewsPlot3Slot <- renderUI({
+      loadEWSplot3Slot()
+    })
+
+
+    output$ewsPlot3 <- renderPlot({
+      # check required information
+      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+      if(is.null(input$detrending) || input$detrending == " "){
+        return()
+      }
+      if(input$ewsMethod != "Quick Detection Analysis for Generic Early Warning Signals"){
+        return()
+      }
+
+      ewsPlotLoad3()
     })
 
     # predator-prey data table
