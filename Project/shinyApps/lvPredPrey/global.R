@@ -152,7 +152,6 @@ generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gaussian
     nsmY <- Y
   }
 
-
   # Rearrange data for indicator calculation
   mw <- round(length(Y) * winsize/100)
   omw <- length(nsmY) - mw + 1  ##number of moving windows
@@ -412,7 +411,6 @@ plot_generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gau
     nsmY <- Y
   }
 
-
   # Rearrange data for indicator calculation
   mw <- round(length(Y) * winsize/100)
   omw <- length(nsmY) - mw + 1  ##number of moving windows
@@ -602,8 +600,8 @@ plot_generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gau
                     nDENSITYRATIO, nACF)
   colnames(out) <- c("timeindex", "ar1", "sd", "sk", "kurt", "cv", "returnrate",
                      "densratio", "acf1")
+
   #return(out)
-  return()
 }
 
 #' Description: Quick Detection Analysis for Generic Early Warning Signals
@@ -811,6 +809,137 @@ generic_RShiny <- function(timeseries, winsize = 50, detrending = c("no", "gauss
 
 }
 
+plot_generic_RShiny <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
+                                                                    "linear", "first-diff"), bandwidth, logtransform, interpolate, AR_n = FALSE,
+                           powerspectrum = FALSE) {
+
+  # timeseries<-ts(timeseries)
+  timeseries <- data.matrix(timeseries)  #strict data-types the input data as tseries object for use in later steps
+  if (ncol(timeseries) == 1) {
+    Y = timeseries
+    timeindex = 1:dim(timeseries)[1]
+  } else if (dim(timeseries)[2] == 2) {
+    Y <- timeseries[, 2]
+    timeindex <- timeseries[, 1]
+  } else {
+    warning("not right format of timeseries input")
+  }
+  # return(timeindex) Interpolation
+  if (interpolate) {
+    YY <- approx(timeindex, Y, n = length(Y), method = "linear")
+    Y <- YY$y
+  } else {
+    Y <- Y
+  }
+
+  # Log-transformation
+  if (logtransform) {
+    Y <- log(Y + 1)
+  }
+
+  # Detrending
+  detrending <- match.arg(detrending)
+  if (detrending == "gaussian") {
+    if (is.null(bandwidth)) {
+      bw <- round(bw.nrd0(timeindex))
+    } else {
+      bw <- round(length(Y) * bandwidth/100)
+    }
+    smYY <- ksmooth(timeindex, Y, kernel = "normal", bandwidth = bw, range.x = range(timeindex),
+                    x.points = timeindex)
+    if (timeindex[1] > timeindex[length(timeindex)]) {
+      nsmY <- Y - rev(smYY$y)
+      smY <- rev(smYY$y)
+    } else {
+      nsmY <- Y - smYY$y
+      smY <- smYY$y
+    }
+  } else if (detrending == "linear") {
+    nsmY <- resid(lm(Y ~ timeindex))
+    smY <- fitted(lm(Y ~ timeindex))
+  } else if (detrending == "first-diff") {
+    nsmY <- diff(Y)
+    timeindexdiff <- timeindex[1:(length(timeindex) - 1)]
+  } else if (detrending == "no") {
+    smY <- Y
+    nsmY <- Y
+  }
+
+
+  # Rearrange data for indicator calculation
+  mw <- round(length(Y) * winsize/100)
+  omw <- length(nsmY) - mw + 1  ##number of moving windows
+  low <- 6
+  high <- omw
+  nMR <- matrix(data = NA, nrow = mw, ncol = omw)
+  x1 <- 1:mw
+  for (i in 1:omw) {
+    Ytw <- nsmY[i:(i + mw - 1)]
+    nMR[, i] <- Ytw
+  }
+
+  # Calculate indicators
+  nARR <- numeric()
+  nSD <- numeric()
+
+  nSD <- apply(nMR, 2, sd, na.rm = TRUE)
+  for (i in 1:ncol(nMR)) {
+    nYR <- ar.ols(nMR[, i], aic = FALSE, order.max = 1, dmean = FALSE, intercept = FALSE)
+    nARR[i] <- nYR$ar
+  }
+
+  nVAR = sqrt(nSD)
+
+  # Estimate Kendall trend statistic for indicators
+  timevec <- seq(1, length(nARR))
+  KtAR <- cor.test(timevec, nARR, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+  KtVAR <- cor.test(timevec, nVAR, alternative = c("two.sided"), method = c("kendall"),
+                    conf.level = 0.95)
+
+  # Plotting Generic Early-Warnings dev.new()
+  par(mar = (c(1, 2, 0.5, 2) + 0), oma = c(2, 2, 2, 2), mfrow = c(4, 1))
+  plot(timeindex, Y, type = "l", ylab = "", xlab = "", xaxt = "n", lwd = 2, las = 1,
+       xlim = c(timeindex[1], timeindex[length(timeindex)]))
+  legend("bottomleft", "data", , bty = "n")
+  if (detrending == "gaussian") {
+    lines(timeindex, smY, type = "l", ylab = "", xlab = "", xaxt = "n", lwd = 2,
+          col = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))
+  }
+  if (detrending == "no") {
+    plot(c(0, 1), c(0, 1), ylab = "", xlab = "", yaxt = "n", xaxt = "n", type = "n",
+         las = 1)
+    text(0.5, 0.5, "no detrending - no residuals")
+  } else if (detrending == "first-diff") {
+    limit <- max(c(max(abs(nsmY))))
+    plot(timeindexdiff, nsmY, ylab = "", xlab = "", type = "l", xaxt = "n", lwd = 2,
+         las = 1, ylim = c(-limit, limit), xlim = c(timeindexdiff[1], timeindexdiff[length(timeindexdiff)]))
+    legend("bottomleft", "first-differenced", bty = "n")
+  } else {
+    limit <- max(c(max(abs(nsmY))))
+    plot(timeindex, nsmY, ylab = "", xlab = "", type = "h", xaxt = "n", las = 1,
+         lwd = 2, ylim = c(-limit, limit), xlim = c(timeindex[1], timeindex[length(timeindex)]))
+    legend("bottomleft", "residuals", bty = "n")
+  }
+  plot(timeindex[mw:length(nsmY)], nARR, ylab = "", xlab = "", type = "l", xaxt = "n",
+       col = "green", lwd = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))  #3
+  legend("bottomright", paste("trend ", round(KtAR$estimate, digits = 3)), bty = "n")
+  legend("bottomleft", "autocorrelation", bty = "n")
+  plot(timeindex[mw:length(nsmY)], nVAR, ylab = "", xlab = "", type = "l", col = "blue",
+       lwd = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))
+  legend("bottomright", paste("trend ", round(KtVAR$estimate, digits = 3)), bty = "n")
+  legend("bottomleft", "variance", bty = "n")
+  mtext("time", side = 1, line = 2, cex = 0.8)
+  mtext("Generic Early-Warnings: Autocorrelation - Variance", side = 3, line = 0.2,
+        outer = TRUE)  #outer=TRUE print on the outer margin
+
+  # Output
+  out <- data.frame(timeindex[mw:length(nsmY)], nARR, nSD)
+  colnames(out) <- c("timeindex", "ar1", "sd")
+
+  #return(out)
+}
+
 # surrogates_Rshiny for estimating significance of trends for variance and
 # autocorrelation 6 March 2013
 
@@ -974,6 +1103,105 @@ surrogates_RShiny <- function(timeseries, winsize = 50, detrending = c("no", "ga
   abline(v = q_var[(1 - s_level) * boots], col = "red", lwd = 2)
   points(Ktauestind_varorig, 0, pch = 21, bg = "black", col = "black", cex = 4)
   title("Variance", cex.main = 1.3)
+}
+
+#' Moving Average Potential
+#'
+#' This function reconstructs a potential derived from data along a gradient of a given parameter.
+#'
+#' Arguments:
+#'  @param X a vector of the X observations of the state variable of interest
+#'  @param param parameter values corresponding to the observations in X
+#'  @param bw Bandwidth for smoothing kernels. Automatically determined by default.
+#'  @param bw.adjust Bandwidth adjustment constant
+#'  @param detection.threshold Threshold for local optima to be discarded.
+#'  @param std Standard deviation.
+#'  @param grid.size number of evaluation points; number of steps between min and max potential; also used as kernel window size
+#'  @param plot.cutoff cuttoff for potential minima and maxima in visualization
+#'  @param plot.contours Plot contours on the landscape visualization
+#'  @param binwidth binwidth for contour plot
+#'  @param bins bins for contour plot. Overrides binwidth if given
+#'
+#'  @return A list with the following elements:
+#'     pars values of the covariate parameter as matrix;
+#'     xis values of the x as matrix;
+#'     pots smoothed potentials;
+#'     mins minima in the densities (-potentials; neglecting local optima);
+#'     maxs maxima in densities (-potentials; neglecting local optima);
+#'     plot an object that displays the potential estimated in 2D
+#'
+#' @export
+#'
+#' @references Hirota, M., Holmgren, M., van Nes, E.H. & Scheffer, M. (2011). Global resilience of tropical forest and savanna to critical transitions. \emph{Science}, 334, 232-235.
+#' @author L. Lahti, E. van Nes, V. Dakos.
+#' @seealso \code{\link{generic_ews}}; \code{\link{ddjnonparam_ews}}; \code{\link{bdstest_ews}}; \code{\link{sensitivity_ews}};\code{\link{surrogates_ews}}; \code{\link{ch_ews}}; \code{livpotential_ews}
+# ; \code{\link{timeVAR_ews}}; \code{\link{thresholdAR_ews}}
+#' @examples X = c(rnorm(1000, mean = 0), rnorm(1000, mean = -2),
+#'             rnorm(1000, mean = 2));
+#'       param = seq(0,5,length=3000);
+#'       res <- movpotential_ews(X, param)
+#' @keywords early-warning
+
+movpotential_ews <- function(X, param = NULL, bw = "nrd", bw.adjust = 1, detection.threshold = 0.1,
+                             std = 1, grid.size = 50, plot.cutoff = 0.5, plot.contours = TRUE, binwidth = 0.2,
+                             bins = NULL) {
+
+  if (is.null(param)) {
+    param <- seq(1, length(X), 1)
+  }
+
+  nas <- is.na(param) | is.na(X)
+  if (sum(nas) > 0) {
+    warning("The data contains NAs, removing the associated samples from X and param input arguments.")
+    X <- X[!nas]
+    param <- param[!nas]
+  }
+
+  minparam <- min(param)
+  maxparam <- max(param)
+
+  # Determine step size
+  sdwindow <- step <- (maxparam - minparam)/grid.size
+
+  # Place evaluation points evenly across data range
+  xi <- seq(min(X), max(X), length = grid.size)
+
+  # Initialize
+  xis <- pars <- pots <- matrix(0, nrow = grid.size, ncol = length(xi))
+  maxs <- mins <- matrix(0, nrow = grid.size, ncol = length(xi))
+
+  for (i in 1:grid.size) {
+
+    # Increase the parameter at each step
+    par <- minparam + (i - 0.5) * step
+
+    # Check which elements in evaluation range (param) are within 2*sd of par
+    weights <- exp(-0.5 * (abs(par - param)/sdwindow)^2)
+
+    # LL: Normalization was added in the R implementation 16.5.2012
+    weights <- weights/sum(weights)
+
+    # Calculate the potential
+    tmp <- livpotential_ews(x = X, std = std, bw = bw, bw.adjust = bw.adjust,
+                            weights = weights, grid.size = grid.size)
+
+    # Store variables
+    pots[i, ] <- tmp$pot
+    xis[i, ] <- tmp$grid.points
+    pars[i, ] <- par + rep(0, length(tmp$grid.points))
+    mins[i, tmp$min.inds] <- 1
+    maxs[i, tmp$max.inds] <- 1
+
+  }
+
+  res <- list(pars = pars, xis = xis, pots = pots, mins = mins, maxs = maxs, std = std)
+
+  p <- PlotPotential(res, title = "Moving Average Potential", "parameter/time",
+                     "state variable", cutoff = plot.cutoff, plot.contours = plot.contours, binwidth = binwidth,
+                     bins = bins)
+
+  list(res = res, plot = p)
+
 }
 
 #' Description: Plot Potential
@@ -1140,7 +1368,6 @@ livpotential_ews <- function(x, std = 1, bw = "nrd", weights = c(), grid.size = 
 
 }
 
-
 #' Description: find.optima
 #'
 #' Detect optima, excluding very local optima below detection.threshold
@@ -1286,131 +1513,36 @@ find.optima <- function(f, detection.threshold = 0, bw, x, detection.limit = 1) 
 
 }
 
-remove_obsolete_minima <- function (f, maxima, minima) {
-
-  # remove minima that now became obsolete If there are multiple minima between two
-  # consecutive maxima after removing the maxima that did not pass the threshold,
-  # take the average of the minima;return the list of indices such that between
-  # each pair of consecutive maxima, there is exactly one minimum
-  if (length(maxima) > 1) {
-    minima <- sapply(2:length(maxima), function(i) {
-
-      mins <- minima[minima >= maxima[[i - 1]] & minima <= maxima[[i]]]
-      if (length(mins) > 0) {
-        round(mean(mins[which(f[mins] == min(f[mins]))]))
-      } else {
-        NULL
-      }
-    })
-
-  } else {
-    minima <- NULL
-  }
-
-  # Remove minima that are outside the most extreme maxima
-  minima <- minima[minima > min(maxima) & minima < max(maxima)]
-
-  minima
+find.minima <- function (f) {
+  find.maxima(-f)
 }
 
+find.maxima <- function (f) {
 
-#' Moving Average Potential
-#'
-#' This function reconstructs a potential derived from data along a gradient of a given parameter.
-#'
-#' Arguments:
-#'  @param X a vector of the X observations of the state variable of interest
-#'  @param param parameter values corresponding to the observations in X
-#'  @param bw Bandwidth for smoothing kernels. Automatically determined by default.
-#'  @param bw.adjust Bandwidth adjustment constant
-#'  @param detection.threshold Threshold for local optima to be discarded.
-#'  @param std Standard deviation.
-#'  @param grid.size number of evaluation points; number of steps between min and max potential; also used as kernel window size
-#'  @param plot.cutoff cuttoff for potential minima and maxima in visualization
-#'  @param plot.contours Plot contours on the landscape visualization
-#'  @param binwidth binwidth for contour plot
-#'  @param bins bins for contour plot. Overrides binwidth if given
-#'
-#'  @return A list with the following elements:
-#'     pars values of the covariate parameter as matrix;
-#'     xis values of the x as matrix;
-#'     pots smoothed potentials;
-#'     mins minima in the densities (-potentials; neglecting local optima);
-#'     maxs maxima in densities (-potentials; neglecting local optima);
-#'     plot an object that displays the potential estimated in 2D
-#'
-#' @export
-#'
-#' @references Hirota, M., Holmgren, M., van Nes, E.H. & Scheffer, M. (2011). Global resilience of tropical forest and savanna to critical transitions. \emph{Science}, 334, 232-235.
-#' @author L. Lahti, E. van Nes, V. Dakos.
-#' @seealso \code{\link{generic_ews}}; \code{\link{ddjnonparam_ews}}; \code{\link{bdstest_ews}}; \code{\link{sensitivity_ews}};\code{\link{surrogates_ews}}; \code{\link{ch_ews}}; \code{livpotential_ews}
-# ; \code{\link{timeVAR_ews}}; \code{\link{thresholdAR_ews}}
-#' @examples X = c(rnorm(1000, mean = 0), rnorm(1000, mean = -2),
-#' 	           rnorm(1000, mean = 2));
-#'	     param = seq(0,5,length=3000);
-#'	     res <- movpotential_ews(X, param)
-#' @keywords early-warning
-
-movpotential_ews <- function(X, param = NULL, bw = "nrd", bw.adjust = 1, detection.threshold = 0.1,
-                             std = 1, grid.size = 50, plot.cutoff = 0.5, plot.contours = TRUE, binwidth = 0.2,
-                             bins = NULL) {
-
-  if (is.null(param)) {
-    param <- seq(1, length(X), 1)
+  f2 <- c(Inf, -f, Inf)
+  cnt <- 1
+  ops <- c()
+  opcnt <- 0
+  while (cnt < length(f2)) {
+    if (f2[[cnt + 1]] - f2[[cnt]] <= 0) {
+      while (f2[[cnt + 1]] - f2[[cnt]] <= 0) {
+        cnt <- cnt + 1
+      }
+      ind1 <- cnt - 1
+      while (f2[[cnt + 1]] - f2[[cnt]] == 0) {
+        cnt <- cnt + 1
+      }
+      if (f2[[cnt + 1]] - f2[[cnt]] > 0) {
+        ind2 <- cnt - 1
+        opcnt <- opcnt + 1
+        ops[[opcnt]] <- round(mean(c(ind1, ind2)))
+      } else if (f2[[cnt + 1]] - f2[[cnt]] < 0) {
+        ind2 <- NULL
+      }
+    }
+    cnt <- cnt + 1
   }
-
-  nas <- is.na(param) | is.na(X)
-  if (sum(nas) > 0) {
-    warning("The data contains NAs, removing the associated samples from X and param input arguments.")
-    X <- X[!nas]
-    param <- param[!nas]
-  }
-
-  minparam <- min(param)
-  maxparam <- max(param)
-
-  # Determine step size
-  sdwindow <- step <- (maxparam - minparam)/grid.size
-
-  # Place evaluation points evenly across data range
-  xi <- seq(min(X), max(X), length = grid.size)
-
-  # Initialize
-  xis <- pars <- pots <- matrix(0, nrow = grid.size, ncol = length(xi))
-  maxs <- mins <- matrix(0, nrow = grid.size, ncol = length(xi))
-
-  for (i in 1:grid.size) {
-
-    # Increase the parameter at each step
-    par <- minparam + (i - 0.5) * step
-
-    # Check which elements in evaluation range (param) are within 2*sd of par
-    weights <- exp(-0.5 * (abs(par - param)/sdwindow)^2)
-
-    # LL: Normalization was added in the R implementation 16.5.2012
-    weights <- weights/sum(weights)
-
-    # Calculate the potential
-    tmp <- livpotential_ews(x = X, std = std, bw = bw, bw.adjust = bw.adjust,
-                            weights = weights, grid.size = grid.size)
-
-    # Store variables
-    pots[i, ] <- tmp$pot
-    xis[i, ] <- tmp$grid.points
-    pars[i, ] <- par + rep(0, length(tmp$grid.points))
-    mins[i, tmp$min.inds] <- 1
-    maxs[i, tmp$max.inds] <- 1
-
-  }
-
-  res <- list(pars = pars, xis = xis, pots = pots, mins = mins, maxs = maxs, std = std)
-
-  p <- PlotPotential(res, title = "Moving Average Potential", "parameter/time",
-                     "state variable", cutoff = plot.cutoff, plot.contours = plot.contours, binwidth = binwidth,
-                     bins = bins)
-
-  list(res = res, plot = p)
-
+  ops
 }
 
 find.minima <- function (f) {
@@ -1445,6 +1577,32 @@ find.maxima <- function (f) {
   ops
 }
 
+remove_obsolete_minima <- function (f, maxima, minima) {
+
+  # remove minima that now became obsolete If there are multiple minima between two
+  # consecutive maxima after removing the maxima that did not pass the threshold,
+  # take the average of the minima;return the list of indices such that between
+  # each pair of consecutive maxima, there is exactly one minimum
+  if (length(maxima) > 1) {
+    minima <- sapply(2:length(maxima), function(i) {
+
+      mins <- minima[minima >= maxima[[i - 1]] & minima <= maxima[[i]]]
+      if (length(mins) > 0) {
+        round(mean(mins[which(f[mins] == min(f[mins]))]))
+      } else {
+        NULL
+      }
+    })
+
+  } else {
+    minima <- NULL
+  }
+
+  # Remove minima that are outside the most extreme maxima
+  minima <- minima[minima > min(maxima) & minima < max(maxima)]
+
+  minima
+}
 
 #' Description: Sensitivity Early Warning Signals
 #'
@@ -1808,135 +1966,4 @@ sensitivity_ews <- function(timeseries, indicator = c("ar1", "sd", "acf1", "sk",
   out <- data.frame(Ktauestind)
   rownames(out) <- tw
   return(out)
-}
-
-plot_generic_RShiny <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
-                                                                    "linear", "first-diff"), bandwidth, logtransform, interpolate, AR_n = FALSE,
-                           powerspectrum = FALSE) {
-
-  # timeseries<-ts(timeseries)
-  timeseries <- data.matrix(timeseries)  #strict data-types the input data as tseries object for use in later steps
-  if (ncol(timeseries) == 1) {
-    Y = timeseries
-    timeindex = 1:dim(timeseries)[1]
-  } else if (dim(timeseries)[2] == 2) {
-    Y <- timeseries[, 2]
-    timeindex <- timeseries[, 1]
-  } else {
-    warning("not right format of timeseries input")
-  }
-  # return(timeindex) Interpolation
-  if (interpolate) {
-    YY <- approx(timeindex, Y, n = length(Y), method = "linear")
-    Y <- YY$y
-  } else {
-    Y <- Y
-  }
-
-  # Log-transformation
-  if (logtransform) {
-    Y <- log(Y + 1)
-  }
-
-  # Detrending
-  detrending <- match.arg(detrending)
-  if (detrending == "gaussian") {
-    if (is.null(bandwidth)) {
-      bw <- round(bw.nrd0(timeindex))
-    } else {
-      bw <- round(length(Y) * bandwidth/100)
-    }
-    smYY <- ksmooth(timeindex, Y, kernel = "normal", bandwidth = bw, range.x = range(timeindex),
-                    x.points = timeindex)
-    if (timeindex[1] > timeindex[length(timeindex)]) {
-      nsmY <- Y - rev(smYY$y)
-      smY <- rev(smYY$y)
-    } else {
-      nsmY <- Y - smYY$y
-      smY <- smYY$y
-    }
-  } else if (detrending == "linear") {
-    nsmY <- resid(lm(Y ~ timeindex))
-    smY <- fitted(lm(Y ~ timeindex))
-  } else if (detrending == "first-diff") {
-    nsmY <- diff(Y)
-    timeindexdiff <- timeindex[1:(length(timeindex) - 1)]
-  } else if (detrending == "no") {
-    smY <- Y
-    nsmY <- Y
-  }
-
-
-  # Rearrange data for indicator calculation
-  mw <- round(length(Y) * winsize/100)
-  omw <- length(nsmY) - mw + 1  ##number of moving windows
-  low <- 6
-  high <- omw
-  nMR <- matrix(data = NA, nrow = mw, ncol = omw)
-  x1 <- 1:mw
-  for (i in 1:omw) {
-    Ytw <- nsmY[i:(i + mw - 1)]
-    nMR[, i] <- Ytw
-  }
-
-  # Calculate indicators
-  nARR <- numeric()
-  nSD <- numeric()
-
-  nSD <- apply(nMR, 2, sd, na.rm = TRUE)
-  for (i in 1:ncol(nMR)) {
-    nYR <- ar.ols(nMR[, i], aic = FALSE, order.max = 1, dmean = FALSE, intercept = FALSE)
-    nARR[i] <- nYR$ar
-  }
-
-  nVAR = sqrt(nSD)
-
-  # Estimate Kendall trend statistic for indicators
-  timevec <- seq(1, length(nARR))
-  KtAR <- cor.test(timevec, nARR, alternative = c("two.sided"), method = c("kendall"),
-                   conf.level = 0.95)
-  KtVAR <- cor.test(timevec, nVAR, alternative = c("two.sided"), method = c("kendall"),
-                    conf.level = 0.95)
-
-  # Plotting Generic Early-Warnings dev.new()
-  par(mar = (c(1, 2, 0.5, 2) + 0), oma = c(2, 2, 2, 2), mfrow = c(4, 1))
-  plot(timeindex, Y, type = "l", ylab = "", xlab = "", xaxt = "n", lwd = 2, las = 1,
-       xlim = c(timeindex[1], timeindex[length(timeindex)]))
-  legend("bottomleft", "data", , bty = "n")
-  if (detrending == "gaussian") {
-    lines(timeindex, smY, type = "l", ylab = "", xlab = "", xaxt = "n", lwd = 2,
-          col = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))
-  }
-  if (detrending == "no") {
-    plot(c(0, 1), c(0, 1), ylab = "", xlab = "", yaxt = "n", xaxt = "n", type = "n",
-         las = 1)
-    text(0.5, 0.5, "no detrending - no residuals")
-  } else if (detrending == "first-diff") {
-    limit <- max(c(max(abs(nsmY))))
-    plot(timeindexdiff, nsmY, ylab = "", xlab = "", type = "l", xaxt = "n", lwd = 2,
-         las = 1, ylim = c(-limit, limit), xlim = c(timeindexdiff[1], timeindexdiff[length(timeindexdiff)]))
-    legend("bottomleft", "first-differenced", bty = "n")
-  } else {
-    limit <- max(c(max(abs(nsmY))))
-    plot(timeindex, nsmY, ylab = "", xlab = "", type = "h", xaxt = "n", las = 1,
-         lwd = 2, ylim = c(-limit, limit), xlim = c(timeindex[1], timeindex[length(timeindex)]))
-    legend("bottomleft", "residuals", bty = "n")
-  }
-  plot(timeindex[mw:length(nsmY)], nARR, ylab = "", xlab = "", type = "l", xaxt = "n",
-       col = "green", lwd = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))  #3
-  legend("bottomright", paste("trend ", round(KtAR$estimate, digits = 3)), bty = "n")
-  legend("bottomleft", "autocorrelation", bty = "n")
-  plot(timeindex[mw:length(nsmY)], nVAR, ylab = "", xlab = "", type = "l", col = "blue",
-       lwd = 2, las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))
-  legend("bottomright", paste("trend ", round(KtVAR$estimate, digits = 3)), bty = "n")
-  legend("bottomleft", "variance", bty = "n")
-  mtext("time", side = 1, line = 2, cex = 0.8)
-  mtext("Generic Early-Warnings: Autocorrelation - Variance", side = 3, line = 0.2,
-        outer = TRUE)  #outer=TRUE print on the outer margin
-
-  # Output
-  out <- data.frame(timeindex[mw:length(nsmY)], nARR, nSD)
-  colnames(out) <- c("timeindex", "ar1", "sd")
-
-  #return(out)
 }

@@ -110,7 +110,8 @@ shinyUI(fluidPage(
                                 href="http://www.early-warning-signals.org/",
                                 target="_blank")),
                       br(),
-                      selectInput("ewsDataType", "Choose Data:", choices=c(" ", "Prey", "Predator")),
+                      selectInput("ewsDataType", "Choose Data:",
+                                  choices=c(" ", "Prey", "Predator")),
                       uiOutput("ews1"),
                       uiOutput("ews2"),
                       uiOutput("ews3"),
@@ -132,34 +133,46 @@ shinyUI(fluidPage(
                            uiOutput("ews15"),
                            uiOutput("ews16"),
                            uiOutput("ews17"),
+                           uiOutput("ews18"),
+                           uiOutput("ews19"),
+                           uiOutput("ews20"),
+                           uiOutput("ews21"),
+                           uiOutput("ews22"),
+                           uiOutput("ews23"),
                            uiOutput("ewsRun"),
                            br()
                     ) # column
                   ), # fluidRow
                   fluidRow(
                     column(12,
-                      uiOutput("ewsTableGuideSlot"),
-                      uiOutput("ewsTableSlot")
+                      uiOutput("generic_ewsTableGuideSlot"),
+                      uiOutput("generic_ewsTableSlot")
                     )
                   ), # fluidRow
                   fluidRow(
                     column(12, align="left",
                       br(),
-                      uiOutput("ewsPlotSlot"),
-                      uiOutput("ewsPlot1Slot"),
-                      uiOutput("ewsData1Slot"),
-                      hr(),
-                      uiOutput("ewsPlot2Slot"),
-                      uiOutput("ewsData2Slot"),
-                      hr(),
-                      uiOutput("ewsPlot3Slot")
+                      uiOutput("generic_ewsPlotSlot"),
+                      br(),
+                      uiOutput("qda_ewsDetailSlot"),
+                      br(),
+                      uiOutput("qda_ewsPlot1Slot"),
+                      br(),
+                      uiOutput("qda_ewsData1Slot"),
+                      br(),
+                      uiOutput("qda_ewsPlot2Slot"),
+                      br(),
+                      uiOutput("qda_ewsData2Slot"),
+                      br(),
+                      uiOutput("qda_ewsPlot3Slot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Early Warning Signal analysis
                 tabPanel(title="Customize graph",
                     br(),
                     br(),
-                    textInput("plotTitle", "Plot Titile", value="Predator-Prey Model"),
+                    textInput("plotTitle", "Plot Titile",
+                              value="Predator-Prey Model"),
                     textInput("yaxis", "y-axis", value="Population"),
                     textInput("xaxis", "x-axis", value="Time"),
                     textInput("preyLabel", "Prey", value="Prey"),
@@ -191,10 +204,12 @@ shinyUI(fluidPage(
           br(),
           h3("R:"),
           p("R Core Team (2015). R: A language and environment for statistical computing.
-              Foundation for Statistical Computing, Vienna, Austria. URL http://www.R-project.org/."),
+              Foundation for Statistical Computing, Vienna, Austria.
+              URL http://www.R-project.org/."),
           h3("shiny Package:"),
           p("Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2015).
-            shiny: Web Application Framework for R. R package version 0.12.0. http://CRAN.R-project.org/package=shiny"),
+            shiny: Web Application Framework for R. R package version 0.12.0.
+            http://CRAN.R-project.org/package=shiny"),
           h3("shinyapps Package:"),
           p("JJ Allaire (2013). shinyapps: Interface to ShinyApps. R package version 0.3.64."),
           h3("breakpoint (Tipping Point) Package:"),
@@ -203,11 +218,12 @@ shinyUI(fluidPage(
               http://CRAN.R-project.org/package=breakpoint"),
           h3("earlywarnings Package:"),
           p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
-            in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
+              in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
               http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010"),
           h3("deSolve Package (for dfferential equations):"),
           p("Karline Soetaert, Thomas Petzoldt, R. Woodrow Setzer (2010). Solving Differential Equations in R:
-            Package deSolve Journal of Statistical Software, 33(9), 1--25.  URL http://www.jstatsoft.org/v33/i09/."),
+            Package deSolve Journal of Statistical Software, 33(9), 1--25.
+            URL http://www.jstatsoft.org/v33/i09/."),
           h3("ggplot2:"),
           p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
         ) # tabPanel
