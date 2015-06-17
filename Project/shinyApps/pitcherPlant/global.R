@@ -9,21 +9,18 @@ pitcherPlantSim <- function(){
 
   ## Variables ##
 
-  # user-input #
   days <- 3 # total number of days
-  foodWeight <- 5 # weight of food
-
-  # constants #
-  k <- 1 # carrying capacity
-  food <- FALSE # presence of food
   feedingTime <- 720 # time at which food is added
+  foodWeight <- 5 # weight of food
+  beta <- 0.0005 # constant
+  k <- 1 # carrying capacity
+  Bscaler <- 10 # scales biological oxygen demand values
+  food <- FALSE # presence of food
   aMax <- 10 # maximum value of augmentation
   aMin <- 1 # minimum value of augmentation
-  beta <- 0.0005 # constant
   s <- 10 # constant
   d <- 0.5 # constant
   c <- 100 # constant
-  Bscaler <- 10 # scales biological oxygen demand values
   minute <- vector(mode="numeric") # t/time variable
   x <- vector(mode="numeric") # amount of o2
   a <- vector(mode="numeric") # augmentation function

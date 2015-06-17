@@ -136,7 +136,7 @@ shinyServer(
         return()
       }
 
-      numericInput("Nmax", "Maximum number of break-points:", value=10)
+      numericInput("Nmax", "Maximum number of break-points:", value=3)
     })
 
     output$tp4 <- renderUI({
