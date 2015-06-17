@@ -1,6 +1,6 @@
 ### Lotka-Volterra predator-prey model
 ## By: Nathan Justice
-# Last edited: 15June2015
+# Last edited: 17June2015
 
 ### Lotka-Volterra Predator-Prey ###
 
@@ -1863,12 +1863,6 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     })
 
     ##### End display Quick Detection Analysis data output #####
-
-    ##### Start Potential Analysis for univariate data #####
-
-
-
-    ##### End Potential Analysis for univariate data #####
 
   } ## end server ##
 )

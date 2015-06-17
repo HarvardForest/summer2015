@@ -1,6 +1,6 @@
 ### Lotka-Volterra predator-prey model
 ## By: Nathan Justice
-# Last edited: 15June2015
+# Last edited: 17June2015
 
 ### User Interface ###
 
