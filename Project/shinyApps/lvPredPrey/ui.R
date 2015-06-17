@@ -133,12 +133,6 @@ shinyUI(fluidPage(
                            uiOutput("ews15"),
                            uiOutput("ews16"),
                            uiOutput("ews17"),
-                           uiOutput("ews18"),
-                           uiOutput("ews19"),
-                           uiOutput("ews20"),
-                           uiOutput("ews21"),
-                           uiOutput("ews22"),
-                           uiOutput("ews23"),
                            uiOutput("ewsRun"),
                            br()
                     ) # column

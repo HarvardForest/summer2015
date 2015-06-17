@@ -20,7 +20,7 @@ shinyServer(
     })
 
 ################# Side Panel ###################################################
-   
+
     ### load user-input boxes ###
     output$alpha2 <- renderUI({
       numericInput("alpha2", label="", value=input$alpha)
@@ -84,7 +84,7 @@ shinyServer(
                   ),
 
         "Predator" = selectInput("breakpointType", "Analysis:",
-                      choice=c(" ", "with Negative Binomial Distribution", 
+                      choice=c(" ", "with Negative Binomial Distribution",
                               "for Continuous Data",
                               "with Zero-Inflated Negative Binomial Distribution")
                       )
@@ -101,24 +101,24 @@ shinyServer(
       }
 
       switch(input$breakpointType,
-        "with Negative Binomial Distribution" = 
-          selectInput("distributionType", 
+        "with Negative Binomial Distribution" =
+          selectInput("distributionType",
             "Distribution to simulate break-point locations:",
-            choice=c(" ", "Four Parameter Beta Distribution", 
+            choice=c(" ", "Four Parameter Beta Distribution",
                     "Truncated Normal Distribution")
           ),
 
-        "for Continuous Data" = 
-          selectInput("distributionType", 
+        "for Continuous Data" =
+          selectInput("distributionType",
             "Distribution to simulate break-point locations:",
-            choice=c(" ", "Four Parameter Beta Distribution", 
+            choice=c(" ", "Four Parameter Beta Distribution",
                     "Truncated Normal Distribution")
           ),
 
-        "with Zero-Inflated Negative Binomial Distribution" = 
-          selectInput("distributionType", 
+        "with Zero-Inflated Negative Binomial Distribution" =
+          selectInput("distributionType",
             "Distribution to simulate break-point locations:",
-            choice=c(" ", "Four Parameter Beta Distribution", 
+            choice=c(" ", "Four Parameter Beta Distribution",
                     "Truncated Normal Distribution")
           )
       ) # switch
@@ -153,7 +153,7 @@ shinyServer(
 
       numericInput("a", "Used in the four parameter beta distribution to smooth
         both shape parameters. When simulating from the truncated normal
-        distribution, this value is used to smooth the estimates of the mean 
+        distribution, this value is used to smooth the estimates of the mean
         values:", value=0.8)
     })
 
@@ -200,7 +200,7 @@ shinyServer(
         return()
       }
 
-      numericInput("M", "Sample size to be used in simulating the locations of 
+      numericInput("M", "Sample size to be used in simulating the locations of
         break-points:", value=200)
     })
 
@@ -232,7 +232,7 @@ shinyServer(
         return()
       }
 
-      numericInput("eps", "the cut-off value for the stopping criterion in the 
+      numericInput("eps", "the cut-off value for the stopping criterion in the
         CE method:", value=0.01)
     })
 
@@ -264,38 +264,38 @@ shinyServer(
           if(input$dataType == "Prey"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=input$Nmax, 
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a, 
+                CE.NB(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
                   b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(lvPredPrey()[1], distyp=2, parallel=TRUE, Nmax=input$Nmax, 
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a, 
+                CE.NB(lvPredPrey()[1], distyp=2, parallel=TRUE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
                   b=input$b)
               }
             }
             else if(input$breakpointType == "for Continuous Data"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, 
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                   h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(lvPredPrey()[1], distyp=2, parallel=TRUE, 
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                CE.Normal(lvPredPrey()[1], distyp=2, parallel=TRUE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                   h=input$h, a=input$a, b=input$b)
               }
             }
-            else if(input$breakpointType == 
+            else if(input$breakpointType ==
               "with Zero-Inflated Negative Binomial Distribution"){
                 if(input$distributionType == "Four Parameter Beta Distribution"){
-                  CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, 
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                  CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                     h=input$h, a=input$a, b=input$b)
                 }
                 else if(input$distributionType == "Truncated Normal Distribution"){
-                  CE.Normal(lvPredPrey()[1], distyp=2, parallel=TRUE, 
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                  CE.Normal(lvPredPrey()[1], distyp=2, parallel=TRUE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                     h=input$h, a=input$a, b=input$b)
                 }
             }
@@ -305,38 +305,38 @@ shinyServer(
           else if(input$dataType == "Predator"){
             if(input$breakpointType == "with Negative Binomial Distribution"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=input$Nmax, 
+                CE.NB(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=input$Nmax,
                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
                   b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(lvPredPrey()[2], distyp=2, parallel=TRUE, Nmax=input$Nmax, 
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a, 
+                CE.NB(lvPredPrey()[2], distyp=2, parallel=TRUE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
                   b=input$b)
               }
             }
             else if(input$breakpointType == "for Continuous Data"){
               if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, 
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                   h=input$h, a=input$a, b=input$b)
               }
               else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(lvPredPrey()[2], distyp=2, parallel=TRUE, 
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                CE.Normal(lvPredPrey()[2], distyp=2, parallel=TRUE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                   h=input$h, a=input$a, b=input$b)
               }
             }
-            else if(input$breakpointType == 
+            else if(input$breakpointType ==
               "with Zero-Inflated Negative Binomial Distribution"){
                 if(input$distributionType == "Four Parameter Beta Distribution"){
-                  CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, 
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                  CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                     h=input$h, a=input$a, b=input$b)
                 }
                 else if(input$distributionType == "Truncated Normal Distribution"){
-                  CE.Normal(lvPredPrey()[2], distyp=2, parallel=TRUE, 
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M, 
+                  CE.Normal(lvPredPrey()[2], distyp=2, parallel=TRUE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
                     h=input$h, a=input$a, b=input$b)
                 }
             }
@@ -569,14 +569,14 @@ shinyServer(
         return()
       }
 
-      # run only if breakpoints are detected      
+      # run only if breakpoints are detected
       if(length(TPanalysis()) > 1){
         if(input$dataType == "Prey"){
-          profilePlot(TPanalysis(), lvPredPrey()[1], x.label=input$dataType, 
+          profilePlot(TPanalysis(), lvPredPrey()[1], x.label=input$dataType,
             y.label="Population")
         }
         else if(input$dataType == "Predator"){
-          profilePlot(TPanalysis(), lvPredPrey()[2], x.label=input$dataType, 
+          profilePlot(TPanalysis(), lvPredPrey()[2], x.label=input$dataType,
             y.label="Population")
         }
       }
@@ -595,7 +595,7 @@ shinyServer(
         return()
       }
 
-      # run only if breakpoints are detected      
+      # run only if breakpoints are detected
       if(length(TPanalysis()) > 1){
         plotOutput("profilePlot")
       }
@@ -614,7 +614,7 @@ shinyServer(
         return()
       }
 
-      # run only if breakpoints are detected      
+      # run only if breakpoints are detected
       if(length(TPanalysis()) > 1){
         load_ProfilePlot()
       }
@@ -633,7 +633,7 @@ shinyServer(
         return()
       }
 
-      # run only if breakpoints are detected      
+      # run only if breakpoints are detected
       if(length(TPanalysis()) > 1){
         run_ProfilePlot()
       }
@@ -655,17 +655,15 @@ shinyServer(
 
       switch(input$ewsDataType,
         "Prey" = selectInput("ewsMethod", "Method:",
-                   choice=c(" ", 
+                   choice=c(" ",
                     "Quick Detection Analysis for Generic Early Warning Signals",
                     "Generic Early Warning Signals")
-                    #"Potential Analysis for univariate data")
                   ),
 
         "Predator" = selectInput("ewsMethod", "Method:",
-                      choice=c(" ", 
+                      choice=c(" ",
                         "Quick Detection Analysis for Generic Early Warning Signals",
                         "Generic Early Warning Signals")
-                        #"Potential Analysis for univariate data")
                       )
       ) # switch
     })
@@ -695,9 +693,9 @@ shinyServer(
         return()
       }
 
-      numericInput("bandwidth", 
+      numericInput("bandwidth",
         label="Bandwidth used for the Gaussian kernel when gaussian filtering
-                  is applied. It is expressed as percentage of the timeseries 
+                  is applied. It is expressed as percentage of the timeseries
                   length (must be numeric between 0 and 100):", value=5)
     })
 
@@ -714,7 +712,7 @@ shinyServer(
       }
 
       numericInput("winsize", label="The size of the rolling window expressed as
-                  percentage of the timeseries length (must be numeric between 
+                  percentage of the timeseries length (must be numeric between
                   0 and 100):", value=50)
     })
 
@@ -735,7 +733,7 @@ shinyServer(
         return()
       }
 
-      numericInput("span", label="Parameter that controls the degree of 
+      numericInput("span", label="Parameter that controls the degree of
                   smoothing (numeric between 0 and 100):", value=25)
     })
 
@@ -754,7 +752,7 @@ shinyServer(
         return()
       }
 
-      numericInput("degree", label="The degree of polynomial to be used for 
+      numericInput("degree", label="The degree of polynomial to be used for
                   when loess fitting is applied, normally 1 or 2:", value=2)
     })
 
@@ -773,7 +771,7 @@ shinyServer(
         return()
       }
 
-      selectInput("logtransform", label="If TRUE data are logtransformed prior 
+      selectInput("logtransform", label="If TRUE data are logtransformed prior
                   to analysis as log(X+1):", choice=c(FALSE, TRUE))
     })
 
@@ -792,8 +790,8 @@ shinyServer(
         return()
       }
 
-      selectInput("interpolate", label="If TRUE linear interpolation is applied 
-                  to produce a timeseries of equal length as the original. 
+      selectInput("interpolate", label="If TRUE linear interpolation is applied
+                  to produce a timeseries of equal length as the original.
                   (FALSE assumes there are no gaps in the timeseries):",
                   choice=c(FALSE, TRUE))
     })
@@ -814,7 +812,7 @@ shinyServer(
         return()
       }
 
-      selectInput("AR_n", label="If TRUE the best fitted AR(n) model is fitted 
+      selectInput("AR_n", label="If TRUE the best fitted AR(n) model is fitted
                   to the data:", choice=c(FALSE, TRUE))
     })
 
@@ -847,7 +845,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -867,7 +865,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -886,7 +884,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -906,7 +904,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -926,7 +924,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -946,7 +944,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -966,7 +964,7 @@ shinyServer(
       else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
-      else if(input$ewsMethod != 
+      else if(input$ewsMethod !=
         "Quick Detection Analysis for Generic Early Warning Signals"){
         return()
       }
@@ -975,129 +973,9 @@ shinyServer(
       }
 
       selectInput("interpolate", label="If TRUE, linear interpolation is applied
-                  to produce timeseries of equal length as the original 
+                  to produce timeseries of equal length as the original
                   (Default FALSE assumes there are no gaps in the timeseries:",
                   choice=c(FALSE, TRUE))
-    })
-
-    ### Input specific to Potential Analysis for univariate data ###
-
-    output$ews18 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      numericInput("std", label="Standard Deviation of the noice (this will set 
-                  scaled potentials):", value=1)
-    })
-
-    output$ews19 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      selectInput("bw", label="Bandwidth for kernel estimation:",
-                  choice=c("nrd"))
-    })
-
-    output$ews20 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      numericInput("detection.threshold", label="Maximum detection threshold as 
-                  fraction of density kernel height:", value=0.01)
-    })
-
-    output$ews21 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      numericInput("bw.adjust", label="The real bandwidth will be this value 
-                  multiplied by the bandwidth for kernel estimation:", value=1)
-    })
-
-    output$ews22 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      numericInput("density.smoothing", label="Add a small constant density 
-                  across the whole observation range to regularize density 
-                  estimation (and to avoid zero probabilities within the 
-                  observation range). This parameter adds uniform density 
-                  across the observation range, scaled by density.smoothing:", 
-                  value=0)
-    })
-
-    output$ews23 <- renderUI({
-      # check required information
-      if(is.null(input$ewsDataType) || input$ewsDataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
-      else if(input$ewsMethod != "Potential Analysis for univariate data"){
-        return()
-      }
-      else if(is.null(input$detrending) || input$detrending == " "){
-        return()
-      }
-
-      numericInput("detection.limit", label="Ignore maxima that are below 
-                  this value multiplied by maximum density:", value=0.1)
     })
 
     # display ews run button
@@ -1128,25 +1006,25 @@ shinyServer(
           # for prey
           if(input$ewsDataType == "Prey"){
             if(input$ewsMethod == "Generic Early Warning Signals"){
-              ews <- generic_ews(timeseries=subset(lvPredPrey(), select=prey), 
-                        winsize=input$winsize, detrending=input$detrending, 
-                        bandwidth=input$bandwidth, span=input$span, degree=input$degree, 
-                        logtransform=input$logtransform, interpolate=input$interpolate, 
+              ews <- generic_ews(timeseries=subset(lvPredPrey(), select=prey),
+                        winsize=input$winsize, detrending=input$detrending,
+                        bandwidth=input$bandwidth, span=input$span, degree=input$degree,
+                        logtransform=input$logtransform, interpolate=input$interpolate,
                         AR_n=input$AR_n, powerspectrum=input$powerspectrum)
 
             }
-            else if(input$ewsMethod == 
+            else if(input$ewsMethod ==
               "Quick Detection Analysis for Generic Early Warning Signals"){
                 ews <- qda_ews(timeseries=lvPredPrey()[1], winsize=input$winsize,
-                        detrending=input$detrending, bandwidth=input$bandwidth, 
-                        boots=input$boots, s_level=input$s_level, 
+                        detrending=input$detrending, bandwidth=input$bandwidth,
+                        boots=input$boots, s_level=input$s_level,
                         cutoff=input$cutoff, detection.threshold=input$detection.threshold,
                         grid.size=input$grid.size, logtransform=input$logtransform,
                         interpolate=input$interpolate)
             }
             else if(input$ewsMethod == "Potential Analysis for univariate data"){
               ews <- livpotential_ews(x=subset(lvPredPrey(), select=prey),
-                        std=input$std, bw=input$bw, 
+                        std=input$std, bw=input$bw,
                         detection.threshold=input$detection.threshold,
                         bw.adjust=input$bw.adjust, density.smoothing=input$density.smoothing,
                         detection.limit=input$detection.limit)
@@ -1156,24 +1034,24 @@ shinyServer(
           # for predator
           else if(input$ewsDataType == "Predator"){
             if(input$ewsMethod== "Generic Early Warning Signals"){
-              ews <- generic_ews(timeseries=subset(lvPredPrey(), select=predator), 
-                        winsize=input$winsize, detrending=input$detrending, 
-                        bandwidth=input$bandwidth, span=input$span, degree=input$degree, 
-                        logtransform=input$logtransform, interpolate=input$interpolate, 
+              ews <- generic_ews(timeseries=subset(lvPredPrey(), select=predator),
+                        winsize=input$winsize, detrending=input$detrending,
+                        bandwidth=input$bandwidth, span=input$span, degree=input$degree,
+                        logtransform=input$logtransform, interpolate=input$interpolate,
                         AR_n=input$AR_n, powerspectrum=input$powerspectrum)
             }
             else if(input$ewsMethod ==
               "Quick Detection Analysis for Generic Early Warning Signals"){
                 ews <- qda_ews(timeseries=lvPredPrey()[2], winsize=input$winsize,
-                        detrending=input$detrending, bandwidth=input$bandwidth, 
-                        boots=input$boots, s_level=input$s_level, 
+                        detrending=input$detrending, bandwidth=input$bandwidth,
+                        boots=input$boots, s_level=input$s_level,
                         cutoff=input$cutoff, detection.threshold=input$detection.threshold,
                         grid.size=input$grid.size, logtransform=input$logtransform,
                         interpolate=input$interpolate)
             }
             else if(input$ewsMethod == "Potential Analysis for univariate data"){
               ews <- livpotential_ews(x=subset(lvPredPrey(), select=predator),
-                        std=input$std, bw=input$bw, 
+                        std=input$std, bw=input$bw,
                         detection.threshold=input$detection.threshold,
                         bw.adjust=input$bw.adjust, density.smoothing=input$density.smoothing,
                         detection.limit=input$detection.limit)
@@ -1252,10 +1130,10 @@ kurt = the kurtosis of the data estimated within each rolling window.
 
 cv= the coefficient of variation of the data estimated within each rolling window.
 
-returnrate = the return rate of the data estimated as 1-ar(1) cofficient within 
+returnrate = the return rate of the data estimated as 1-ar(1) cofficient within
   each rolling window.
 
-densratio	= the density ratio of the power spectrum of the data estimated as the 
+densratio	= the density ratio of the power spectrum of the data estimated as the
   ratio of low frequencies over high frequencies within each rolling window.
 
 acf1 = the autocorrelation at first lag of the data estimated within each
@@ -1339,9 +1217,9 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         withProgress(message="...", detail="This may take awhile", value=0, {
           # for prey
           if(input$ewsDataType == "Prey"){
-            ews <- 
+            ews <-
               generic_ews(timeseries=subset(lvPredPrey(), select=prey),
-                winsize=input$winsize, detrending=input$detrending, 
+                winsize=input$winsize, detrending=input$detrending,
                 bandwidth=input$bandwidth, span=input$span, degree=input$degree,
                 logtransform=input$logtransform, interpolate=input$interpolate,
                 AR_n=input$AR_n, powerspectrum=input$powerspectrum)
@@ -1349,9 +1227,9 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
           # for predator
           else if(input$ewsDataType == "Predator"){
-            ews <- 
+            ews <-
               generic_ews(timeseries=subset(lvPredPrey(), select=predator),
-                winsize=input$winsize, detrending=input$detrending, 
+                winsize=input$winsize, detrending=input$detrending,
                 bandwidth=input$bandwidth, span=input$span, degree=input$degree,
                 logtransform=input$logtransform, interpolate=input$interpolate,
                 AR_n=input$AR_n, powerspectrum=input$powerspectrum)
@@ -1438,7 +1316,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         return()
       }
 
-      textOutput("qda_ewsDetail")     
+      textOutput("qda_ewsDetail")
     })
 
     output$qda_ewsDetailSlot <- renderUI({
@@ -1476,9 +1354,9 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         return()
       }
 
-      "The first plot contains the original data, the detrending/filtering 
-      applied and the residuals (if selected), autocorrelation, and variance. 
-      For each statistic, trends are estimated by the nonparametric Kendall tau 
+      "The first plot contains the original data, the detrending/filtering
+      applied and the residuals (if selected), autocorrelation, and variance.
+      For each statistic, trends are estimated by the nonparametric Kendall tau
       correlation. The second plot, returns a histogram of the distributions of
       the Kendall trend statistic for autocorrelation and variance estimated on
       the surrogated data. Vertical lines represent the level of significance,
@@ -1511,7 +1389,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         withProgress(message="...", detail="This may take awhile", value=0, {
           # for prey
           if(input$ewsDataType == "Prey"){
-            ews <- 
+            ews <-
               plot_generic_RShiny(timeseries=lvPredPrey()[1], winsize=input$winsize,
                   detrending=input$detrending, bandwidth=input$bandwidth,
                   logtransform=input$logtransform, interpolate=input$interpolate,
@@ -1520,7 +1398,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
           # for predator
           else if(input$ewsDataType == "Predator"){
-            ews <- 
+            ews <-
               plot_generic_RShiny(timeseries=lvPredPrey()[2], winsize=input$winsize,
                   detrending=input$detrending, bandwidth=input$bandwidth,
                   logtransform=input$logtransform, interpolate=input$interpolate,
@@ -1550,7 +1428,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         withProgress(message="...", detail="This may take awhile", value=0, {
           # for prey
           if(input$ewsDataType == "Prey"){
-            ews <- 
+            ews <-
               surrogates_RShiny(timeseries=lvPredPrey()[1], winsize=input$winsize,
                 detrending=input$detrending, bandwidth=input$bandwidth,
                 boots= input$boots, s_level=input$s.level,
@@ -1559,7 +1437,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
           # for predator
           else if(input$ewsDataType == "Predator"){
-            ews <- 
+            ews <-
               surrogates_RShiny(timeseries=lvPredPrey()[2], winsize=input$winsize,
                 detrending=input$detrending, bandwidth=input$bandwidth,
                 boots= input$boots, s_level=input$s.level,
@@ -1589,15 +1467,15 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         withProgress(message="...", detail="This may take awhile", value=0, {
           # for prey
           if(input$ewsDataType == "Prey"){
-            ews <- 
+            ews <-
               movpotential_ews(as.vector(lvPredPrey()[1][, 1]), param=input$param,
-                detection.threshold=input$detection.threshold, 
+                detection.threshold=input$detection.threshold,
                 grid.size=input$grid.size, plot.cutoff=input$cutoff)
           }
 
           # for predator
           else if(input$ewsDataType == "Predator"){
-            ews <- 
+            ews <-
               movpotential_ews(as.vector(lvPredPrey()[2][, 1]), param=input$param,
                 detection.threshold=input$detection.threshold,
                 grid.size=input$grid.size, plot.cutoff=input$cutoff)
@@ -1785,7 +1663,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
     ### End display Quick Detection Analysis plots ###
 
-    ### Start load Quick Detection Analysis data output ###      
+    ### Start load Quick Detection Analysis data output ###
 
     load_qda_ewsData1 <- eventReactive(input$ewsRun, function(){
       # check required information
@@ -1807,7 +1685,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
         withProgress(message="...", detail="Please Wait", value=0, {
           # for prey
           if(input$ewsDataType == "Prey"){
-            ews <- 
+            ews <-
               generic_RShiny(timeseries=lvPredPrey()[1], winsize=input$winsize,
                 detrending=input$detrending, bandwidth=input$bandwidth,
                 logtransform=input$logtransform, interpolate=input$interpolate,
@@ -1816,7 +1694,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
           # for predator
           else if(input$ewsDataType == "Predator"){
-            ews <- 
+            ews <-
               generic_RShiny(timeseries=lvPredPrey()[2], winsize=input$winsize,
                 detrending=input$detrending, bandwidth=input$bandwidth,
                 logtransform=input$logtransform, interpolate=input$interpolate,
@@ -1859,7 +1737,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
             ews <-
               surrogates_RShiny(timeseries=lvPredPrey()[2], winsize=input$winsize,
                 detrending=input$detrending, bandwidth=input$bandwidth,
-                boots= input$boots, s_level=input$s.level, 
+                boots= input$boots, s_level=input$s.level,
                 logtransform=input$logtransform, interpolate=input$interpolate)
           }
         }) # withProgress

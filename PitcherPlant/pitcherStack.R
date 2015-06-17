@@ -8,7 +8,7 @@
 
 ## Variables ##
 
-days <- 10 # total number of days
+days <- 3 # total number of days
 k <- 1 # carrying capacity
 food <- FALSE # presence of food
 feedingTime <- 720 # time at which food is added
@@ -88,13 +88,13 @@ minute <- c(minute, length(minute)+1)
 # adjust amount of food
 w <- c(w, w[length(w)])
 
-for(k in 1:days){
+for(z in 1:days){
   # add food
   food <- TRUE
   w <- c(w, foodWeight)
 
   # run simulation for a full day
-  for(j in 1:1439){
+  for(j in 1:1440){
     # adjust minute
     minute <- c(minute, length(minute)+1)
 
@@ -110,12 +110,21 @@ for(k in 1:days){
     # adjust o2 amount
     x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
 
-    if(j < 1439){
+    if(j < 1440){
       # adjust amount of food
       w <- c(w, w[length(minute)]*exp(-beta*(length(minute)+1)))
     }
   }
 }
+
+# trim objects to appropriate time
+  # omitted values aren't relevant
+minute <- minute[1:length(P)]
+B <- B[1:length(P)]
+n <- n[1:length(P)]
+a <- a[1:length(P)]
+x <- x[1:length(P)]
+w <- w[1:length(P)]
 
 data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
 pairs(data)
