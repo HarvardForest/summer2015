@@ -109,3 +109,9 @@ NVJ - Cleaned code for predator-prey app
 NVJ - Debugged Pitcher Plant simulation
 
 NVJ - Worked on Pitcher Plant Shiny app
+
+18June2015
+
+NVJ - Deployed Lotka-Volterra predator-prey app: https://nthnjustice.shinyapps.io/lvpredatorprey
+
+NVJ - Built interface for Pitcher Plant Shiny app

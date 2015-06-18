@@ -5,22 +5,26 @@
 # 12:00 noon = 720
 # 18:00 sunset = 1080
 
-pitcherPlantSim <- function(){
+pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
+                            aMax, aMin, s, d, c){
 
   ## Variables ##
 
-  days <- 3 # total number of days
-  feedingTime <- 720 # time at which food is added
-  foodWeight <- 5 # weight of food
-  beta <- 0.0005 # constant
-  k <- 1 # carrying capacity
-  Bscaler <- 10 # scales biological oxygen demand values
+  # user-input #
+  #days <- 3 # total number of days
+  #feedingTime <- 720 # time at which food is added
+  #foodWeight <- 5 # weight of food
+  #beta <- 0.0005 # constant
+  #k <- 1 # carrying capacity
+  #Bscaler <- 10 # scales biological oxygen demand values
+  #aMax <- 10 # maximum value of augmentation
+  #aMin <- 1 # minimum value of augmentation
+  #s <- 10 # constant
+  #d <- 0.5 # constant
+  #c <- 100 # constant
+
+  # constants #
   food <- FALSE # presence of food
-  aMax <- 10 # maximum value of augmentation
-  aMin <- 1 # minimum value of augmentation
-  s <- 10 # constant
-  d <- 0.5 # constant
-  c <- 100 # constant
   minute <- vector(mode="numeric") # t/time variable
   x <- vector(mode="numeric") # amount of o2
   a <- vector(mode="numeric") # augmentation function
