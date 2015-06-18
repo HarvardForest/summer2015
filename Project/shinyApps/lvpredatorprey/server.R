@@ -13,10 +13,9 @@ shinyServer(
 
     # declare instance of the simulation
     lvPredPrey <- reactive({
-     lvPredPreyModel(seq(0, input$time, by=1),
-                  c(prey=input$prey, predator=input$predators),
-                  c(alpha=input$alpha, beta=input$beta, delta=input$delta,
-                    gamma=input$gamma))
+      lvPredPreyModel(seq(0, input$time, by=1),
+        c(prey=input$prey, predator=input$predators),
+        c(alpha=input$alpha, beta=input$beta, delta=input$delta, gamma=input$gamma))
     })
 
 ################# Side Panel ###################################################

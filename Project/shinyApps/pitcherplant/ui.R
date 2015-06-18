@@ -68,6 +68,11 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel(title="Graph",
           fluidRow(
+            br(),
+            selectInput("plotSelector", "State Variable:",
+              choices=c("Oxygen", "Photosynthesis", "Biological Oxygen Demand",
+                        "Nutrients", "Augmentation", "Food Amount")
+            ),
             plotOutput("mainPlot"),
             column(12, align="center",
               tabsetPanel(

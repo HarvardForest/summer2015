@@ -131,7 +131,7 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
   x <- x[1:length(P)]
   w <- w[1:length(P)]
 
-  #data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
-  #pairs(data)
+  data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
 
+  return(data)
 }
