@@ -196,44 +196,10 @@ shinyUI(fluidPage(
               ) # fluidRow
             ), # tabPanel - Data Table
             tabPanel(title="Model",
-              h2("Lotka-Volterra predator-prey model"),
-              br(),
-              h4("Ordinary Differential Equation:"),
-              br(),
-              h3("dx <- (alpha * prey) - (beta * prey * predator)"),
-              h3("dy <- (gamma * prey * predator) - (delta * predator)"),
-              br(),
-              h5("alpha = the growth rate of prey"),
-              h5("beta = the rate at which predators kill prey"),
-              h5("delta = the death rate of predators"),
-              h5("gamma = the rate at which predators increase by consuming prey")
+              h1("Pass")
             ), # tabPanel - Model
             tabPanel(title="References",
-              br(),
-              h3("R:"),
-              p("R Core Team (2015). R: A language and environment for statistical computing.
-              Foundation for Statistical Computing, Vienna, Austria.
-              URL http://www.R-project.org/."),
-              h3("shiny Package:"),
-              p("Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2015).
-              shiny: Web Application Framework for R. R package version 0.12.0.
-              http://CRAN.R-project.org/package=shiny"),
-              h3("shinyapps Package:"),
-              p("JJ Allaire (2013). shinyapps: Interface to ShinyApps. R package version 0.3.64."),
-              h3("breakpoint (Tipping Point) Package:"),
-              p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
-              Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
-              http://CRAN.R-project.org/package=breakpoint"),
-              h3("earlywarnings Package:"),
-              p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
-              in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
-              http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010"),
-              h3("deSolve Package (for dfferential equations):"),
-              p("Karline Soetaert, Thomas Petzoldt, R. Woodrow Setzer (2010). Solving Differential Equations in R:
-              Package deSolve Journal of Statistical Software, 33(9), 1--25.
-              URL http://www.jstatsoft.org/v33/i09/."),
-              h3("ggplot2:"),
-              p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
+              h1("Pass")
             ) # tabPanel
           ) # tabsetPanel
         ) # mainPanel
