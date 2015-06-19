@@ -18,7 +18,7 @@ shinyServer(
         c(alpha=input$alpha, beta=input$beta, delta=input$delta, gamma=input$gamma))
     })
 
-################# Side Panel ###################################################
+################# Side Panel ##################################################
 
     ### load user-input boxes ###
     output$alpha2 <- renderUI({
@@ -46,9 +46,9 @@ shinyServer(
       updateSliderInput(session, "gamma", value=input$gamma2)
     })
 
-################################################################################
+###############################################################################
 
-############## Display dynamic plot and table of the simulation ################
+############## Display dynamic plot and table of the simulation ###############
 
     # predator-prey simulation plot
     output$mainPlot <- renderPlot({
@@ -63,9 +63,13 @@ shinyServer(
       mNew <- cbind(time=0:(input$time), lvPredPrey())
     })
 
-################################################################################
+###############################################################################
 
-#################### Tipping Point Analysis ####################################
+############## Quick Analysis #################################################
+
+###############################################################################
+
+#################### Advanced Tipping Point Analysis ##########################
 
     ### build user-input interface ###
 
@@ -641,9 +645,9 @@ shinyServer(
       }
     })
 
-################################################################################
+###############################################################################
 
-################## Earlywarnings Analysis ######################################
+################## Advnced Earlywarnings Analysis #############################
 
     ## Input for Quick Detection Analysis for Generic Early Warning Signals ##
     ##          and                                                         ##
