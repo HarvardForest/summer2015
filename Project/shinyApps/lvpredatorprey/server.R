@@ -487,14 +487,17 @@ shinyServer(
         return()
       }
 
-      # display only if breakpoints are detected
       if(length(TPanalysis()) > 1){
-        matplot(plot_breakpoints(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-        title(main="Breakpoints")
-        legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-              col=c(1, 2), bty="n")
-        # add breakpoint lines
-        abline(v=TPanalysis()[[2[1]]], col="blue")
+        if(input$dataType == "Prey"){
+          matplot(y=plot_breakpoints()[1], type="l", xlab=input$xaxis, ylab=input$dataType)
+          title(main="Breakpoints")
+          abline(v=TPanalysis()[[2[1]]], col="blue")
+        }
+        else if(input$dataType == "Predator"){
+          matplot(y=plot_breakpoints()[2], type="l", xlab=input$xaxis, ylab=input$dataType)
+          title(main="Breakpoints")
+          abline(v=TPanalysis()[[2[1]]], col="blue")
+        }        
       }
     })
 

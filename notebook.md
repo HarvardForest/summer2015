@@ -115,3 +115,9 @@ NVJ - Worked on Pitcher Plant Shiny app
 NVJ - Deployed Lotka-Volterra predator-prey app: https://nthnjustice.shinyapps.io/lvpredatorprey
 
 NVJ - Built interface for Pitcher Plant Shiny app
+
+19June2015
+
+NVJ - Talked with Matt about changes to the Predator-Prey app
+
+NVJ - Began implementing Matt's recommendations 
