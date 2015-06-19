@@ -8,6 +8,7 @@
 source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
+  useShinyjs(),
   titlePanel("Lotka-Volterra predator-prey model"),
 
   sidebarLayout(position="left",
@@ -43,13 +44,7 @@ shinyUI(fluidPage(
         label=h4("The rate at which predators increase by consuming prey:"),
         min=0, max=10, value=0.01, step=0.001
       ),
-      uiOutput("gamma2"),
-      fluidRow(
-        br(),
-        column(12,
-          h4(helpText("Data tables can be copied and pasted into spreadsheet software!"))
-        ) # column
-      ) # fluidRow
+      uiOutput("gamma2")
     ), # sidebarPanel
     mainPanel(
       tabsetPanel(
@@ -59,7 +54,12 @@ shinyUI(fluidPage(
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Quick Analysis",
-                  h1("Hello")
+                  br(),
+                  selectInput("quickDataType", "Choose Data",
+                              choices=c(" ", "Prey", "Predator")
+                  ),
+                  uiOutput("quickRunSlot"),
+                  textOutput("okay")
                 ), # tabPanel - Quick Analysis
                 tabPanel(title="Advanced Analysis",
                   tabsetPanel(
@@ -185,6 +185,9 @@ shinyUI(fluidPage(
         ), # tabPanel - Graph
         tabPanel(title="Data Table",
           fluidRow(
+            br(),
+            h4(helpText("Data tables can be copied and pasted into spreadsheet software!")),
+            br(),
             dataTableOutput("mainTable")
           ) # fluidRow
         ), # tabPanel - Data Table

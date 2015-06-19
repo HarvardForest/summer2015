@@ -1,11 +1,11 @@
 # load dependencies
 library(shiny)
 library(shinyapps)
+library(shinyjs)
 library(deSolve)
 library(breakpoint)
 library(ggplot2)
 #library(earlywarnings)
-
 
 lvPredPreyModel <- function(time, initState, params){
   # function for ordinary differential equations (ODE)

@@ -56,6 +56,16 @@ shinyServer(
       title(main=input$plotTitle)
       legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
              col=c(1, 2), bty="n")
+
+      if(input$quickDataType == " "){
+        return()
+      }
+      else if(quickTP() > 1){
+        abline(v=quickTP()[[2[1]]], col="blue")
+      }
+      else{
+        return()
+      }
     })
 
     # predator-prey simulation data table
@@ -66,6 +76,35 @@ shinyServer(
 ###############################################################################
 
 ############## Quick Analysis #################################################
+
+    load_quickRunButton <- reactive({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      actionButton("quickRun", "Run")
+    })
+
+    output$quickRunSlot <- renderUI({
+      load_quickRunButton()
+    })
+
+    quickTP <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      if(input$quickDataType == "Prey"){
+        CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=5, eps=0.01,
+          rho=0.05, M=200, h=5, a=0.8, b=0.8)
+      }
+      else if(input$quickDataType == "Predator"){
+        CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=5, eps=0.01,
+          rho=0.05, M=200, h=5, a=0.8, b=0.8)
+      }
+    })
 
 ###############################################################################
 
@@ -259,7 +298,7 @@ shinyServer(
     ### display tipping point analysis ###
 
     # run tipping point analysis based on user's parameters
-    TPanalysis <- eventReactive(input$tpRun, function(){
+    TPanalysis <- eventReactive(input$tpRun, {
       ## loading window
       withProgress(message="Analyzing breakpoints", value=0, {
         withProgress(message="...", detail="This may take awhile", value=0, {
@@ -422,7 +461,7 @@ shinyServer(
     })
 
     # generate new instance of simulation plot to draw breakpoint lines
-    plot_breakpoints <- eventReactive(input$tpRun, function(){
+    plot_breakpoints <- eventReactive(input$tpRun, {
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
@@ -441,7 +480,7 @@ shinyServer(
     })
 
     # generate plot output for breakpoints plot
-    load_BreakpointPlotSlot <- eventReactive(input$tpRun, function(){
+    load_BreakpointPlotSlot <- eventReactive(input$tpRun, {
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
@@ -506,7 +545,7 @@ shinyServer(
     })
 
     # generate title text for profile plot
-    load_ProfileTitle <- eventReactive(input$tpRun, function(){
+    load_ProfileTitle <- eventReactive(input$tpRun, {
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
@@ -563,7 +602,7 @@ shinyServer(
     })
 
     # run profile plot from breakpoint package
-    run_ProfilePlot <- eventReactive(input$tpRun, function(){
+    run_ProfilePlot <- eventReactive(input$tpRun, {
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
@@ -589,7 +628,7 @@ shinyServer(
     })
 
     # load profile plot output
-    load_ProfilePlot <- eventReactive(input$tpRun, function(){
+    load_ProfilePlot <- eventReactive(input$tpRun, {
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
@@ -1005,7 +1044,7 @@ shinyServer(
     ###### Earlywarnings Output ######
 
     # run early warnings analysis based on user input
-    EWSanalysis <- eventReactive(input$ewsRun, function(){
+    EWSanalysis <- eventReactive(input$ewsRun, {
       # loading window
       withProgress(message="Detecting Early Warning Signals", value=0, {
         withProgress(message="...", detail="This may take awhile", value=0, {
@@ -1070,7 +1109,7 @@ shinyServer(
     ### Generic Early Warning Signals Output ###
 
     # load guide slot for ews data table
-    load_generic_ewsTableGuide <- eventReactive(input$ewsRun, function(){
+    load_generic_ewsTableGuide <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1147,7 +1186,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     })
 
     # load ews Data Table info
-    load_generic_ewsTable <- eventReactive(input$ewsRun, function(){
+    load_generic_ewsTable <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1204,7 +1243,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     }, options=list(pageLength=5))
 
     # load ews plot
-    generic_ewsPlotLoad <- eventReactive(input$ewsRun, function(){
+    generic_ewsPlotLoad <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1245,7 +1284,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     })
 
     # load ews plot output
-    load_generic_ewsPlotSlot <- eventReactive(input$ewsRun, function(){
+    load_generic_ewsPlotSlot <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1306,7 +1345,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     ##### Start Quick Detection Analysis for Generic Early Warning Signals #####
     #####                       Output                                    ######
 
-    load_qda_ewsDetail <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsDetail <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1375,7 +1414,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
     ### Start load Quick Detection Analysis plots ###
 
-    load_qda_ewsPlot1 <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot1 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1414,7 +1453,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
       }) # withProgress
     })
 
-    load_qda_ewsPlot2 <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot2 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1453,7 +1492,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
       }) # withProgress
     })
 
-    load_qda_ewsPlot3 <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot3 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1494,7 +1533,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
     ### Start display Quick Detection Analysis plots ###
 
-    load_qda_ewsPlot1Slot <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot1Slot <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1551,7 +1590,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
       load_qda_ewsPlot1()
     })
 
-    load_qda_ewsPlot2Slot <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot2Slot <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1609,7 +1648,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
       load_qda_ewsPlot2()
     })
 
-    load_qda_ewsPlot3Slot <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsPlot3Slot <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1671,7 +1710,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
     ### Start load Quick Detection Analysis data output ###
 
-    load_qda_ewsData1 <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsData1 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1711,7 +1750,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
     })
 
     # load ews plot
-    load_qda_ewsDataLoad2 <- eventReactive(input$ewsRun, function(){
+    load_qda_ewsDataLoad2 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1754,7 +1793,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
 
     ### Start display Quick Detection Analysis data output ###
 
-    render_qda_ewsData1 <- eventReactive(input$ewsRun, function(){
+    render_qda_ewsData1 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
@@ -1811,7 +1850,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
       load_qda_ewsData1()
     }, options=list(pageLength=5))
 
-    render_qda_ewsData2 <- eventReactive(input$ewsRun, function(){
+    render_qda_ewsData2 <- eventReactive(input$ewsRun, {
       # check required information
       if(is.null(input$ewsDataType) || input$ewsDataType == " "){
         return()
