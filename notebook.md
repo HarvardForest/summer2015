@@ -120,4 +120,6 @@ NVJ - Built interface for Pitcher Plant Shiny app
 
 NVJ - Talked with Matt about changes to the Predator-Prey app
 
-NVJ - Began implementing Matt's recommendations 
+NVJ - Began implementing Matt's recommendations
+
+NVJ - Created new branches for development
