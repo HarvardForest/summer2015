@@ -56,6 +56,18 @@ shinyServer(
       title(main=input$plotTitle)
       legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
              col=c(1, 2), bty="n")
+
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointsCheckbox)){
+        return()
+      }
+      else if(input$breakpointsCheckbox == TRUE && length(quickTP()) > 1) {
+        legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"), 
+          lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
+        abline(v=quickTP()[[2[1]]], col="blue")
+      }
     })
 
     # predator-prey simulation data table
@@ -83,38 +95,17 @@ shinyServer(
       }
 
       if(input$quickDataType == "Prey"){
-        CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=5, eps=0.01,
+        CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
           rho=0.05, M=200, h=5, a=0.8, b=0.8)
       }
       else if(input$quickDataType == "Predator"){
-        CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=5, eps=0.01,
+        CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
           rho=0.05, M=200, h=5, a=0.8, b=0.8)
       }
     })
 
-    load_updatedMainPlot <- eventReactive(input$quickRun, {
-      # check required information
-      if(length(quickTP()) > 1){
-        plotOutput("updatedMainPlot")
-      }
-    })
-
-    output$updatedMainPlotSlot <- renderUI({
-      load_updatedMainPlot()
-    })
-
-    output$updatedMainPlot <- renderPlot({
-      toggle("mainPlot")
-
-      matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-      title(main=input$plotTitle)
-      legend("topleft", c(input$preyLabel, input$predatorLabel, "breakpoints"), 
-        lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
-      abline(v=quickTP()[[2[1]]], col="blue")
-    })
-
     # display "Number of breakpoints detected:" text
-    output$quickNumBreakpointsText <- renderText({
+    output$quickNumBreakpoints <- renderText({
       # check required information
       if(is.null(input$quickDataType) || input$quickDataType == " "){
         return()
@@ -122,18 +113,8 @@ shinyServer(
 
       # display text only if breakpoints are detected
       if(length(quickTP()) > 1){
-        "Number of breakpoints detected:"
+        c("Number of breakpoints detected:", quickTP()[[1]])
       }
-    })
-
-    # display number of breakpoints detected
-    output$quickTPAnalysis1 <- renderText({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-
-      quickTP()[[1]]
     })
 
     # display "Location:" text
@@ -159,6 +140,18 @@ shinyServer(
       # display only if breakpoints are detected
       if(length(quickTP()) > 1){
        paste(quickTP()[[2]], collapse=", ")
+      }
+    })
+
+    output$breakpointsCheckboxSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      # display only if breakpoints are detected
+      if(length(quickTP()) > 1){
+       checkboxInput("breakpointsCheckbox", h4("Show breakpoints"), value=FALSE)
       }
     })
 
