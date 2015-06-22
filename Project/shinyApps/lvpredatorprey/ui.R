@@ -51,15 +51,27 @@ shinyUI(fluidPage(
         tabPanel(title="Graph",
           fluidRow(
             plotOutput("mainPlot"),
+            uiOutput("updatedMainPlotSlot"),
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Quick Analysis",
-                  br(),
-                  selectInput("quickDataType", "Choose Data",
-                              choices=c(" ", "Prey", "Predator")
-                  ),
-                  uiOutput("quickRunSlot"),
-                  textOutput("okay")
+                  fluidRow(
+                    column(5, align="left",
+                      br(),
+                      br(),
+                      selectInput("quickDataType", "Choose Data",
+                                  choices=c(" ", "Prey", "Predator")),
+                      uiOutput("quickRunButton")
+                    ), # column
+                    column(5, offset=1, align="center",
+                      br(),
+                      br(),
+                      h4(textOutput("quickNumBreakpointsText")),
+                      h3(textOutput("quickTPAnalysis1")),
+                      h3(textOutput("quickLocationText")),
+                      h4(textOutput("quickTPAnalysis2"))
+                    ) # column
+                  ) # fluidRow
                 ), # tabPanel - Quick Analysis
                 tabPanel(title="Advanced Analysis",
                   tabsetPanel(
