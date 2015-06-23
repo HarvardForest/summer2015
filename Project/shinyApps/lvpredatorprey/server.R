@@ -63,7 +63,11 @@ shinyServer(
       else if(is.null(input$breakpointsCheckbox)){
         return()
       }
-      else if(input$breakpointsCheckbox == TRUE && length(quickTP()) > 1) {
+      else if(is.null(input$radioButtons)){
+        return()
+      }
+
+      if(input$breakpointsCheckbox == TRUE) {
         legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"), 
           lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
         abline(v=quickTP()[[2[1]]], col="blue")
@@ -94,14 +98,18 @@ shinyServer(
         return()
       }
 
-      if(input$quickDataType == "Prey"){
-        CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
-          rho=0.05, M=200, h=5, a=0.8, b=0.8)
-      }
-      else if(input$quickDataType == "Predator"){
-        CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
-          rho=0.05, M=200, h=5, a=0.8, b=0.8)
-      }
+      withProgress(message="Performing Breakpoint Analysis", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          if(input$quickDataType == "Prey"){
+            CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
+              rho=0.05, M=200, h=5, a=0.8, b=0.8)
+          }
+          else if(input$quickDataType == "Predator"){
+            CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
+              rho=0.05, M=200, h=5, a=0.8, b=0.8)
+          }
+        }) # withProgress
+      }) # withProgress
     })
 
     # display "Number of breakpoints detected:" text
@@ -151,9 +159,854 @@ shinyServer(
 
       # display only if breakpoints are detected
       if(length(quickTP()) > 1){
-       checkboxInput("breakpointsCheckbox", h4("Show breakpoints"), value=FALSE)
+       checkboxInput("breakpointsCheckbox", "Draw Breakpoint Lines", value=FALSE)
       }
     })
+
+    quickGeneric <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      
+      withProgress(message="Performing Earlywarning Signals Analysis", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          if(input$quickDataType == "Prey"){
+            generic_ews(timeseries=subset(lvPredPrey(), select=prey), 
+              detrending="gaussian")
+          }
+          else if(input$quickDataType == "Predator"){
+            generic_ews(timeseries=subset(lvPredPrey(), select=predator), 
+              detrending="gaussian")
+          }
+        }) # withProgress
+      }) # withProgress
+    })
+
+   load_radioButtons <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      radioButtons("radioButtons", "View Early Warning Signal Analysis:", 
+        c("Show all", "Standard Deviation", "Skewness", "Kurtosis", 
+          "Coefficient of Variation", "Return Rate", "Density Ratio", 
+          "Autocorrelation at First Lag", "Autoregressive Coefficient"),
+        selected=NULL, inline=FALSE)
+    })
+
+   output$radioButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      load_radioButtons()
+    })
+
+   load_quickMainPlot <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      plotOutput("quickMainPlot")
+    })
+
+   output$quickMainPlotSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      else if(is.null(input$radioButtons)){
+        return()
+      }
+
+      load_quickMainPlot()
+    })
+
+   output$quickMainPlot <- renderPlot({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+          if(input$radioButtons == "Show all"){
+            withProgress(message="Plotting Data", value=0, {
+              withProgress(message="...", detail="Please Wait", value=0, {      
+                if(input$quickDataType == "Prey"){
+                  plot_generic_ews(timeseries=subset(lvPredPrey(), select=prey), 
+                    detrending="gaussian")
+                }
+                else if(input$quickDataType == "Predator"){
+                  plot_generic_ews(timeseries=subset(lvPredPrey(), select=predator), 
+                  detrending="gaussian")
+                }
+              }) # withProgress
+            }) # withProgress
+          }
+
+      if(input$radioButtons == "Standard Deviation"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[3], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Standard Deviation"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Standard Deviation"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[3], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Standard Deviation"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Standard Deviation"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Skewness"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[4], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Skewness"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Skewness"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[4], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Skewness"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Skewness"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Kurtosis"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[5], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Kurtosis"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Kurtosis"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[5], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Kurtosis"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Kurtosis"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Coefficient of Variation"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[6], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Coefficient of Variation"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Coefficient of Variation"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[6], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Coefficient of Variation"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Coefficient of Variation"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Return Rate"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[7], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Return Rate"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Return Rate"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[7], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Return Rate"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Return Rate"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Density Ratio"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[8], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Density Ratio"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Density Ratio"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[8], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Density Ratio"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Density Ratio"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Autocorrelation at First Lag"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[9], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Autocorrelation at First Lag"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Autocorrelation at First Lag"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[9], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Autocorrelation at First Lag"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Autocorrelation at First Lag"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }
+
+      if(input$radioButtons == "Autoregressive Coefficient"){
+        if(input$quickDataType == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[2], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Autoregressive Coefficient"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Autoregressive Coefficient"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+        else if(input$quickDataType == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis)
+          lines(quickGeneric()[2], col="green")
+          if(input$breakpointsCheckbox == TRUE) {
+            legend("topleft", c(input$preyLabel, "Breakpoints", "Autoregressive Coefficient"), 
+              lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+            abline(v=quickTP()[[2[1]]], col="blue")
+          }
+          else{
+            legend("topleft", c(input$preyLabel, "Autoregressive Coefficient"), 
+              lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }        
+      }                   
+    })
+
+    load_quickMainTable <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons == "Show all"){
+        return()
+      }
+
+      dataTableOutput("quickMainTable")
+    })
+
+    output$quickMainTableSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons == "Show all"){
+        return()
+      }
+
+      load_quickMainTable()      
+    })
+
+    output$quickMainTable <- renderDataTable({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons == "Show all"){
+        return()
+      }
+
+      if(input$radioButtons == "Standard Deviation"){
+        cbind(time=50:101, quickGeneric()[3])
+      }
+      else if(input$radioButtons == "Skewness"){
+        cbind(time=50:101, quickGeneric()[4])
+      }
+      else if(input$radioButtons == "Kurtosis"){
+        cbind(time=50:101, quickGeneric()[5])
+      }
+      else if(input$radioButtons == "Coefficient of Variation"){
+        cbind(time=50:101, quickGeneric()[6])
+      }
+      else if(input$radioButtons == "Return Rate"){
+        cbind(time=50:101, quickGeneric()[7])
+      }
+      else if(input$radioButtons == "Density Ratio"){
+        cbind(time=50:101, quickGeneric()[8])
+      }
+      else if(input$radioButtons == "Autocorrelation at First Lag"){
+        cbind(time=50:101, quickGeneric()[9])
+      }
+      else if(input$radioButtons == "Autoregressive Coefficient"){
+        cbind(time=50:101, quickGeneric()[2])
+      }
+    }, options=list(pageLength=10))
+
+    ##### Start Quick Detection Analysis for Generic Early Warning Signals #####
+    #####                       Output                                    ######
+
+    load_quick_qda_ewsDetail <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      textOutput("quick_qda_ewsDetail")
+    })
+
+    output$quick_qda_ewsDetailSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsDetail()
+    })
+
+    output$quick_qda_ewsDetail <- renderText({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      "The first plot contains the original data, the detrending/filtering
+      applied and the residuals (if selected), autocorrelation, and variance.
+      For each statistic, trends are estimated by the nonparametric Kendall tau
+      correlation. The second plot, returns a histogram of the distributions of
+      the Kendall trend statistic for autocorrelation and variance estimated on
+      the surrogated data. Vertical lines represent the level of significance,
+      whereas the black indicates the actual trend found in the time series. The
+      third plot is the reconstructed potential landscape in 2D. In addition,
+      the function returns a list containing the output from the respective
+      functions generic_RShiny (indicators); surrogates_RShiny (trends);
+      movpotential_ews (potential analysis). (Dakos et al. 2012)"
+    })
+
+    ### Start load Quick Detection Analysis plots ###
+
+    load_quick_qda_ewsPlot1 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quickDataType == "Prey"){
+            plot_generic_RShiny(timeseries=lvPredPrey()[1], winsize=50,
+                  detrending="gaussian", bandwidth=5,
+                  logtransform=FALSE, interpolate=FALSE,
+                  AR_n=FALSE, powerspectrum=FALSE)
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            plot_generic_RShiny(timeseries=lvPredPrey()[2], winsize=50,
+                  detrending="gaussian", bandwidth=5,
+                  logtransform=FALSE, interpolate=FALSE,
+                  AR_n=FALSE, powerspectrum=FALSE)
+          }
+        }) # withProgress
+      }) # withProgress
+    })
+
+    load_quick_qda_ewsPlot2 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quickDataType == "Prey"){
+            surrogates_RShiny(timeseries=lvPredPrey()[1], winsize=50,
+                detrending="gaussian", bandwidth=5,
+                boots=100, s_level=0.05,
+                logtransform=FALSE, interpolate=FALSE)
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            surrogates_RShiny(timeseries=lvPredPrey()[2], winsize=50,
+                detrending="gaussian", bandwidth=5,
+                boots=100, s_level=0.05,
+                logtransform=FALSE, interpolate=FALSE)
+          }
+        }) # withProgress
+      }) # withProgress
+    })
+
+    load_quick_qda_ewsPlot3 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quickDataType == "Prey"){
+            ews <-
+              movpotential_ews(as.vector(lvPredPrey()[1][, 1]))
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            ews <-
+              movpotential_ews(as.vector(lvPredPrey()[2][, 1]))
+          }
+        })
+      })
+    })
+
+    ### End load Quick Detection Analysis plots ###
+
+    ### Start display Quick Detection Analysis plots ###
+
+    load_quick_qda_ewsPlot1Slot <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      plotOutput("quick_qda_ewsPlot1")
+    })
+
+    output$quick_qda_ewsPlot1Slot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsPlot1Slot()
+    })
+
+    output$quick_qda_ewsPlot1 <- renderPlot({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsPlot1()
+    })
+
+    load_quick_qda_ewsPlot2Slot <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      plotOutput("quick_qda_ewsPlot2")
+    })
+
+    output$quick_qda_ewsPlot2Slot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsPlot2Slot()
+    })
+
+
+    output$quick_qda_ewsPlot2 <- renderPlot({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsPlot2()
+    })
+
+    load_quick_qda_ewsPlot3Slot <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      plotOutput("quick_qda_ewsPlot3")
+    })
+
+    output$quick_qda_ewsPlot3Slot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsPlot3Slot()
+    })
+
+
+    output$quick_qda_ewsPlot3 <- renderPlot({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      print(load_quick_qda_ewsPlot3())
+    })
+
+    ### End display Quick Detection Analysis plots ###
+
+    ### Start load Quick Detection Analysis data output ###
+
+    load_quick_qda_ewsData1 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      withProgress(message="Analyzing Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quickDataType == "Prey"){
+            ews <-
+              generic_RShiny(timeseries=lvPredPrey()[1], winsize=50,
+                  detrending="gaussian", bandwidth=5,
+                  logtransform=FALSE, interpolate=FALSE,
+                  AR_n=FALSE, powerspectrum=FALSE)
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            ews <-
+              generic_RShiny(timeseries=lvPredPrey()[2], winsize=50,
+                  detrending="gaussian", bandwidth=5,
+                  logtransform=FALSE, interpolate=FALSE,
+                  AR_n=FALSE, powerspectrum=FALSE)
+          }
+        }) # withProgress
+      }) # withProgress
+    })
+
+    # load ews plot
+    load_quick_qda_ewsDataLoad2 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      withProgress(message="Analyzing Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quickDataType == "Prey"){
+            ews <-
+              surrogates_RShiny(timeseries=lvPredPrey()[1], detrending="gaussian")
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            ews <-
+              surrogates_RShiny(timeseries=lvPredPrey()[2], detrending="gaussian")
+          }
+        }) # withProgress
+      }) # withProgress
+    })
+
+    ### End load Quick Detection Analysis data output ###
+
+    ### Start display Quick Detection Analysis data output ###
+
+    render_quick_qda_ewsData1 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      dataTableOutput("quick_qda_ewsData1")
+    })
+
+    output$quick_qda_ewsData1Slot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      render_quick_qda_ewsData1()
+    })
+
+    output$quick_qda_ewsData1 <- renderDataTable({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsData1()
+    }, options=list(pageLength=5))
+
+    render_quick_qda_ewsData2 <- eventReactive(input$quickRun, {
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      verbatimTextOutput("quick_qda_ewsData2")
+    })
+
+    output$quick_qda_ewsData2Slot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      render_quick_qda_ewsData2()
+    })
+
+    output$quick_qda_ewsData2 <- renderPrint({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      load_quick_qda_ewsDataLoad2()
+    })
+
+    ##### End display Quick Detection Analysis data output #####
 
 ###############################################################################
 
@@ -1116,13 +1969,6 @@ shinyServer(
                         grid.size=input$grid.size, logtransform=input$logtransform,
                         interpolate=input$interpolate)
             }
-            else if(input$ewsMethod == "Potential Analysis for univariate data"){
-              ews <- livpotential_ews(x=subset(lvPredPrey(), select=prey),
-                        std=input$std, bw=input$bw,
-                        detection.threshold=input$detection.threshold,
-                        bw.adjust=input$bw.adjust, density.smoothing=input$density.smoothing,
-                        detection.limit=input$detection.limit)
-            }
           }
 
           # for predator
@@ -1230,7 +2076,7 @@ returnrate = the return rate of the data estimated as 1-ar(1) cofficient within
 densratio	= the density ratio of the power spectrum of the data estimated as the
   ratio of low frequencies over high frequencies within each rolling window.
 
-acf1 = the autocorrelation at first lag of the data estimated within each
+acf1 = the Autocorrelation at First Lag of the data estimated within each
   rolling window."
     })
 
@@ -1312,7 +2158,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
           # for prey
           if(input$ewsDataType == "Prey"){
             ews <-
-              generic_ews(timeseries=subset(lvPredPrey(), select=prey),
+              plot_generic_ews(timeseries=subset(lvPredPrey(), select=prey),
                 winsize=input$winsize, detrending=input$detrending,
                 bandwidth=input$bandwidth, span=input$span, degree=input$degree,
                 logtransform=input$logtransform, interpolate=input$interpolate,
@@ -1322,7 +2168,7 @@ acf1 = the autocorrelation at first lag of the data estimated within each
           # for predator
           else if(input$ewsDataType == "Predator"){
             ews <-
-              generic_ews(timeseries=subset(lvPredPrey(), select=predator),
+              plot_generic_ews(timeseries=subset(lvPredPrey(), select=predator),
                 winsize=input$winsize, detrending=input$detrending,
                 bandwidth=input$bandwidth, span=input$span, degree=input$degree,
                 logtransform=input$logtransform, interpolate=input$interpolate,
