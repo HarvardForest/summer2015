@@ -60,8 +60,6 @@ shinyUI(fluidPage(
                       br(),
                       selectInput("quickDataType", "Choose Data",
                                   choices=c(" ", "Prey", "Predator")),
-                      uiOutput("quickRunButton"),
-                      br(),
                       uiOutput("radioButtonSlot")
                     ), # column
                     column(8,
@@ -69,32 +67,8 @@ shinyUI(fluidPage(
                       h3(textOutput("quickNumBreakpoints")),
                       h3(textOutput("quickLocationText")),
                       h4(textOutput("quickTPAnalysis2")),
-                      uiOutput("breakpointsCheckboxSlot")
-                    ) # column
-                  ), # fluidRow
-                  fluidRow(
-                    column(12,
-                      uiOutput("quickMainPlotSlot")
-                    ) # column
-                  ), # fluidRow
-                  fluidRow(
-                    column(5, offset=3,
+                      uiOutput("breakpointsCheckboxSlot"),
                       uiOutput("quickMainTableSlot")
-                    ) # column
-                  ), # fluidRow
-                  fluidRow(
-                    column(12,
-                      uiOutput("quick_qda_ewsDetailSlot"),
-                      br(),
-                      uiOutput("quick_qda_ewsPlot1Slot"),
-                      br(),
-                      uiOutput("quick_qda_ewsData1Slot"),
-                      br(),
-                      uiOutput("quick_qda_ewsPlot2Slot"),
-                      br(),
-                      uiOutput("quick_qda_ewsData2Slot"),
-                      br(),
-                      uiOutput("quick_qda_ewsPlot3Slot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
