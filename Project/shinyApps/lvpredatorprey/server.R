@@ -19,9 +19,9 @@ shinyServer(
           gamma=input$gamma))
     })
 
-################# Side Panel ##################################################
+################# Side Panel ###################################################
 
-    ### load user-input boxes ###
+    ### start: load user-input boxes (parameters) ###
     output$alpha2 <- renderUI({
       numericInput("alpha2", label="", value=input$alpha)
     })
@@ -37,9 +37,9 @@ shinyServer(
     output$gamma2 <- renderUI({
       numericInput("gamma2", label="", value=input$gamma)
     })
-    ## end load user-input boxes ##
+    ### end: load user-input boxes (parameters) ###
 
-    # link user-input box values with respective slider values
+    # link user-input box values with respective slider values (parameters)
     observe({
       updateSliderInput(session, "alpha", value=input$alpha2)
       updateSliderInput(session, "beta", value=input$beta2)
@@ -47,17 +47,18 @@ shinyServer(
       updateSliderInput(session, "gamma", value=input$gamma2)
     })
 
-###############################################################################
+################################################################################
 
-############## Display dynamic plot and table of the simulation ###############
+############## Display dynamic plot and table of the simulation ################
 
-    # predator-prey simulation plot
+    # simulation plot (main plot)
     output$mainPlot <- renderPlot({
       matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
       title(main=input$plotTitle)
       legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
              col=c(1, 2), bty="n")
 
+      # check if breakpoint lines can be drawn
       if(is.null(input$quickDataType) || input$quickDataType == " "){
         return()
       }
@@ -67,42 +68,87 @@ shinyServer(
       else if(is.null(input$radioButtons)){
         return()
       }
-
-      if(input$breakpointsCheckbox == TRUE) {
+      # indicates breakpoint lines can be drawn
+      else if(input$breakpointsCheckbox == TRUE) {
+        # update plot label
         legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"),
-          lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
+              lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
+        # include breakpoint lines
         abline(v=quickTP()[[2[1]]], col="blue")
       }
     })
 
-    # predator-prey simulation data table
+    # simulation data table (main table)
     output$mainTable <- renderDataTable({
-      mNew <- cbind(time=0:(input$time), lvPredPrey())
+      # append column for time
+      cbind(time=0:(input$time), lvPredPrey())
     })
 
-###############################################################################
+################################################################################
 
-############## Quick Analysis #################################################
+############## Quick Analysis ##################################################
 
+    ### start: predetermined (quick) breakpoint and ews analyses ###
+
+    # reactive for dynamic updates
     quickTP <- reactive({
       # check required information
       if(is.null(input$quickDataType) || input$quickDataType == " "){
         return()
       }
 
+      # loading bar
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
+
+          # for prey
           if(input$quickDataType == "Prey"){
-            CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
-              rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10,
+                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
+
+          # for predator
           else if(input$quickDataType == "Predator"){
-            CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10, eps=0.01,
-              rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10,
+                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
+
         }) # withProgress
       }) # withProgress
     })
+
+    # reactive for dynamic updates
+    quickGeneric <- reactive({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+
+      # loading bar
+      withProgress(message="Performing Earlywarning Signals Analysis", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+
+          # for prey
+          if(input$quickDataType == "Prey"){
+            generic_ews(timeseries=subset(lvPredPrey(), select=prey),
+                        detrending="gaussian")
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            generic_ews(timeseries=subset(lvPredPrey(), select=predator),
+                        detrending="gaussian")
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
+    ### end: predetermined (quick) breakpoint and ews analyses ###
+
+    ### start: (quick) breakpoint analysis and output ###
+
+    ### end: (quick) breakpoint analysis and output ###
 
     # display "Number of breakpoints detected:" text
     output$quickNumBreakpoints <- renderText({
@@ -153,26 +199,6 @@ shinyServer(
       if(length(quickTP()) > 1){
        checkboxInput("breakpointsCheckbox", "Draw Breakpoint Lines", value=FALSE)
       }
-    })
-
-    quickGeneric <- reactive({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-
-      withProgress(message="Performing Earlywarning Signals Analysis", value=0, {
-        withProgress(message="...", detail="Please Wait", value=0, {
-          if(input$quickDataType == "Prey"){
-            generic_ews(timeseries=subset(lvPredPrey(), select=prey),
-              detrending="gaussian")
-          }
-          else if(input$quickDataType == "Predator"){
-            generic_ews(timeseries=subset(lvPredPrey(), select=predator),
-              detrending="gaussian")
-          }
-        }) # withProgress
-      }) # withProgress
     })
 
    load_radioButtons <- reactive({
