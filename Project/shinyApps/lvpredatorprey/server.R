@@ -148,8 +148,6 @@ shinyServer(
 
     ### start: (quick) breakpoint analysis and output ###
 
-    ### end: (quick) breakpoint analysis and output ###
-
     # display "Number of breakpoints detected:" text
     output$quickNumBreakpoints <- renderText({
       # check required information
@@ -183,12 +181,17 @@ shinyServer(
         return()
       }
 
-      # display only if breakpoints are detected
+      # display this if breakpoints are detected
       if(length(quickTP()) > 1){
-       paste(quickTP()[[2]], collapse=", ")
+        paste(quickTP()[[2]], collapse=", ")
+      }
+      # if no breakpoints are detected, use default output
+      else{
+        quickTP()
       }
     })
 
+    # display checkbox for drawing breakpoint lines
     output$breakpointsCheckboxSlot <- renderUI({
       # check required information
       if(is.null(input$quickDataType) || input$quickDataType == " "){
@@ -197,9 +200,12 @@ shinyServer(
 
       # display only if breakpoints are detected
       if(length(quickTP()) > 1){
-       checkboxInput("breakpointsCheckbox", "Draw Breakpoint Lines", value=FALSE)
+        checkboxInput("breakpointsCheckbox", "Draw Breakpoint Lines",
+                      value=FALSE)
       }
     })
+
+    ### end: (quick) breakpoint analysis and output ###
 
    load_radioButtons <- reactive({
       # check required information
