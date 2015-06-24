@@ -207,29 +207,24 @@ shinyServer(
 
     ### end: (quick) breakpoint analysis and output ###
 
-   load_radioButtons <- reactive({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
+    ### start: (quick) ews analysis and output ###
 
-      radioButtons("radioButtons", "View Early Warning Signal Analysis:",
-        c("Show all", "Standard Deviation", "Skewness", "Kurtosis",
-          "Coefficient of Variation", "Return Rate", "Density Ratio",
-          "Autocorrelation at First Lag", "Autoregressive Coefficient"),
-        selected=NULL, inline=FALSE)
+    # display ews radio buttons
+    output$radioButtonSlot <- renderUI({
+        # check required information
+        if(is.null(input$quickDataType) || input$quickDataType == " "){
+          return()
+        }
+
+        radioButtons("radioButtons", "View Early Warning Signal Analysis:",
+                     c("Show all", "Standard Deviation", "Skewness", "Kurtosis",
+                       "Coefficient of Variation", "Return Rate", "Density Ratio",
+                       "Autocorrelation at First Lag",
+                       "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
 
-   output$radioButtonSlot <- renderUI({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-
-      load_radioButtons()
-    })
-
-    load_quickMainTable <- reactive({
+    # display ews breakdown table
+    output$quickMainTableSlot <- renderUI({
       # check required information
       if(is.null(input$quickDataType) || input$quickDataType == " "){
         return()
@@ -244,21 +239,7 @@ shinyServer(
       dataTableOutput("quickMainTable")
     })
 
-    output$quickMainTableSlot <- renderUI({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons == "Show all"){
-        return()
-      }
-
-      load_quickMainTable()
-    })
-
+    # fill ews breakdown table with appropriate data based on radio buttons
     output$quickMainTable <- renderDataTable({
       # check required information
       if(is.null(input$quickDataType) || input$quickDataType == " "){
@@ -271,6 +252,7 @@ shinyServer(
         return()
       }
 
+      # check radio buttons value
       if(input$radioButtons == "Standard Deviation"){
         cbind(time=50:101, quickGeneric()[3])
       }
@@ -297,7 +279,11 @@ shinyServer(
       }
     }, options=list(pageLength=10))
 
-#################### Advanced Tipping Point Analysis ##########################
+    ### end: (quick) ews analysis and output ###
+
+################################################################################
+
+#################### Advanced Tipping Point Analysis ###########################
 
     ### build user-input interface ###
 

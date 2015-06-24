@@ -60,15 +60,21 @@ shinyUI(fluidPage(
                       br(),
                       selectInput("quickDataType", "Choose Data",
                                   choices=c(" ", "Prey", "Predator")),
-                      uiOutput("radioButtonSlot")
-                    ), # column
-                    column(8,
-                      helpText("Re-run the analysis each time a parameter is changed for new breakpoints."),
                       h3(textOutput("quickNumBreakpoints")),
                       h3(textOutput("quickLocationText")),
-                      h4(textOutput("quickTPAnalysis2")),
-                      uiOutput("breakpointsCheckboxSlot"),
-                      uiOutput("quickMainTableSlot")
+                      h5(textOutput("quickTPAnalysis2")),
+                      uiOutput("breakpointsCheckboxSlot")
+                    ), # column
+                    column(8,
+                      br(),
+                      uiOutput("radioButtonSlot")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(12,
+                      br(),
+                      uiOutput("quickMainTableSlot"),
+                      uiOutput("quickGenericPlotSlot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
