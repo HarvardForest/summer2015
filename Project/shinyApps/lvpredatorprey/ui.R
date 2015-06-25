@@ -51,11 +51,9 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel(title="Graph",
           fluidRow(
-            column(8,
-              plotOutput("mainPlot")
-            ), # column
-            column(4,
-              plotOutput("ewsMainPlot")
+            column(12,
+              plotOutput("mainPlot"),
+              uiOutput("ewsMainPlotSlot")
             ) # column
           ), # fluidRow
           fluidRow(
@@ -75,7 +73,9 @@ shinyUI(fluidPage(
                     ), # column
                     column(8,
                       br(),
-                      uiOutput("radioButtonSlot")
+                      uiOutput("radioButtonSlot"),
+                      br(),
+                      uiOutput("downloadQuickTableSlot")
                     ) # column
                   ), # fluidRow
                   fluidRow(
@@ -211,7 +211,8 @@ shinyUI(fluidPage(
         tabPanel(title="Data Table",
           fluidRow(
             br(),
-            h4(helpText("Data tables can be copied and pasted into spreadsheet software!")),
+            downloadButton('downloadMainTable', 'Download Table'),
+            br(),
             br(),
             dataTableOutput("mainTable")
           ) # fluidRow

@@ -292,9 +292,32 @@ shinyServer(
       cbind(time=1:(input$time+1), lvPredPrey())
     })
 
+    # download main table
+    output$downloadMainTable <- downloadHandler(
+      filename = function() { paste("PredatorPrey", '.csv', sep='') },
+      content = function(file) {
+        write.csv(lvPredPrey(), file)
+      }
+    )
+
 ################################################################################
 
-######## Dynamic plot for (quick) ews analysis - adjacent to main plot #########
+########## Dynamic plot for (quick) ews analysis - below main plot #############
+
+    output$ewsMainPlotSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons == "Show all"){
+        return()
+      }
+
+      plotOutput("ewsMainPlot")
+    })
 
     output$ewsMainPlot <- renderPlot({
       # check required information
@@ -321,6 +344,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Skewness"){
@@ -336,6 +361,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Kurtosis"){
@@ -351,6 +378,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Coefficient of Variation"){
@@ -366,6 +395,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Return Rate"){
@@ -381,6 +412,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Density Ratio"){
@@ -396,6 +429,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Autocorrelation at First Lag"){
@@ -411,6 +446,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
       else if(input$radioButtons == "Autoregressive Coefficient"){
@@ -426,6 +463,8 @@ shinyServer(
         if(input$breakpointsCheckbox == TRUE){
           # include breakpoint lines
           abline(v=quickTP()[[2[1]]], col="blue")
+          legend("topleft", c("Breakpoints"), lty=c(1, 2), col=c("blue"),
+                 bty="n")
         }
       }
     })
@@ -601,6 +640,26 @@ shinyServer(
                        "Autocorrelation at First Lag",
                        "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
+
+    output$downloadQuickTableSlot <- renderUI({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+
+      downloadButton('downloadQuickTable', 'Download Data')
+    })
+
+    # download ews data
+    output$downloadQuickTable <- downloadHandler(
+      filename = function() { paste("PredatorPreyEWS", '.csv', sep='') },
+      content = function(file) {
+        write.csv(quickGeneric(), file)
+      }
+    )
 
       # display ews breakdown table
       output$quickMainTableSlot <- renderUI({
