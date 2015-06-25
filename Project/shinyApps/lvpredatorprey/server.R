@@ -633,37 +633,68 @@ shinyServer(
 
         # check radio buttons value
         if(input$radioButtons == "Standard Deviation"){
-          ewsLength <- input$time/2
-          print(quickGeneric()[3])
-          cbind(time=ewsLength:input$time, quickGeneric()[3][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[3])
+          colnames(table) <- c("Time Index", "Standard Deviation")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Skewness"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[4][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[4])
+          colnames(table) <- c("Time Index", "Skewness")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Kurtosis"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[5][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[5])
+          colnames(table) <- c("Time Index", "Kurtosis")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Coefficient of Variation"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[6][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[6])
+          colnames(table) <- c("Time Index", "Coefficient of Variation")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Return Rate"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[7][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[7])
+          colnames(table) <- c("Time Index", "Return Rate")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Density Ratio"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[8][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[8])
+          colnames(table) <- c("Time Index", "Density Ratio")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Autocorrelation at First Lag"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[9][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[9])
+          colnames(table) <- c("Time Index", "Autocorrelation at First Lag")
+
+          # return table with updated column names
+          return(table)
         }
         else if(input$radioButtons == "Autoregressive Coefficient"){
-          ewsLength <- input$time/2
-          cbind(time=ewsLength:input$time, quickGeneric()[2][1:input$time,])
+          # use ews time-index determination and associated value
+          table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[2])
+          colnames(table) <- c("Time Index", "Autoregressive Coefficient")
+
+          # return table with updated column names
+          return(table)
         }
       }, options=list(pageLength=10))
 
