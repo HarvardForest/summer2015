@@ -46,11 +46,19 @@ shinyUI(fluidPage(
       ),
       uiOutput("gamma2")
     ), # sidebarPanel
+
     mainPanel(
       tabsetPanel(
         tabPanel(title="Graph",
           fluidRow(
-            plotOutput("mainPlot"),
+            column(8,
+              plotOutput("mainPlot")
+            ), # column
+            column(4,
+              plotOutput("ewsMainPlot")
+            ) # column
+          ), # fluidRow
+          fluidRow(
             column(12, align="center",
               tabsetPanel(
                 tabPanel(title="Quick Analysis",
