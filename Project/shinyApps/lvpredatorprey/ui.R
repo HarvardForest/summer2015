@@ -74,7 +74,7 @@ shinyUI(fluidPage(
                     column(12,
                       br(),
                       uiOutput("quickMainTableSlot"),
-                      uiOutput("quickGenericPlotSlot")
+                      plotOutput("quickGenericPlotSlot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis

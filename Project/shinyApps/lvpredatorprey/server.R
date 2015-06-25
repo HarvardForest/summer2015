@@ -281,6 +281,38 @@ shinyServer(
 
     ### end: (quick) ews analysis and output ###
 
+    output$quickGenericPlotSlot <- renderPlot({
+      # check required information
+      if(is.null(input$quickDataType) || input$quickDataType == " "){
+        return()
+      }
+      if(is.null(input$radioButtons)){
+        return()
+      }
+      else if(input$radioButtons != "Show all"){
+        return()
+      }
+
+      # loading bar
+      withProgress(message="Plotting Data", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
+
+          # for prey
+          if(input$quickDataType == "Prey"){
+            plot_generic_ews(timeseries=subset(lvPredPrey(), select=prey),
+                        detrending="gaussian")
+          }
+
+          # for predator
+          else if(input$quickDataType == "Predator"){
+            plot_generic_ews(timeseries=subset(lvPredPrey(), select=predator),
+                        detrending="gaussian")
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
 ################################################################################
 
 #################### Advanced Tipping Point Analysis ###########################
