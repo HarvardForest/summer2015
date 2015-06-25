@@ -1,6 +1,6 @@
 ### Lotka-Volterra predator-prey model
 ## By: Nathan Justice
-# Last edited: 17June2015
+# Last edited: 26June2015
 
 ### Lotka-Volterra Predator-Prey ###
 
@@ -71,7 +71,7 @@ shinyServer(
       # indicates breakpoint lines can be drawn
       else if(input$breakpointsCheckbox == TRUE) {
         # update plot label
-        legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"),
+        legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints"),
               lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
         # include breakpoint lines
         abline(v=quickTP()[[2[1]]], col="blue")
@@ -125,7 +125,7 @@ shinyServer(
       }
 
       # loading bar
-      withProgress(message="Performing Earlywarning Signals Analysis", value=0, {
+      withProgress(message="Performing Earlywarning Signals Analysis", value=0,{
         withProgress(message="...", detail="Please Wait", value=0, {
 
           # for prey
@@ -223,95 +223,96 @@ shinyServer(
                        "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
 
-    # display ews breakdown table
-    output$quickMainTableSlot <- renderUI({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons == "Show all"){
-        return()
-      }
+      # display ews breakdown table
+      output$quickMainTableSlot <- renderUI({
+        # check required information
+        if(is.null(input$quickDataType) || input$quickDataType == " "){
+          return()
+        }
+        if(is.null(input$radioButtons)){
+          return()
+        }
+        else if(input$radioButtons == "Show all"){
+          return()
+        }
 
-      dataTableOutput("quickMainTable")
-    })
+        dataTableOutput("quickMainTable")
+      })
 
-    # fill ews breakdown table with appropriate data based on radio buttons
-    output$quickMainTable <- renderDataTable({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons == "Show all"){
-        return()
-      }
+      # fill ews breakdown table with appropriate data based on radio buttons
+      output$quickMainTable <- renderDataTable({
+        # check required information
+        if(is.null(input$quickDataType) || input$quickDataType == " "){
+          return()
+        }
+        if(is.null(input$radioButtons)){
+          return()
+        }
+        else if(input$radioButtons == "Show all"){
+          return()
+        }
 
-      # check radio buttons value
-      if(input$radioButtons == "Standard Deviation"){
-        cbind(time=50:101, quickGeneric()[3])
-      }
-      else if(input$radioButtons == "Skewness"){
-        cbind(time=50:101, quickGeneric()[4])
-      }
-      else if(input$radioButtons == "Kurtosis"){
-        cbind(time=50:101, quickGeneric()[5])
-      }
-      else if(input$radioButtons == "Coefficient of Variation"){
-        cbind(time=50:101, quickGeneric()[6])
-      }
-      else if(input$radioButtons == "Return Rate"){
-        cbind(time=50:101, quickGeneric()[7])
-      }
-      else if(input$radioButtons == "Density Ratio"){
-        cbind(time=50:101, quickGeneric()[8])
-      }
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
-        cbind(time=50:101, quickGeneric()[9])
-      }
-      else if(input$radioButtons == "Autoregressive Coefficient"){
-        cbind(time=50:101, quickGeneric()[2])
-      }
-    }, options=list(pageLength=10))
+        # check radio buttons value
+        if(input$radioButtons == "Standard Deviation"){
+          cbind(time=50:101, quickGeneric()[3])
+        }
+        else if(input$radioButtons == "Skewness"){
+          cbind(time=50:101, quickGeneric()[4])
+        }
+        else if(input$radioButtons == "Kurtosis"){
+          cbind(time=50:101, quickGeneric()[5])
+        }
+        else if(input$radioButtons == "Coefficient of Variation"){
+          cbind(time=50:101, quickGeneric()[6])
+        }
+        else if(input$radioButtons == "Return Rate"){
+          cbind(time=50:101, quickGeneric()[7])
+        }
+        else if(input$radioButtons == "Density Ratio"){
+          cbind(time=50:101, quickGeneric()[8])
+        }
+        else if(input$radioButtons == "Autocorrelation at First Lag"){
+          cbind(time=50:101, quickGeneric()[9])
+        }
+        else if(input$radioButtons == "Autoregressive Coefficient"){
+          cbind(time=50:101, quickGeneric()[2])
+        }
+      }, options=list(pageLength=10))
+
+      # display aggregate plot matrix from generic_ews
+      output$quickGenericPlotSlot <- renderPlot({
+        # check required information
+        if(is.null(input$quickDataType) || input$quickDataType == " "){
+          return()
+        }
+        if(is.null(input$radioButtons)){
+          return()
+        }
+        else if(input$radioButtons != "Show all"){
+          return()
+        }
+
+        # loading bar
+        withProgress(message="Plotting Data", value=0, {
+          withProgress(message="...", detail="Please Wait", value=0, {
+
+            # for prey
+            if(input$quickDataType == "Prey"){
+              plot_generic_ews(timeseries=subset(lvPredPrey(), select=prey),
+                               detrending="gaussian")
+            }
+
+            # for predator
+            else if(input$quickDataType == "Predator"){
+              plot_generic_ews(timeseries=subset(lvPredPrey(), select=predator),
+                               detrending="gaussian")
+            }
+
+          }) # withProgress
+        }) # withProgress
+      })
 
     ### end: (quick) ews analysis and output ###
-
-    output$quickGenericPlotSlot <- renderPlot({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons != "Show all"){
-        return()
-      }
-
-      # loading bar
-      withProgress(message="Plotting Data", value=0, {
-        withProgress(message="...", detail="Please Wait", value=0, {
-
-          # for prey
-          if(input$quickDataType == "Prey"){
-            plot_generic_ews(timeseries=subset(lvPredPrey(), select=prey),
-                        detrending="gaussian")
-          }
-
-          # for predator
-          else if(input$quickDataType == "Predator"){
-            plot_generic_ews(timeseries=subset(lvPredPrey(), select=predator),
-                        detrending="gaussian")
-          }
-
-        }) # withProgress
-      }) # withProgress
-    })
 
 ################################################################################
 
