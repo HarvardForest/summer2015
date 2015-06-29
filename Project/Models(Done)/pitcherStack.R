@@ -1,6 +1,6 @@
 #### Pitcher plant O2 simulation - stack algorithm
 ### Nathan Justice
-## Last edited: 17June2015
+## Last edited: 29June2015
 
 # 6:00 sunrise = 360
 # 12:00 noon = 720
@@ -60,8 +60,8 @@ B <- 0/(k+0)
 # o2 at minute=0, P=0 b/c unable to index at minute=0
 x <- (a*0)-B
 
-# simulate until food is first added (feedingTime=720)
-# loop runs until feedingTime-2 b/c food is added AT minute=720
+# simulate until food is first added
+# loop runs until feedingTime-2 b/c food is added AT the minute
 for(i in 1:(feedingTime-2)){
   # augmentation function - default value
   a <- c(a, ((aMax-aMin)/(1+exp((-s*n[i])-d)))+aMin)

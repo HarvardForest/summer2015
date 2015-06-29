@@ -1,30 +1,39 @@
 #### Pitcher plant O2 simulation - stack algorithm
-### By: Nathan Justice
+### Nathan Justice
+## Last edited: 29June2015
 
-# 6:00 sunrise = 360
-# 12:00 noon = 720
-# 18:00 sunset = 1080
+## Functions ##
+
+light <- function(days){
+  out <- sin(2*pi*(1:720)/1440)
+  out[out < 0] <- 0
+  out <- c(rep(0,720/2), out, rep(0,720/2))
+  rep(out, days)
+}
+
+PAR <- function(days, rise=6, set=18){
+  out <- rep(0, 1440)
+  out[(rise*60):(set*60)] <- 1
+  rep(out, days)
+}
 
 pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
-                            aMax, aMin, s, d, c){
+                            aMax, aMin, s, d, c) {
 
-  ## Variables ##
+  ## Function Variables ##
 
-  # user-input #
-  #days <- 3 # total number of days
-  #feedingTime <- 720 # time at which food is added
-  #foodWeight <- 5 # weight of food
-  #beta <- 0.0005 # constant
-  #k <- 1 # carrying capacity
-  #Bscaler <- 10 # scales biological oxygen demand values
-  #aMax <- 10 # maximum value of augmentation
-  #aMin <- 1 # minimum value of augmentation
-  #s <- 10 # constant
-  #d <- 0.5 # constant
-  #c <- 100 # constant
-
-  # constants #
-  food <- FALSE # presence of food
+  # days <- 3 # total number of days
+  # k <- 1 # carrying capacity
+  # food <- FALSE # presence of food
+  # feedingTime <- 720 # time at which food is added
+  # foodWeight <- 5 # weight of food
+  # aMax <- 10 # maximum value of augmentation
+  # aMin <- 1 # minimum value of augmentation
+  # beta <- 0.0005 # constant
+  # s <- 10 # constant
+  # d <- 0.5 # constant
+  # c <- 100 # constant
+  # Bscaler <- 10 # scales biological oxygen demand values
   minute <- vector(mode="numeric") # t/time variable
   x <- vector(mode="numeric") # amount of o2
   a <- vector(mode="numeric") # augmentation function
@@ -32,21 +41,6 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
   B <- vector(mode="numeric") # biological o2 demand
   n <- vector(mode="numeric") # amount of nutrients
   w <- vector(mode="numeric") # amount of food
-
-  ## Functions ##
-
-  light <- function(days){
-    out <- sin(2*pi*(1:720)/1440)
-    out[out < 0] <- 0
-    out <- c(rep(0,720/2), out, rep(0,720/2))
-    rep(out, days)
-  }
-
-  PAR <- function(days, rise=6, set=18){
-    out <- rep(0, 1440)
-    out[(rise*60):(set*60)] <- 1
-    rep(out, days)
-  }
 
   ## Initialization ##
 
@@ -65,8 +59,8 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
   # o2 at minute=0, P=0 b/c unable to index at minute=0
   x <- (a*0)-B
 
-  # simulate until food is first added (feedingTime=720)
-  # loop runs until feedingTime-2 b/c food is added AT minute=720
+  # simulate until food is first added
+  # loop runs until feedingTime-2 b/c food is added AT the minute
   for(i in 1:(feedingTime-2)){
     # augmentation function - default value
     a <- c(a, ((aMax-aMin)/(1+exp((-s*n[i])-d)))+aMin)
@@ -123,7 +117,7 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
   }
 
   # trim objects to appropriate time
-    # omitted values aren't relevant
+  # omitted values aren't relevant
   minute <- minute[1:length(P)]
   B <- B[1:length(P)]
   n <- n[1:length(P)]
