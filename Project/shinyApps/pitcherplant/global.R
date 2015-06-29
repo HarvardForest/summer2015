@@ -107,7 +107,13 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
       a <- c(a, ((aMax-aMin)/(1+exp((-s*n[length(minute)])-d)))+aMin)
 
       # adjust o2 amount
-      x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+      tempO2 <- (a[length(minute)]*P[length(minute)])-B[length(minute)]
+      if(is.na(tempO2) == FALSE && tempO2 > 0){
+        x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+      }
+      else{
+        x <- c(x, 0)
+      }
 
       if(j < 1440){
         # adjust amount of food

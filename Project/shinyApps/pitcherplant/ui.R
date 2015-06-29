@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 17June2015
+# Last edited: 29June2015
 
 ### User Interface ###
 
@@ -12,57 +12,35 @@ shinyUI(fluidPage(
 
   sidebarLayout(position="left",
     sidebarPanel(
-      numericInput("days",
-        label=h4("Number of Days:"),
-        value=3
-      ),
-      numericInput("feedingTime",
-        label=h4("Feeding time (in minutes):"),
-        value=720
-      ),
-      numericInput("foodWeight",
-        label=h4("Food weight:"),
-        value=5
-      ),
-      numericInput("beta",
-        label=h4("beta value:"),
-        value=0.0005
-      ),
-      numericInput("k",
-        label=h4("k value:"),
-        value=1
-      ),
-      numericInput("Bscaler",
-        label=h4("Scale Biological Oxygen Deman Values by:"),
-        value=10
-      ),
-      numericInput("aMax",
-        label=h4("Maximum value of Augmentation:"),
-        value=10
-      ),
-      numericInput("aMin",
-        label=h4("Minimum value of Augmentation:"),
-        value=1
-      ),
-      numericInput("s",
-        label=h4("s value:"),
-        value=10
-      ),
-      numericInput("d",
-        label=h4("d value:"),
-        value=0.5
-      ),
-      numericInput("c",
-        label=h4("c value:"),
-        value=100
-      ),
-      fluidRow(
-        br(),
-        column(12,
-          h4(helpText("Data tables can be copied and pasted into spreadsheet
-                      software!"))
-        )
-      )
+      sliderInput("days", label=h4("Number of Days:"), value=3, min=1, max=50,
+                  step=1),
+      uiOutput("days2"),
+      sliderInput("feedingTime", label=h4("Feeding Time (in minutes):"),
+                  value=720, min=1, max=1440, step=1),
+      uiOutput("feedingTime2"),
+      sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1,
+                  max=100),
+      uiOutput("foodWeight2"),
+      numericInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001,
+                  max=0.9),
+      sliderInput("k", label=h4("k value:"), value=1, min=1, max=10),
+      uiOutput("k2"),
+      sliderInput("Bscaler",
+                   label=h4("Scale Biological Oxygen Deman Values by:"),
+                   value=10, min=1, max=100),
+      uiOutput("Bscaler2"),
+      sliderInput("aMax", label=h4("Maximum value of Augmentation:"), value=10,
+                  min=1, max=50),
+      uiOutput("aMax2"),
+      sliderInput("aMin", label=h4("Minimum value of Augmentation:"), value=1,
+                  min=0, max=50),
+      uiOutput("aMin2"),
+      sliderInput("s", label=h4("s value:"), value=10, min=1, max=50),
+      uiOutput("s2"),
+      sliderInput("d", label=h4("d value:"), value=0.5, min=0, max=5),
+      uiOutput("d2"),
+      sliderInput("c", label=h4("c value:"), value=100, min=1, max=1000),
+      uiOutput("c2")
     ), # sidebarPanel
     mainPanel(
       tabsetPanel(
