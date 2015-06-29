@@ -32,6 +32,10 @@ shinyServer(
       numericInput("foodWeight2", label=NULL, value=input$foodWeight)
     })
 
+    output$beta2 <- renderUI({
+      numericInput("beta2", label=NULL, value=input$beta)
+    })
+
     output$k2 <- renderUI({
       numericInput("k2", label=NULL, value=input$k)
     })
@@ -67,6 +71,7 @@ shinyServer(
       updateSliderInput(session, "days", value=input$days2)
       updateSliderInput(session, "feedingTime", value=input$feedingTime2)
       updateSliderInput(session, "foodWeight", value=input$foodWeight2)
+      updateSliderInput(session, "beta", value=input$beta2)
       updateSliderInput(session, "k", value=input$k2)
       updateSliderInput(session, "Bscaler", value=input$Bscaler2)
       updateSliderInput(session, "aMax", value=input$aMax2)
@@ -114,6 +119,18 @@ shinyServer(
       }
     })
 
+    # simulation data table (main table)
+    output$mainTable <- renderDataTable({
+      ppSim()
+    })
+
+    # download main table
+    output$downloadMainTable <- downloadHandler(
+      filename = function() { paste("PitcherPlant", '.csv', sep='') },
+      content = function(file) {
+        write.csv(ppSim(), file)
+      }
+    )
 ################################################################################
 
   } ## end server ##

@@ -21,8 +21,9 @@ shinyUI(fluidPage(
       sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1,
                   max=100),
       uiOutput("foodWeight2"),
-      numericInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001,
-                  max=0.9),
+      sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001,
+                  max=0.9, step=0.00001),
+      uiOutput("beta2"),
       sliderInput("k", label=h4("k value:"), value=1, min=1, max=10),
       uiOutput("k2"),
       sliderInput("Bscaler",
@@ -175,6 +176,10 @@ shinyUI(fluidPage(
             ), # tabPanel - Graph
             tabPanel(title="Data Table",
               fluidRow(
+                br(),
+                downloadButton('downloadMainTable', 'Download Table'),
+                br(),
+                br(),
                 dataTableOutput("mainTable")
               ) # fluidRow
             ), # tabPanel - Data Table

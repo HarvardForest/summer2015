@@ -109,7 +109,7 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
       # adjust o2 amount
       tempO2 <- (a[length(minute)]*P[length(minute)])-B[length(minute)]
       if(is.na(tempO2) == FALSE && tempO2 > 0){
-        x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+        x <- c(x, tempO2)
       }
       else{
         x <- c(x, 0)
@@ -132,6 +132,10 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
   w <- w[1:length(P)]
 
   data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
+
+  colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
+                      "Biological Oxygen Demand", "Nutrients",
+                      "Augmentation Value", "Food Amount")
 
   return(data)
 }
