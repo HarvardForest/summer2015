@@ -24,19 +24,19 @@ shinyServer(
     ### start: load user-input boxes (parameters) ###
 
     output$alpha2 <- renderUI({
-      numericInput("alpha2", label="", value=input$alpha)
+      numericInput("alpha2", label=NULL, value=input$alpha)
     })
 
     output$beta2 <- renderUI({
-      numericInput("beta2", label="", value=input$beta)
+      numericInput("beta2", label=NULL, value=input$beta)
     })
 
     output$delta2 <- renderUI({
-      numericInput("delta2", label="", value=input$delta)
+      numericInput("delta2", label=NULL, value=input$delta)
     })
 
     output$gamma2 <- renderUI({
-      numericInput("gamma2", label="", value=input$gamma)
+      numericInput("gamma2", label=NULL, value=input$gamma)
     })
 
     ### end: load user-input boxes (parameters) ###
@@ -488,13 +488,13 @@ shinyServer(
 
           # for prey
           if(input$quickDataType == "Prey"){
-            CE.Normal(lvPredPrey()[1], distyp=1, parallel=TRUE, Nmax=10,
+            CE.Normal(lvPredPrey()[1], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
 
           # for predator
           else if(input$quickDataType == "Predator"){
-            CE.Normal(lvPredPrey()[2], distyp=1, parallel=TRUE, Nmax=10,
+            CE.Normal(lvPredPrey()[2], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
 
