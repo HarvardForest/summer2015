@@ -1,6 +1,6 @@
 #### Pitcher plant O2 simulation - stack algorithm
 ### Nathan Justice
-## Last edited: 29June2015
+## Last edited: 30June2015
 
 # 6:00 sunrise = 360
 # 12:00 noon = 720
@@ -10,7 +10,6 @@
 
 days <- 3 # total number of days
 k <- 1 # carrying capacity
-food <- FALSE # presence of food
 feedingTime <- 720 # time at which food is added
 foodWeight <- 5 # weight of food
 aMax <- 10 # maximum value of augmentation
@@ -136,4 +135,3 @@ data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
 colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Biological Oxygen Demand", "Nutrients",
                     "Augmentation Value", "Food Amount")
-

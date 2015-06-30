@@ -764,7 +764,28 @@ shinyServer(
             plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                              detrending="gaussian", winsize=10)
           }
-
+          else if(input$quickDataType == "Photosynthesis"){
+            plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
+                             detrending="gaussian", winsize=10)
+          }
+          else if(input$quickDataType == "Biological Oxygen Demand"){
+            plot_generic_ews(timeseries=subset(ppSim(),
+                                               select="Biological Oxygen Demand"),
+                             detrending="gaussian", winsize=10)
+          }
+          else if(input$quickDataType == "Nutrients"){
+            plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
+                             detrending="gaussian", winsize=10)
+          }
+          else if(input$quickDataType == "Augmentation Value"){
+            plot_generic_ews(timeseries=subset(ppSim(),
+                                               select="Augmentation Value"),
+                             detrending="gaussian", winsize=10)
+          }
+          else if(input$quickDataType == "Food Amount"){
+            plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
+                             detrending="gaussian", winsize=10)
+          }
         }) # withProgress
       }) # withProgress
     })
