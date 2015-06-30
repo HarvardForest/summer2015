@@ -93,37 +93,37 @@ shinyServer(
     output$mainPlot <- renderPlot({
       if(input$quickDataType == "Oxygen" || input$quickDataType == " "){
         matplot(x=ppSim()[1], y=ppSim()[2], type="l",
-                xlab="Time (minutes)", ylab="O2 level", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title("Oxygen")
         legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
       }
       else if(input$quickDataType == "Photosynthesis"){
         matplot(x=ppSim()[1], y=ppSim()[3], type="p",
-                xlab="Time (minutes)", ylab="O2 level", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title(main=input$quickDataType)
         legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
       else if(input$quickDataType == "Biological Oxygen Demand"){
         matplot(x=ppSim()[1], y=ppSim()[4], type="p",
-                xlab="Time (minutes)", ylab="O2 level", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title(main=input$quickDataType)
         legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
       else if(input$quickDataType == "Nutrients"){
         matplot(x=ppSim()[1], y=ppSim()[5], type="p",
-                xlab="Time (minutes)", ylab="Nutrient level", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title(main=input$quickDataType)
         legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
       else if(input$quickDataType == "Augmentation Value"){
         matplot(x=ppSim()[1], y=ppSim()[6], type="p",
-                xlab="Time (minutes)", ylab="Augmentation value", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title(main=input$quickDataType)
         legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
       else if(input$quickDataType == "Food Amount"){
         matplot(x=ppSim()[1], y=ppSim()[7], type="p",
-                xlab="Time (minutes)", ylab="Food level", pch=1)
+                xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title(main=input$quickDataType)
         legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
@@ -423,7 +423,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -442,7 +443,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -461,7 +463,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -480,7 +483,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -499,7 +503,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -518,7 +523,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -537,7 +543,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
@@ -556,7 +563,8 @@ shinyServer(
         }
 
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons, xlab="Time")
+        matplot(x, type='l', col="green", ylab=input$radioButtons,
+                xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
         if(input$breakpointsCheckbox == TRUE){
