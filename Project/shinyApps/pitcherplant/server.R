@@ -91,73 +91,74 @@ shinyServer(
     ### start: show simulation plot based on selector ###
 
     output$mainPlot <- renderPlot({
-      if(input$plotSelector == "Oxygen"){
+      if(input$quickDataType == "Oxygen" || input$quickDataType == " "){
         matplot(x=ppSim()[1], y=ppSim()[2], type="l",
                 xlab="Time (minutes)", ylab="O2 level", pch=1)
-        title(main=input$plotSelector)
+        title("Oxygen")
+        legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$plotSelector == "Photosynthesis"){
+      else if(input$quickDataType == "Photosynthesis"){
         matplot(x=ppSim()[1], y=ppSim()[3], type="p",
                 xlab="Time (minutes)", ylab="O2 level", pch=1)
-        title(main=input$plotSelector)
+        title(main=input$quickDataType)
+        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$plotSelector == "Biological Oxygen Demand"){
+      else if(input$quickDataType == "Biological Oxygen Demand"){
         matplot(x=ppSim()[1], y=ppSim()[4], type="p",
                 xlab="Time (minutes)", ylab="O2 level", pch=1)
-        title(main=input$plotSelector)
+        title(main=input$quickDataType)
+        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$plotSelector == "Nutrients"){
+      else if(input$quickDataType == "Nutrients"){
         matplot(x=ppSim()[1], y=ppSim()[5], type="p",
                 xlab="Time (minutes)", ylab="Nutrient level", pch=1)
-        title(main=input$plotSelector)
+        title(main=input$quickDataType)
+        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$plotSelector == "Augmentation Value"){
+      else if(input$quickDataType == "Augmentation Value"){
         matplot(x=ppSim()[1], y=ppSim()[6], type="p",
                 xlab="Time (minutes)", ylab="Augmentation value", pch=1)
-        title(main=input$plotSelector)
+        title(main=input$quickDataType)
+        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$plotSelector == "Food Amount"){
+      else if(input$quickDataType == "Food Amount"){
         matplot(x=ppSim()[1], y=ppSim()[7], type="p",
                 xlab="Time (minutes)", ylab="Food level", pch=1)
-        title(main=input$plotSelector)
+        title(main=input$quickDataType)
+        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
       }
-
-      # add plot legend
-      legend("topleft", input$plotSelector, lty=c(1, 2), col=(1), bty="n")
 
       ### end: show simulation plot based on selector ###
 
       ### start: draw breakpoint lines on main plot ###
 
-      # check if breakpoint lines can be drawn
+      # check if breakpoint lines and ews lines can be drawn
       if(is.null(input$quickDataType) || input$quickDataType == " "){
         return()
       }
       else if(is.null(input$breakpointsCheckbox)){
-        return()
+       return()
       }
       else if(is.null(input$radioButtons)){
-        return()
+       return()
       }
-
       # indicates breakpoint lines can be drawn
       else if(input$breakpointsCheckbox == TRUE) {
-        # update plot legend
-        legend("topleft", c(input$plotSelector, "Breakpoints"), lty=c(1, 2),
-               col=c(1, "blue"), bty="n")
         # include breakpoint lines
         abline(v=quickTP()[[2]], col="blue")
+        # update plot legend
+        legend("topleft", c(input$quickDataType, "Breakpoints"), lty=c(1, 2),
+               col=c(1, "blue"), bty="n")
       }
 
       ### end: draw breakpoint lines on main plot ###
 
       ### start: update plot and legend with ews line ###
 
-      # don't add to legend if there are no ews lines selected
+      # display default plot attributes if there are no ews lines selected
       if(input$radioButtons == "Show all"){
         return()
       }
-
       # draw ews line based on radio button selection
       else if(input$radioButtons == "Standard Deviation"){
         # adjust starting point to accomodate rolling window size (10%)
@@ -170,17 +171,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -196,17 +197,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -222,17 +223,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -248,17 +249,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -274,17 +275,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -300,17 +301,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -326,17 +327,17 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -352,23 +353,22 @@ shinyServer(
         # draw ews line
         matlines(temp, type='l', col="green")
 
-        # update the legend
         if(input$breakpointsCheckbox == TRUE) {
-          # update plot label
-          legend("topleft",c(input$plotSelector, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
+          # update plot legend with ews and breakpoint lines
+          legend("topleft",c(input$quickDataType, "Breakpoints",
+                             input$radioButtons),
+                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
-          legend("topleft",c(input$plotSelector, input$radioButtons),
+          # update plot legend with only ews line
+          legend("topleft", c(input$quickDataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-    ### end: update plot and legend with ews line ###
-
+      ### end: update plot and legend with ews line ###
     })
 
     # simulation data table (main table)
@@ -383,6 +383,7 @@ shinyServer(
         write.csv(ppSim(), file)
       }
     )
+
 ################################################################################
 
 ########## Dynamic plot for (quick) ews analysis - below main plot #############
@@ -622,10 +623,9 @@ shinyServer(
       }
 
       # loading bar
-      withProgress(message="Performing Earlywarning Signals Analysis", value=0,{
+      withProgress(message="Performing EWS Analysis", value=0,{
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          # for prey
           if(input$quickDataType == "Oxygen"){
             generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                         detrending="gaussian", winsize=10)
@@ -752,7 +752,6 @@ shinyServer(
       withProgress(message="Plotting Data", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          # for prey
           if(input$quickDataType == "Oxygen"){
             plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                              detrending="gaussian", winsize=10)
@@ -776,7 +775,7 @@ shinyServer(
 
     # download ews data
     output$downloadQuickTable <- downloadHandler(
-      filename = function() { paste("PredatorPreyEWS", '.csv', sep='') },
+      filename = function() { paste("PitcherPlantEWS", '.csv', sep='') },
       content = function(file) {
         write.csv(quickGeneric(), file)
       }

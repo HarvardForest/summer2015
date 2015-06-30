@@ -41,12 +41,6 @@ shinyUI(fluidPage(
         tabPanel(title="Graph",
           fluidRow(
             column(12,
-              br(),
-              selectInput("plotSelector", "Select State Variable",
-                choices=c("Oxygen", "Photosynthesis",
-                  "Biological Oxygen Demand", "Nutrients",
-                  "Augmentation Value", "Food Amount")
-              ),
               plotOutput("mainPlot"),
               uiOutput("ewsMainPlotSlot")
             ) # column

@@ -9,7 +9,7 @@ library(shinyjs)
 library(deSolve)
 library(breakpoint)
 library(ggplot2)
-library(earlywarnings)
+#library(earlywarnings)
 
 ## Functions ##
 
@@ -166,6 +166,153 @@ pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
 #'
 #' @author Vasilis Dakos \email{vasilis.dakos@@gmail.com}
 #' Author: Vasilis Dakos, January 2, 2012
+
+generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
+                                                                 "loess", "linear", "first-diff"), bandwidth = NULL, span = NULL, degree = NULL,
+                        logtransform = FALSE, interpolate = FALSE, AR_n = FALSE, powerspectrum = FALSE) {
+
+  # timeseries<-ts(timeseries)
+  timeseries <- data.matrix(timeseries)  #strict data-types the input data as tseries object for use in later steps
+  if (dim(timeseries)[2] == 1) {
+    Y = timeseries
+    timeindex = 1:dim(timeseries)[1]
+  } else if (dim(timeseries)[2] == 2) {
+    Y <- timeseries[, 2]
+    timeindex <- timeseries[, 1]
+  } else {
+    warning("not right format of timeseries input")
+  }
+
+  # Interpolation
+  if (interpolate) {
+    YY <- approx(timeindex, Y, n = length(Y), method = "linear")
+    Y <- YY$y
+  } else {
+    Y <- Y
+  }
+
+  # Log-transformation
+  if (logtransform) {
+    Y <- log(Y + 1)
+  }
+
+  # Detrending
+  detrending <- match.arg(detrending)
+  if (detrending == "gaussian") {
+    if (is.null(bandwidth)) {
+      bw <- round(bw.nrd0(timeindex))
+    } else {
+      bw <- round(length(Y) * bandwidth/100)
+    }
+    smYY <- ksmooth(timeindex, Y, kernel = "normal", bandwidth = bw, range.x = range(timeindex),
+                    x.points = timeindex)
+    nsmY <- Y - smYY$y
+    smY <- smYY$y
+  } else if (detrending == "linear") {
+    nsmY <- resid(lm(Y ~ timeindex))
+    smY <- fitted(lm(Y ~ timeindex))
+  } else if (detrending == "loess") {
+    if (is.null(span)) {
+      span <- 25/100
+    } else {
+      span <- span/100
+    }
+    if (is.null(degree)) {
+      degree <- 2
+    } else {
+      degree <- degree
+    }
+    smYY <- loess(Y ~ timeindex, span = span, degree = degree, normalize = FALSE,
+                  family = "gaussian")
+    smY <- predict(smYY, data.frame(x = timeindex), se = FALSE)
+    nsmY <- Y - smY
+  } else if (detrending == "first-diff") {
+    nsmY <- diff(Y)
+    timeindexdiff <- timeindex[1:(length(timeindex) - 1)]
+  } else if (detrending == "no") {
+    smY <- Y
+    nsmY <- Y
+  }
+
+  # Rearrange data for indicator calculation
+  mw <- round(length(Y) * winsize/100)
+  omw <- length(nsmY) - mw + 1  ##number of moving windows
+  low <- 6
+  high <- omw
+  nMR <- matrix(data = NA, nrow = mw, ncol = omw)
+  x1 <- 1:mw
+  for (i in 1:omw) {
+    Ytw <- nsmY[i:(i + mw - 1)]
+    nMR[, i] <- Ytw
+  }
+
+  # Calculate indicators
+  nARR <- numeric()
+  nSD <- numeric()
+  nSK <- numeric()
+  nKURT <- numeric()
+  nACF <- numeric()
+  nDENSITYRATIO <- numeric()
+  nSPECT <- matrix(0, nrow = omw, ncol = ncol(nMR))
+  nCV <- numeric()
+  smARall <- numeric()
+  smARmaxeig <- numeric()
+  detB <- numeric()
+  ARn <- numeric()
+
+  nSD <- apply(nMR, 2, sd, na.rm = TRUE)
+  for (i in 1:ncol(nMR)) {
+    nYR <- ar.ols(nMR[, i], aic = FALSE, order.max = 1, dmean = FALSE, intercept = FALSE)
+    nARR[i] <- nYR$ar
+    # nSD[i]<-sapply(nMR[,i], sd, na.rm = TRUE)#sd(nMR[,i], na.rm = TRUE)
+    nSK[i] <- abs(moments::skewness(nMR[, i], na.rm = TRUE))
+    nKURT[i] <- moments::kurtosis(nMR[, i], na.rm = TRUE)
+    nCV[i] <- nSD[i]/mean(nMR[, i])
+    ACF <- acf(nMR[, i], lag.max = 1, type = c("correlation"), plot = FALSE)
+    nACF[i] <- ACF$acf[2]
+    spectfft <- spec.ar(nMR[, i], n.freq = omw, plot = FALSE, order = 1)
+    nSPECT[, i] <- spectfft$spec
+    nDENSITYRATIO[i] <- spectfft$spec[low]/spectfft$spec[high]
+
+    if (AR_n) {
+      ## RESILIENCE IVES 2003 Indicators based on AR(n)
+      ARall <- ar.ols(nMR[, i], aic = TRUE, order.max = 6, demean = F, intercept = F)
+      smARall[i] <- ARall$ar[1]
+      ARn[i] <- ARall$order
+      roots <- Mod(polyroot(c(rev(-ARall$ar), 1)))
+      smARmaxeig[i] <- max(roots)
+      detB[i] <- (prod(roots))^(2/ARn[i])
+    }
+  }
+
+  nRETURNRATE = 1/nARR
+
+  # Estimate Kendall trend statistic for indicators
+  timevec <- seq(1, length(nARR))
+  KtAR <- cor.test(timevec, nARR, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+  KtACF <- cor.test(timevec, nACF, alternative = c("two.sided"), method = c("kendall"),
+                    conf.level = 0.95)
+  KtSD <- cor.test(timevec, nSD, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+  KtSK <- cor.test(timevec, nSK, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+  KtKU <- cor.test(timevec, nKURT, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+  KtDENSITYRATIO <- cor.test(timevec, nDENSITYRATIO, alternative = c("two.sided"),
+                             method = c("kendall"), conf.level = 0.95)
+  KtRETURNRATE <- cor.test(timevec, nRETURNRATE, alternative = c("two.sided"),
+                           method = c("kendall"), conf.level = 0.95)
+  KtCV <- cor.test(timevec, nCV, alternative = c("two.sided"), method = c("kendall"),
+                   conf.level = 0.95)
+
+  # Output
+  out <- data.frame(timeindex[mw:length(nsmY)], nARR, nSD, nSK, nKURT, nCV, nRETURNRATE,
+                    nDENSITYRATIO, nACF)
+  colnames(out) <- c("timeindex", "ar1", "sd", "sk", "kurt", "cv", "returnrate",
+                     "densratio", "acf1")
+  return(out)
+}
 
 plot_generic_ews <- function(timeseries, winsize = 50, detrending = c("no", "gaussian",
                                                                        "loess", "linear", "first-diff"), bandwidth = NULL, span = NULL, degree = NULL,
