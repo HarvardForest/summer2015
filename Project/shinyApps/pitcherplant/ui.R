@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 29June2015
+# Last edited: 30June2015
 
 ### User Interface ###
 
@@ -12,29 +12,21 @@ shinyUI(fluidPage(
 
   sidebarLayout(position="left",
     sidebarPanel(
-      sliderInput("days", label=h4("Number of Days:"), value=3, min=1, max=50,
-                  step=1),
+      sliderInput("days", label=h4("Number of Days:"), value=3, min=1, max=50, step=1),
       uiOutput("days2"),
-      sliderInput("feedingTime", label=h4("Feeding Time (in minutes):"),
-                  value=720, min=1, max=1440, step=1),
+      sliderInput("feedingTime", label=h4("Feeding Time (in minutes):"), value=720, min=1, max=1440, step=1),
       uiOutput("feedingTime2"),
-      sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1,
-                  max=100),
+      sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1, max=100),
       uiOutput("foodWeight2"),
-      sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001,
-                  max=0.9, step=0.00001),
+      sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001, max=0.9, step=0.00001),
       uiOutput("beta2"),
       sliderInput("k", label=h4("k value:"), value=1, min=1, max=10),
       uiOutput("k2"),
-      sliderInput("Bscaler",
-                   label=h4("Scale Biological Oxygen Deman Values by:"),
-                   value=10, min=1, max=100),
+      sliderInput("Bscaler", label=h4("Scale Biological Oxygen Deman Values by:"), value=10, min=1, max=100),
       uiOutput("Bscaler2"),
-      sliderInput("aMax", label=h4("Maximum value of Augmentation:"), value=10,
-                  min=1, max=50),
+      sliderInput("aMax", label=h4("Maximum value of Augmentation:"), value=10, min=1, max=50),
       uiOutput("aMax2"),
-      sliderInput("aMin", label=h4("Minimum value of Augmentation:"), value=1,
-                  min=0, max=50),
+      sliderInput("aMin", label=h4("Minimum value of Augmentation:"), value=1, min=0, max=50),
       uiOutput("aMin2"),
       sliderInput("s", label=h4("s value:"), value=10, min=1, max=50),
       uiOutput("s2"),
@@ -43,16 +35,18 @@ shinyUI(fluidPage(
       sliderInput("c", label=h4("c value:"), value=100, min=1, max=1000),
       uiOutput("c2")
     ), # sidebarPanel
-  mainPanel(
+
+    mainPanel(
       tabsetPanel(
         tabPanel(title="Graph",
           fluidRow(
             column(12,
               br(),
               selectInput("plotSelector", "Select State Variable",
-                          choices=c("Oxygen", "Photosynthesis",
-                                   "Biological Oxygen Demand", "Nutrients",
-                                   "Augmentation Value", "Food Amount")),
+                choices=c("Oxygen", "Photosynthesis",
+                  "Biological Oxygen Demand", "Nutrients",
+                  "Augmentation Value", "Food Amount")
+              ),
               plotOutput("mainPlot"),
               uiOutput("ewsMainPlotSlot")
             ) # column
@@ -66,9 +60,10 @@ shinyUI(fluidPage(
                       br(),
                       br(),
                       selectInput("quickDataType", "Choose Data",
-                                  choices=c(" ", "Oxygen", "Photosynthesis",
-                                   "Biological Oxygen Demand", "Nutrients",
-                                   "Augmentation Value", "Food Amount")),
+                        choices=c(" ", "Oxygen", "Photosynthesis",
+                          "Biological Oxygen Demand", "Nutrients",
+                          "Augmentation Value", "Food Amount")
+                      ),
                       h3(textOutput("quickNumBreakpoints")),
                       h3(textOutput("quickLocationText")),
                       h5(textOutput("quickTPanalysis")),
@@ -89,21 +84,21 @@ shinyUI(fluidPage(
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
+
                 tabPanel(title="Advanced Analysis",
                   tabsetPanel(
                     tabPanel(title="Advanced Tipping Point",
                       fluidRow(
                         column(5, align="left",
                           br(),
-                          helpText(
-                            a("Click here to view the R 'breakpoint' Package
-                              documentation.",
-                              href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
-                              target="_blank")
+                          helpText(a("Click here to view the R 'breakpoint' Package
+                            documentation.", href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
+                            target="_blank")
                           ), # helpText
                           br(),
                           selectInput("dataType", "Choose Data:",
-                                      choices=c(" ", "Prey", "Predator")),
+                            choices=c(" ", "Prey", "Predator")
+                          ),
                           uiOutput("tp1"),
                           uiOutput("tp2"),
                           uiOutput("tp3"),
@@ -132,42 +127,45 @@ shinyUI(fluidPage(
                       uiOutput("profilePlotSlot"),
                       br()
                     ), # tabPanel - Tipping Point analysis
+
                     tabPanel(title="Advanced Early Warning Signal",
                       fluidRow(
                         column(5, align="left",
                           br(),
                           helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
-                                    href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
-                                    target="_blank")),
+                            href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                            target="_blank")
+                          ),
                           helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
-                                    href="http://www.early-warning-signals.org/",
-                                    target="_blank")),
+                            href="http://www.early-warning-signals.org/", target="_blank")
+                          ),
                           br(),
                           selectInput("ewsDataType", "Choose Data:",
-                                      choices=c(" ", "Prey", "Predator")),
+                            choices=c(" ", "Prey", "Predator")
+                          ),
                           uiOutput("ews1"),
                           uiOutput("ews2"),
                           uiOutput("ews3"),
                           uiOutput("ews4")
                         ), # column
                         column(5, offset=1, align="center",
-                               br(),
-                               br(),
-                               uiOutput("ews5"),
-                               uiOutput("ews6"),
-                               uiOutput("ews7"),
-                               uiOutput("ews8"),
-                               uiOutput("ews9"),
-                               uiOutput("ews10"),
-                               uiOutput("ews11"),
-                               uiOutput("ews12"),
-                               uiOutput("ews13"),
-                               uiOutput("ews14"),
-                               uiOutput("ews15"),
-                               uiOutput("ews16"),
-                               uiOutput("ews17"),
-                               uiOutput("ewsRun"),
-                               br()
+                          br(),
+                          br(),
+                          uiOutput("ews5"),
+                          uiOutput("ews6"),
+                          uiOutput("ews7"),
+                          uiOutput("ews8"),
+                          uiOutput("ews9"),
+                          uiOutput("ews10"),
+                          uiOutput("ews11"),
+                          uiOutput("ews12"),
+                          uiOutput("ews13"),
+                          uiOutput("ews14"),
+                          uiOutput("ews15"),
+                          uiOutput("ews16"),
+                          uiOutput("ews17"),
+                          uiOutput("ewsRun"),
+                          br()
                         ) # column
                       ), # fluidRow
                       fluidRow(
@@ -197,20 +195,21 @@ shinyUI(fluidPage(
                     ) # tabPanel - Early Warning Signal analysis
                   ) # tabsetPanel
                 ), # tabPanel- Advanced Analysis
+
                 tabPanel(title="Customize Graph",
-                    br(),
-                    br(),
-                    textInput("plotTitle", "Plot Titile",
-                              value="Predator-Prey Model"),
-                    textInput("yaxis", "y-axis", value="Population"),
-                    textInput("xaxis", "x-axis", value="Time"),
-                    textInput("preyLabel", "Prey", value="Prey"),
-                    textInput("predatorLabel", "Predator", value="Predator")
+                  br(),
+                  br(),
+                  textInput("plotTitle", "Plot Titile", value="Predator-Prey Model"),
+                  textInput("yaxis", "y-axis", value="Population"),
+                  textInput("xaxis", "x-axis", value="Time"),
+                  textInput("preyLabel", "Prey", value="Prey"),
+                  textInput("predatorLabel", "Predator", value="Predator")
                 ) # tabPanel - Customize graph
               ) # tabsetPanel
             ) # column
           ) # fluidRow
         ), # tabPanel - Graph
+
         tabPanel(title="Data Table",
           fluidRow(
             br(),
@@ -220,6 +219,7 @@ shinyUI(fluidPage(
             dataTableOutput("mainTable")
           ) # fluidRow
         ), # tabPanel - Data Table
+
         tabPanel(title="Model",
           h2("Lotka-Volterra predator-prey model"),
           br(),
@@ -233,6 +233,7 @@ shinyUI(fluidPage(
           h5("delta = the death rate of predators"),
           h5("gamma = the rate at which predators increase by consuming prey")
         ), # tabPanel - Model
+
         tabPanel(title="References",
           br(),
           h3("R:"),
@@ -263,4 +264,6 @@ shinyUI(fluidPage(
       ) # tabsetPanel
     ) # mainPanel
   ) # sidebarLayout
-))
+)) # end UI
+
+
