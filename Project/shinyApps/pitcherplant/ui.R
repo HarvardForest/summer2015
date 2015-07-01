@@ -42,7 +42,7 @@ shinyUI(fluidPage(
           fluidRow(
             column(12,
               plotOutput("mainPlot"),
-              uiOutput("ewsMainPlotSlot")
+              uiOutput("ewsMainPlot")
             ) # column
           ), # fluidRow
           fluidRow(
@@ -53,27 +53,27 @@ shinyUI(fluidPage(
                     column(4,
                       br(),
                       br(),
-                      selectInput("quickDataType", "Choose Data",
+                      selectInput("quick_dataType", "Choose Data",
                         choices=c(" ", "Oxygen", "Photosynthesis",
                           "Biological Oxygen Demand", "Nutrients",
                           "Augmentation Value", "Food Amount")
                       ),
-                      h3(textOutput("quickNumBreakpoints")),
-                      h3(textOutput("quickLocationText")),
-                      h5(textOutput("quickTPanalysis")),
-                      uiOutput("breakpointsCheckboxSlot")
+                      h3(textOutput("quick_numBreakpoints")),
+                      h3(textOutput("quick_locationText")),
+                      h5(textOutput("quick_tpOutput")),
+                      uiOutput("breakpointCheckbox")
                     ), # column
                     column(8,
                       br(),
-                      uiOutput("radioButtonSlot"),
+                      uiOutput("ewsRadioButton"),
                       br(),
-                      uiOutput("downloadQuickTableSlot")
+                      uiOutput("quick_downloadTable")
                     ) # column
                   ), # fluidRow
                   fluidRow(
                     column(12,
                       br(),
-                      uiOutput("quickMainTableSlot"),
+                      uiOutput("quick_ewsTable"),
                       plotOutput("quickGenericPlot")
                     ) # column
                   ) # fluidRow
@@ -90,8 +90,10 @@ shinyUI(fluidPage(
                             target="_blank")
                           ), # helpText
                           br(),
-                          selectInput("dataType", "Choose Data:",
-                            choices=c(" ", "Prey", "Predator")
+                          selectInput("tpDataType", "Choose Data",
+                            choices=c(" ", "Oxygen", "Photosynthesis",
+                                      "Biological Oxygen Demand", "Nutrients",
+                                      "Augmentation Value", "Food Amount")
                           ),
                           uiOutput("tp1"),
                           uiOutput("tp2"),

@@ -91,41 +91,41 @@ shinyServer(
     ### start: show simulation plot based on selector ###
 
     output$mainPlot <- renderPlot({
-      if(input$quickDataType == "Oxygen" || input$quickDataType == " "){
+      if(input$quick_dataType == "Oxygen" || input$quick_dataType == " "){
         matplot(x=ppSim()[1], y=ppSim()[2], type="l",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title("Oxygen")
         legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Photosynthesis"){
+      else if(input$quick_dataType == "Photosynthesis"){
         matplot(x=ppSim()[1], y=ppSim()[3], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Biological Oxygen Demand"){
+      else if(input$quick_dataType == "Biological Oxygen Demand"){
         matplot(x=ppSim()[1], y=ppSim()[4], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Nutrients"){
+      else if(input$quick_dataType == "Nutrients"){
         matplot(x=ppSim()[1], y=ppSim()[5], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Augmentation Value"){
+      else if(input$quick_dataType == "Augmentation Value"){
         matplot(x=ppSim()[1], y=ppSim()[6], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Food Amount"){
+      else if(input$quick_dataType == "Food Amount"){
         matplot(x=ppSim()[1], y=ppSim()[7], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
 
       ### end: show simulation plot based on selector ###
@@ -133,7 +133,7 @@ shinyServer(
       ### start: draw breakpoint lines on main plot ###
 
       # check if breakpoint lines and ews lines can be drawn
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       else if(is.null(input$breakpointsCheckbox)){
@@ -147,7 +147,7 @@ shinyServer(
         # include breakpoint lines
         abline(v=quickTP()[[2]], col="blue")
         # update plot legend
-        legend("topleft", c(input$quickDataType, "Breakpoints"), lty=c(1, 2),
+        legend("topleft", c(input$quick_dataType, "Breakpoints"), lty=c(1, 2),
                col=c(1, "blue"), bty="n")
       }
 
@@ -175,13 +175,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -201,13 +201,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -227,13 +227,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -253,13 +253,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -279,13 +279,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -305,13 +305,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -331,13 +331,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -357,13 +357,13 @@ shinyServer(
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
+          legend("topleft",c(input$quick_dataType, "Breakpoints",
                              input$radioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
         else {
           # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
+          legend("topleft", c(input$quick_dataType, input$radioButtons),
                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
@@ -388,9 +388,9 @@ shinyServer(
 
 ########## Dynamic plot for (quick) ews analysis - below main plot #############
 
-    output$ewsMainPlotSlot <- renderUI({
+    output$ewsMainPlot <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
@@ -405,7 +405,7 @@ shinyServer(
 
     output$ewsMainPlot <- renderPlot({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
@@ -585,7 +585,7 @@ shinyServer(
     # reactive for dynamic updates
     quickTP <- reactive({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -594,27 +594,27 @@ shinyServer(
         withProgress(message="...", detail="Please Wait", value=0, {
 
           # for oxygen
-          if(input$quickDataType == "Oxygen"){
+          if(input$quick_dataType == "Oxygen"){
             CE.Normal(ppSim()[2], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Photosynthesis"){
+          else if(input$quick_dataType == "Photosynthesis"){
             CE.Normal(ppSim()[3], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Biological Oxygen Demand"){
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
             CE.Normal(ppSim()[4], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Nutrients"){
+          else if(input$quick_dataType == "Nutrients"){
             CE.Normal(ppSim()[5], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Augmentation Value"){
+          else if(input$quick_dataType == "Augmentation Value"){
             CE.Normal(ppSim()[6], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Food Amount"){
+          else if(input$quick_dataType == "Food Amount"){
             CE.Normal(ppSim()[7], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
@@ -626,7 +626,7 @@ shinyServer(
     # reactive for dynamic updates
     quickGeneric <- reactive({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -634,28 +634,28 @@ shinyServer(
       withProgress(message="Performing EWS Analysis", value=0,{
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          if(input$quickDataType == "Oxygen"){
+          if(input$quick_dataType == "Oxygen"){
             generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Photosynthesis"){
+          else if(input$quick_dataType == "Photosynthesis"){
             generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Biological Oxygen Demand"){
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
             generic_ews(timeseries=subset(ppSim(),
                           select="Biological Oxygen Demand"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Nutrients"){
+          else if(input$quick_dataType == "Nutrients"){
             generic_ews(timeseries=subset(ppSim(), select="Nutrients"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Augmentation Value"){
+          else if(input$quick_dataType == "Augmentation Value"){
             generic_ews(timeseries=subset(ppSim(), select="Augmentation Value"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Food Amount"){
+          else if(input$quick_dataType == "Food Amount"){
             generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
                         detrending="gaussian", winsize=10)
           }
@@ -669,9 +669,9 @@ shinyServer(
     ### start: (quick) breakpoint analysis and output ###
 
     # display "Number of breakpoints detected:" text
-    output$quickNumBreakpoints <- renderText({
+    output$quick_numBreakpoints <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -682,9 +682,9 @@ shinyServer(
     })
 
     # display "Location:" text
-    output$quickLocationText <- renderText({
+    output$quick_locationText <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -695,9 +695,9 @@ shinyServer(
     })
 
     # display locations of detected breakpoints
-    output$quickTPanalysis <- renderText({
+    output$quick_tpOutput <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -712,9 +712,9 @@ shinyServer(
     })
 
     # display checkbox for drawing breakpoint lines
-    output$breakpointsCheckboxSlot <- renderUI({
+    output$breakpointCheckbox <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -730,9 +730,9 @@ shinyServer(
     ### start: (quick) ews analysis and output ###
 
     # display ews radio buttons
-    output$radioButtonSlot <- renderUI({
+    output$ewsRadioButton <- renderUI({
         # check required information
-        if(is.null(input$quickDataType) || input$quickDataType == " "){
+        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
           return()
         }
 
@@ -744,9 +744,9 @@ shinyServer(
     })
 
     # display aggregate plot matrix from generic_ews
-    output$quickGenericPlot <- renderPlot({
+    output$quick_ewsPlotMatrix <- renderPlot({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
@@ -760,29 +760,29 @@ shinyServer(
       withProgress(message="Plotting Data", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          if(input$quickDataType == "Oxygen"){
+          if(input$quick_dataType == "Oxygen"){
             plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                              detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Photosynthesis"){
+          else if(input$quick_dataType == "Photosynthesis"){
             plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
                              detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Biological Oxygen Demand"){
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
             plot_generic_ews(timeseries=subset(ppSim(),
                                                select="Biological Oxygen Demand"),
                              detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Nutrients"){
+          else if(input$quick_dataType == "Nutrients"){
             plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
                              detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Augmentation Value"){
+          else if(input$quick_dataType == "Augmentation Value"){
             plot_generic_ews(timeseries=subset(ppSim(),
                                                select="Augmentation Value"),
                              detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Food Amount"){
+          else if(input$quick_dataType == "Food Amount"){
             plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
                              detrending="gaussian", winsize=10)
           }
@@ -790,9 +790,9 @@ shinyServer(
       }) # withProgress
     })
 
-    output$downloadQuickTableSlot <- renderUI({
+    output$quick_downloadTable <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
@@ -811,9 +811,9 @@ shinyServer(
     )
 
     # display ews breakdown table
-    output$quickMainTableSlot <- renderUI({
+    output$quick_ewsTable <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
@@ -829,7 +829,7 @@ shinyServer(
     # fill ews breakdown table with appropriate data based on radio buttons
     output$quickMainTable <- renderDataTable({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
       if(is.null(input$radioButtons)){
