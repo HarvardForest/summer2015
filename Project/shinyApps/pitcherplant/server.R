@@ -855,6 +855,265 @@ shinyServer(
 
 #################### Advanced Tipping Point Analysis ###########################
 
+    ### start: run (advanced) tipping point analysis based on user-input ###
+
+    TPanalysis <- eventReactive(input$tpRunButton, {
+      # loading bar
+      withProgress(message="Analyzing breakpoints", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+
+          # for oxygen
+          if(input$tpDataType == "Oxygen"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[2], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[2], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[2], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[2], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[2], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[2], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for photosynthesis
+          if(input$tpDataType == "Photosynthesis"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[3], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[3], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[3], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[3], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[3], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[3], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for biological oxygen demand
+          if(input$tpDataType == "Biological Oxygen Demand"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[4], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[4], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[4], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[4], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[4], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[4], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for nutrients
+          if(input$tpDataType == "Nutrients"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[5], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[5], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[5], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[5], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[5], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[5], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for augmentation value
+          if(input$tpDataType == "Augmentation Value"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[6], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[6], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[6], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[6], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[6], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[6], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for food amount
+          if(input$tpDataType == "Food Amount"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[7], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[7], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[7], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[7], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[7], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[7], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
+    ### end: run (advanced) tipping point analysis based on user-input ###
+
     ### start: dynamic display of tipping point input-interface ###
 
     output$breakpointTypeSlot <- renderUI({
