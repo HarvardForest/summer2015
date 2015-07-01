@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 30June2015
+# Last edited: 01July2015
 
 ### Pitcher Plant Simulation ###
 
@@ -91,284 +91,275 @@ shinyServer(
     ### start: show simulation plot based on selector ###
 
     output$mainPlot <- renderPlot({
-      if(input$quickDataType == "Oxygen" || input$quickDataType == " "){
+      # displays Oxygen plot as default
+      if(input$quick_dataType == "Oxygen" || input$quick_dataType == " "){
         matplot(x=ppSim()[1], y=ppSim()[2], type="l",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
         title("Oxygen")
         legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Photosynthesis"){
+      else if(input$quick_dataType == "Photosynthesis"){
         matplot(x=ppSim()[1], y=ppSim()[3], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Biological Oxygen Demand"){
+      else if(input$quick_dataType == "Biological Oxygen Demand"){
         matplot(x=ppSim()[1], y=ppSim()[4], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Nutrients"){
+      else if(input$quick_dataType == "Nutrients"){
         matplot(x=ppSim()[1], y=ppSim()[5], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Augmentation Value"){
+      else if(input$quick_dataType == "Augmentation Value"){
         matplot(x=ppSim()[1], y=ppSim()[6], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
-      else if(input$quickDataType == "Food Amount"){
+      else if(input$quick_dataType == "Food Amount"){
         matplot(x=ppSim()[1], y=ppSim()[7], type="p",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
-        title(main=input$quickDataType)
-        legend("topleft", input$quickDataType, lty=c(1, 2), col=(1), bty="n")
+        title(main=input$quick_dataType)
+        legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
       }
 
       ### end: show simulation plot based on selector ###
 
       ### start: draw breakpoint lines on main plot ###
 
-      # check if breakpoint lines and ews lines can be drawn
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      else if(is.null(input$breakpointsCheckbox)){
-       return()
-      }
-      else if(is.null(input$radioButtons)){
-       return()
-      }
-      # indicates breakpoint lines can be drawn
-      else if(input$breakpointsCheckbox == TRUE) {
-        # include breakpoint lines
-        abline(v=quickTP()[[2]], col="blue")
-        # update plot legend
-        legend("topleft", c(input$quickDataType, "Breakpoints"), lty=c(1, 2),
-               col=c(1, "blue"), bty="n")
-      }
-
-      ### end: draw breakpoint lines on main plot ###
-
-      ### start: update plot and legend with ews line ###
-
-      # display default plot attributes if there are no ews lines selected
-      if(input$radioButtons == "Show all"){
-        return()
-      }
-      # draw ews line based on radio button selection
-      else if(input$radioButtons == "Standard Deviation"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[3]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+      # run only if the "Quick Analysis" tab is active
+      if(input$tabset_analyses == "Quick Analysis"){
+        # check if breakpoint lines and ews lines can be drawn
+        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+          return()
         }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
+        else if(is.null(input$breakpointsCheckbox)){
+         return()
+        }
+        else if(is.null(input$ewsRadioButtons)){
+         return()
+        }
+        # indicates breakpoint lines can be drawn
+        else if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          # update plot legend
+          legend("topleft", c(input$quick_dataType, "Breakpoints"), lty=c(1, 2),
+                 col=c(1, "blue"), bty="n")
         }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+
+        ### end: draw breakpoint lines on main plot ###
+
+        ### start: update plot and legend with ews line ###
+
+        # variable used to adjust ews-line start value
+        ewsLineTime <- input$days * 1440
+
+        # display default plot attributes if there are no ews lines selected
+        if(input$ewsRadioButtons == "Show all"){
+          return()
         }
+        # draw ews line based on radio button selection
+        else if(input$ewsRadioButtons == "Standard Deviation"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[4]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Skewness"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[4]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Kurtosis"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[5]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Coefficient of Variation"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[6]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Return Rate"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[7]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Density Ratio"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[8]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[9]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+          # adjust starting point to accomodate rolling window size (10%)
+          ewsLine <- quickGeneric()[2]
+          for(i in 1:(ewsLineTime * 0.1)){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+          # draw ews line
+          matlines(ewsLine, type='l', col="green")
+
+          if(input$breakpointsCheckbox == TRUE) {
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend with ews and breakpoint lines
+            legend("topleft",c(input$quick_dataType, "Breakpoints",
+                               input$ewsRadioButtons),
+                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
+          }
+          else{
+            # update plot legend with only ews line
+            legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                    lty=c(1, 2), col=c(1, "green"), bty="n")
+          }
+        }
+
+        ### end: update plot and legend with ews line ###
       }
-
-      else if(input$radioButtons == "Skewness"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[4]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Kurtosis"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[5]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Coefficient of Variation"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[6]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Return Rate"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[7]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Density Ratio"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[8]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[9]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      else if(input$radioButtons == "Autoregressive Coefficient"){
-        # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[2]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
-        }
-
-        # draw ews line
-        matlines(temp, type='l', col="green")
-
-        if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend with ews and breakpoint lines
-          legend("topleft",c(input$quickDataType, "Breakpoints",
-                             input$radioButtons),
-                 lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-        }
-        else {
-          # update plot legend with only ews line
-          legend("topleft", c(input$quickDataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
-        }
-      }
-
-      ### end: update plot and legend with ews line ###
     })
 
     # simulation data table (main table)
@@ -390,13 +381,16 @@ shinyServer(
 
     output$ewsMainPlotSlot <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(input$tabset_analyses != "Quick Analysis"){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      if(is.null(input$ewsRadioButtons)){
+        return()
+      }
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
@@ -405,25 +399,26 @@ shinyServer(
 
     output$ewsMainPlot <- renderPlot({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
-      if(input$radioButtons == "Standard Deviation"){
+      # variable used to adjust ews-line start value
+      ewsLineTime = input$days * 1440
+
+      if(input$ewsRadioButtons == "Standard Deviation"){
         x <- quickGeneric()[3]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -435,15 +430,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Skewness"){
+      else if(input$ewsRadioButtons == "Skewness"){
         x <- quickGeneric()[4]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -455,15 +448,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Kurtosis"){
+      else if(input$ewsRadioButtons == "Kurtosis"){
         x <- quickGeneric()[5]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -475,15 +466,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Coefficient of Variation"){
+      else if(input$ewsRadioButtons == "Coefficient of Variation"){
         x <- quickGeneric()[6]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -495,15 +484,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Return Rate"){
+      else if(input$ewsRadioButtons == "Return Rate"){
         x <- quickGeneric()[7]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -515,15 +502,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Density Ratio"){
+      else if(input$ewsRadioButtons == "Density Ratio"){
         x <- quickGeneric()[8]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -535,15 +520,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
+      else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
         x <- quickGeneric()[9]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -555,15 +538,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Autoregressive Coefficient"){
+      else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
         x <- quickGeneric()[2]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -585,7 +566,7 @@ shinyServer(
     # reactive for dynamic updates
     quickTP <- reactive({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -593,28 +574,27 @@ shinyServer(
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          # for oxygen
-          if(input$quickDataType == "Oxygen"){
+          if(input$quick_dataType == "Oxygen"){
             CE.Normal(ppSim()[2], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Photosynthesis"){
+          else if(input$quick_dataType == "Photosynthesis"){
             CE.Normal(ppSim()[3], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Biological Oxygen Demand"){
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
             CE.Normal(ppSim()[4], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Nutrients"){
+          else if(input$quick_dataType == "Nutrients"){
             CE.Normal(ppSim()[5], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Augmentation Value"){
+          else if(input$quick_dataType == "Augmentation Value"){
             CE.Normal(ppSim()[6], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
-          else if(input$quickDataType == "Food Amount"){
+          else if(input$quick_dataType == "Food Amount"){
             CE.Normal(ppSim()[7], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
           }
@@ -626,7 +606,7 @@ shinyServer(
     # reactive for dynamic updates
     quickGeneric <- reactive({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -634,28 +614,28 @@ shinyServer(
       withProgress(message="Performing EWS Analysis", value=0,{
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          if(input$quickDataType == "Oxygen"){
+          if(input$quick_dataType == "Oxygen"){
             generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Photosynthesis"){
+          else if(input$quick_dataType == "Photosynthesis"){
             generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Biological Oxygen Demand"){
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
             generic_ews(timeseries=subset(ppSim(),
                           select="Biological Oxygen Demand"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Nutrients"){
+          else if(input$quick_dataType == "Nutrients"){
             generic_ews(timeseries=subset(ppSim(), select="Nutrients"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Augmentation Value"){
+          else if(input$quick_dataType == "Augmentation Value"){
             generic_ews(timeseries=subset(ppSim(), select="Augmentation Value"),
                         detrending="gaussian", winsize=10)
           }
-          else if(input$quickDataType == "Food Amount"){
+          else if(input$quick_dataType == "Food Amount"){
             generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
                         detrending="gaussian", winsize=10)
           }
@@ -669,9 +649,9 @@ shinyServer(
     ### start: (quick) breakpoint analysis and output ###
 
     # display "Number of breakpoints detected:" text
-    output$quickNumBreakpoints <- renderText({
+    output$quick_numBreakpoints <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -682,9 +662,9 @@ shinyServer(
     })
 
     # display "Location:" text
-    output$quickLocationText <- renderText({
+    output$quick_locationText <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -695,9 +675,9 @@ shinyServer(
     })
 
     # display locations of detected breakpoints
-    output$quickTPanalysis <- renderText({
+    output$quick_tpOutput <- renderText({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -712,9 +692,9 @@ shinyServer(
     })
 
     # display checkbox for drawing breakpoint lines
-    output$breakpointsCheckboxSlot <- renderUI({
+    output$breakpointCheckbox <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
 
@@ -730,13 +710,13 @@ shinyServer(
     ### start: (quick) ews analysis and output ###
 
     # display ews radio buttons
-    output$radioButtonSlot <- renderUI({
+    output$ewsRadioButtonSlot <- renderUI({
         # check required information
-        if(is.null(input$quickDataType) || input$quickDataType == " "){
+        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
           return()
         }
 
-        radioButtons("radioButtons", "View Early Warning Signal Analysis:",
+        radioButtons("ewsRadioButtons", "View Early Warning Signal Analysis:",
                      c("Show all", "Standard Deviation", "Skewness", "Kurtosis",
                        "Coefficient of Variation", "Return Rate", "Density Ratio",
                        "Autocorrelation at First Lag",
@@ -744,37 +724,57 @@ shinyServer(
     })
 
     # display aggregate plot matrix from generic_ews
-    output$quickGenericPlot <- renderPlot({
+    output$quick_ewsPlotMatrix <- renderPlot({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons != "Show all"){
-        return()
-      }
+      else if(input$ewsRadioButtons == "Show all"){
+        # loading bar
+        withProgress(message="Plotting Data", value=0, {
+          withProgress(message="...", detail="Please Wait", value=0, {
 
-      # loading bar
-      withProgress(message="Plotting Data", value=0, {
-        withProgress(message="...", detail="Please Wait", value=0, {
+            if(input$quick_dataType == "Oxygen"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Photosynthesis"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Biological Oxygen Demand"){
+              plot_generic_ews(timeseries=subset(ppSim(),
+                                                 select="Biological Oxygen Demand"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Nutrients"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Augmentation Value"){
+              plot_generic_ews(timeseries=subset(ppSim(),
+                                                 select="Augmentation Value"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Food Amount"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
+                               detrending="gaussian", winsize=10)
+            }
 
-          if(input$quickDataType == "Oxygen"){
-            plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
-                             detrending="gaussian", winsize=10)
-          }
-
+          }) # withProgress
         }) # withProgress
-      }) # withProgress
+      }
     })
 
-    output$downloadQuickTableSlot <- renderUI({
+    output$quick_downloadTable <- renderUI({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
 
@@ -789,103 +789,490 @@ shinyServer(
       }
     )
 
-    # display ews breakdown table
-    output$quickMainTableSlot <- renderUI({
-      # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons == "Show all"){
-        return()
-      }
-
-      dataTableOutput("quickMainTable")
-    })
-
     # fill ews breakdown table with appropriate data based on radio buttons
-    output$quickMainTable <- renderDataTable({
+    output$quick_ewsTable <- renderDataTable({
       # check required information
-      if(is.null(input$quickDataType) || input$quickDataType == " "){
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
       # check radio buttons value
-      if(input$radioButtons == "Standard Deviation"){
+      if(input$ewsRadioButtons == "Standard Deviation"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[3])
         colnames(table) <- c("Time Index", "Standard Deviation")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Skewness"){
+      else if(input$ewsRadioButtons == "Skewness"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[4])
         colnames(table) <- c("Time Index", "Skewness")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Kurtosis"){
+      else if(input$ewsRadioButtons == "Kurtosis"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[5])
         colnames(table) <- c("Time Index", "Kurtosis")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Coefficient of Variation"){
+      else if(input$ewsRadioButtons == "Coefficient of Variation"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[6])
         colnames(table) <- c("Time Index", "Coefficient of Variation")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Return Rate"){
+      else if(input$ewsRadioButtons == "Return Rate"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[7])
         colnames(table) <- c("Time Index", "Return Rate")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Density Ratio"){
+      else if(input$ewsRadioButtons == "Density Ratio"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[8])
         colnames(table) <- c("Time Index", "Density Ratio")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
+      else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[9])
         colnames(table) <- c("Time Index", "Autocorrelation at First Lag")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Autoregressive Coefficient"){
+      else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[2])
         colnames(table) <- c("Time Index", "Autoregressive Coefficient")
-
-        # return table with updated column names
-        return(table)
       }
+
+      # return table with updated column names
+      return(table)
+
     }, options=list(pageLength=10))
 
-  ### end: (quick) ews analysis and output ###
+    ### end: (quick) ews analysis and output ###
+
+################################################################################
+
+#################### Advanced Tipping Point Analysis ###########################
+
+    ### start: run (advanced) tipping point analysis based on user-input ###
+
+    TPanalysis <- eventReactive(input$tpRunButton, {
+      # loading bar
+      withProgress(message="Analyzing breakpoints", value=0, {
+        withProgress(message="...", detail="This may take awhile", value=0, {
+
+          # for oxygen
+          if(input$tpDataType == "Oxygen"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[2], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[2], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[2], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[2], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[2], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[2], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for photosynthesis
+          if(input$tpDataType == "Photosynthesis"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[3], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[3], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[3], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[3], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[3], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[3], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for biological oxygen demand
+          if(input$tpDataType == "Biological Oxygen Demand"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[4], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[4], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[4], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[4], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[4], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[4], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for nutrients
+          if(input$tpDataType == "Nutrients"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[5], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[5], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[5], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[5], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[5], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[5], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for augmentation value
+          if(input$tpDataType == "Augmentation Value"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[6], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[6], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[6], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[6], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[6], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[6], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+          # for food amount
+          if(input$tpDataType == "Food Amount"){
+            if(input$breakpointType == "with Negative Binomial Distribution"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.NB(ppSim()[7], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.NB(ppSim()[7], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                  b=input$b)
+              }
+            }
+            else if(input$breakpointType == "for Continuous Data"){
+              if(input$distributionType == "Four Parameter Beta Distribution"){
+                CE.Normal(ppSim()[7], distyp=1, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+              else if(input$distributionType == "Truncated Normal Distribution"){
+                CE.Normal(ppSim()[7], distyp=2, parallel=FALSE,
+                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                  h=input$h, a=input$a, b=input$b)
+              }
+            }
+            else if(input$breakpointType ==
+              "with Zero-Inflated Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  CE.ZINB(ppSim()[7], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  CE.ZINB(ppSim()[7], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b)
+                }
+            }
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
+    ### end: run (advanced) tipping point analysis based on user-input ###
+
+    ### start: dynamic display of tipping point input-interface ###
+
+    output$breakpointTypeSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+
+      selectInput("breakpointType", "Analysis Type:",
+                  choices=c(" ",  "with Negative Binomial Distribution",
+                          "for Continuous Data",
+                          "with Zero-Inflated Negative Binomial Distribution"))
+    })
+
+    output$distributionTypeSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+
+      selectInput("distributionType",
+                  "Distribution to simulate break-point locations:",
+                  choices=c(" ", "Four Parameter Beta Distribution",
+                            "Truncated Normal Distribution"))
+    })
+
+    output$NmaxSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("Nmax", "Maximum number of breakpoints:", value=10)
+    })
+
+    output$aSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("a", "Used in the four parameter beta distribution to smooth
+        both shape parameters. When simulating from the truncated normal
+        distribution, this value is used to smooth the estimates of the mean
+        values:", value=0.8)
+    })
+
+    output$bSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("b", "A smoothing parameter value. It is used in the truncated
+                   normal distribution to smooth the estimates of the standard
+                   deviation:", value=0.8)
+    })
+
+    output$hSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("h", "Minimum aberration width:", value=5)
+    })
+
+    output$MSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("M", "Sample size to be used in simulating the locations of
+        break-points:", value=200)
+    })
+
+    output$rhoSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("rho", "The fraction which is used to obtain the best
+                    performing set of sample solutions (i.e., elite sample):",
+                   value=0.05)
+    })
+
+    output$epsSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("eps", "the cut-off value for the stopping criterion in the
+                    CE method:", value=0.01)
+    })
+
+    output$tpRunButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      actionButton("tpRunButton", "Run Analysis")
+    })
+
+    ### end: dynamic display of tipping point input-interface ###
 
 ################################################################################
 

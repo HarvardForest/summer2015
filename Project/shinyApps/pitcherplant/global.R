@@ -130,9 +130,9 @@ data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
 colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Biological Oxygen Demand", "Nutrients",
                     "Augmentation Value", "Food Amount")
-
 return(data)
 }
+
 
 
 ################################################################################

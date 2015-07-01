@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 30June2015
+# Last edited: 01July2015
 
 ### User Interface ###
 
@@ -12,7 +12,7 @@ shinyUI(fluidPage(
 
   sidebarLayout(position="left",
     sidebarPanel(
-      sliderInput("days", label=h4("Number of Days:"), value=3, min=1, max=50, step=1),
+      sliderInput("days", label=h4("Number of Days:"), value=5, min=1, max=50, step=1),
       uiOutput("days2"),
       sliderInput("feedingTime", label=h4("Feeding Time (in minutes):"), value=720, min=1, max=1440, step=1),
       uiOutput("feedingTime2"),
@@ -20,19 +20,19 @@ shinyUI(fluidPage(
       uiOutput("foodWeight2"),
       sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.00001, max=0.1),
       uiOutput("beta2"),
-      sliderInput("k", label=h4("k value:"), value=1, min=1, max=10),
-      uiOutput("k2"),
-      sliderInput("Bscaler", label=h4("Scale Biological Oxygen Deman Values by:"), value=10, min=1, max=100),
-      uiOutput("Bscaler2"),
-      sliderInput("aMax", label=h4("Maximum value of Augmentation:"), value=10, min=1, max=50),
+      sliderInput("aMax", label=h4("Maximum Value of Augmentation:"), value=10, min=1, max=50),
       uiOutput("aMax2"),
-      sliderInput("aMin", label=h4("Minimum value of Augmentation:"), value=1, min=0, max=50),
+      sliderInput("aMin", label=h4("Minimum Value of Augmentation:"), value=1, min=0, max=50),
       uiOutput("aMin2"),
-      sliderInput("s", label=h4("s value:"), value=10, min=1, max=50),
+      sliderInput("Bscaler", label=h4("Scale Biological Oxygen Demand Value by:"), value=1, min=1, max=100),
+      uiOutput("Bscaler2"),
+      sliderInput("k", label=h4("k Value:"), value=1, min=1, max=10),
+      uiOutput("k2"),
+      sliderInput("s", label=h4("s Value:"), value=10, min=1, max=50),
       uiOutput("s2"),
-      sliderInput("d", label=h4("d value:"), value=0.5, min=0, max=5),
+      sliderInput("d", label=h4("d Value:"), value=0.5, min=0, max=5),
       uiOutput("d2"),
-      sliderInput("c", label=h4("c value:"), value=100, min=1, max=1000),
+      sliderInput("c", label=h4("c Value:"), value=100, min=1, max=1000),
       uiOutput("c2")
     ), # sidebarPanel
 
@@ -47,34 +47,34 @@ shinyUI(fluidPage(
           ), # fluidRow
           fluidRow(
             column(12, align="center",
-              tabsetPanel(
+              tabsetPanel(id="tabset_analyses",
                 tabPanel(title="Quick Analysis",
                   fluidRow(
                     column(4,
                       br(),
                       br(),
-                      selectInput("quickDataType", "Choose Data",
+                      selectInput("quick_dataType", "Choose Data",
                         choices=c(" ", "Oxygen", "Photosynthesis",
                           "Biological Oxygen Demand", "Nutrients",
                           "Augmentation Value", "Food Amount")
                       ),
-                      h3(textOutput("quickNumBreakpoints")),
-                      h3(textOutput("quickLocationText")),
-                      h5(textOutput("quickTPanalysis")),
-                      uiOutput("breakpointsCheckboxSlot")
+                      h3(textOutput("quick_numBreakpoints")),
+                      h3(textOutput("quick_locationText")),
+                      h5(textOutput("quick_tpOutput")),
+                      uiOutput("breakpointCheckbox")
                     ), # column
                     column(8,
                       br(),
-                      uiOutput("radioButtonSlot"),
+                      uiOutput("ewsRadioButtonSlot"),
                       br(),
-                      uiOutput("downloadQuickTableSlot")
+                      uiOutput("quick_downloadTable")
                     ) # column
                   ), # fluidRow
                   fluidRow(
                     column(12,
                       br(),
-                      uiOutput("quickMainTableSlot"),
-                      plotOutput("quickGenericPlot")
+                      dataTableOutput("quick_ewsTable"),
+                      plotOutput("quick_ewsPlotMatrix")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
@@ -90,22 +90,24 @@ shinyUI(fluidPage(
                             target="_blank")
                           ), # helpText
                           br(),
-                          selectInput("dataType", "Choose Data:",
-                            choices=c(" ", "Prey", "Predator")
+                          selectInput("tpDataType", "Choose Data:",
+                            choices=c(" ", "Oxygen", "Photosynthesis",
+                                      "Biological Oxygen Demand", "Nutrients",
+                                      "Augmentation Value", "Food Amount")
                           ),
-                          uiOutput("tp1"),
-                          uiOutput("tp2"),
-                          uiOutput("tp3"),
-                          uiOutput("tp4"),
-                          uiOutput("tp5")
+                          uiOutput("breakpointTypeSlot"),
+                          uiOutput("distributionTypeSlot"),
+                          uiOutput("NmaxSlot"),
+                          uiOutput("aSlot"),
+                          uiOutput("bSlot"),
+                          uiOutput("hSlot"),
+                          uiOutput("MSlot"),
+                          uiOutput("rhoSlot"),
+                          uiOutput("epsSlot"),
+                          uiOutput("tpRunButtonSlot")
                         ), # column
                         column(5, offset=1, align="center",
                           br(),
-                          uiOutput("tp6"),
-                          uiOutput("tp7"),
-                          uiOutput("tp8"),
-                          uiOutput("tp9"),
-                          uiOutput("tpRun"),
                           br(),
                           br(),
                           h4(textOutput("numBreakpointsText")),
