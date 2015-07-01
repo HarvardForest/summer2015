@@ -18,7 +18,7 @@ shinyUI(fluidPage(
       uiOutput("feedingTime2"),
       sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1, max=100),
       uiOutput("foodWeight2"),
-      sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.000001, max=0.9, step=0.00001),
+      sliderInput("beta", label=h4("Beta Value:"), value=0.0005, min=0.00001, max=0.1),
       uiOutput("beta2"),
       sliderInput("k", label=h4("k value:"), value=1, min=1, max=10),
       uiOutput("k2"),
