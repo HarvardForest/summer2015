@@ -6,26 +6,6 @@
 # 12:00 noon = 720
 # 18:00 sunset = 1080
 
-## Variables ##
-
-days <- 3 # total number of days
-k <- 1 # carrying capacity
-feedingTime <- 720 # time at which food is added
-foodWeight <- 5 # weight of food
-aMax <- 10 # maximum value of augmentation
-aMin <- 1 # minimum value of augmentation
-beta <- 0.005 # constant
-s <- 10 # constant
-d <- 0.5 # constant
-c <- 100 # constant
-Bscaler <- 1 # scales biological oxygen demand values
-minute <- vector(mode="numeric") # t/time variable
-x <- vector(mode="numeric") # amount of o2
-a <- vector(mode="numeric") # augmentation function
-P <- vector(mode="numeric") # photosynthesis
-B <- vector(mode="numeric") # biological o2 demand
-n <- vector(mode="numeric") # amount of nutrients
-w <- vector(mode="numeric") # amount of food
 
 ## Functions ##
 
@@ -41,6 +21,19 @@ PAR <- function(days, rise=6, set=18){
   out[(rise*60):(set*60)] <- 1
   rep(out, days)
 }
+
+
+pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.005, k=1, Bscaler=1,
+                            aMax=10, aMin=1, s=10, d=0.5, c=100) {
+
+minute <- vector(mode="numeric") # t/time variable
+x <- vector(mode="numeric") # amount of o2
+a <- vector(mode="numeric") # augmentation function
+P <- vector(mode="numeric") # photosynthesis
+B <- vector(mode="numeric") # biological o2 demand
+n <- vector(mode="numeric") # amount of nutrients
+w <- vector(mode="numeric") # amount of food
+
 
 ## Initialization ##
 
@@ -89,7 +82,6 @@ w <- c(w, w[length(w)])
 
 for(z in 1:days){
   # add food
-  food <- TRUE
   w <- c(w, w[length(w)]+foodWeight)
 
   # run simulation for a full day
@@ -117,7 +109,7 @@ for(z in 1:days){
 
     if(j < 1440){
         ## adjust amount of food
-        w <- c(w, w[length(minute)]*exp(-beta*(1)))
+        w <- c(w, w[length(w)]*exp(-beta*(1)))
     }
   }
 }
@@ -135,3 +127,5 @@ data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
 colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Biological Oxygen Demand", "Nutrients",
                     "Augmentation Value", "Food Amount")
+return(data)
+}
