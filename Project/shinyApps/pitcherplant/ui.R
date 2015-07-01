@@ -47,7 +47,7 @@ shinyUI(fluidPage(
           ), # fluidRow
           fluidRow(
             column(12, align="center",
-              tabsetPanel(
+              tabsetPanel(id="tabset_analyses",
                 tabPanel(title="Quick Analysis",
                   fluidRow(
                     column(4,
