@@ -61,7 +61,7 @@ shinyUI(fluidPage(
                       h3(textOutput("quick_numBreakpoints")),
                       h3(textOutput("quick_locationText")),
                       h5(textOutput("quick_tpOutput")),
-                      uiOutput("breakpointCheckbox")
+                      uiOutput("quick_breakpointsCheckboxSlot")
                     ), # column
                     column(8,
                       br(),
@@ -106,14 +106,12 @@ shinyUI(fluidPage(
                           uiOutput("epsSlot"),
                           uiOutput("tpRunButtonSlot")
                         ), # column
-                        column(5, offset=1, align="center",
+                        column(7, align="center",
                           br(),
-                          br(),
-                          br(),
-                          h4(textOutput("numBreakpointsText")),
-                          h3(textOutput("tpAnalysis1")),
+                          h3(textOutput("numBreakpoints")),
                           h3(textOutput("locationText")),
-                          h4(textOutput("tpAnalysis2"))
+                          h5(textOutput("tpOutput")),
+                          uiOutput("breakpointsCheckboxSlot")
                         ) # column
                       ), # fluidRow
                       br(),
