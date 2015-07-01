@@ -90,24 +90,24 @@ shinyUI(fluidPage(
                             target="_blank")
                           ), # helpText
                           br(),
-                          selectInput("tpDataType", "Choose Data",
+                          selectInput("tpDataType", "Choose Data:",
                             choices=c(" ", "Oxygen", "Photosynthesis",
                                       "Biological Oxygen Demand", "Nutrients",
                                       "Augmentation Value", "Food Amount")
                           ),
-                          uiOutput("tp1"),
-                          uiOutput("tp2"),
-                          uiOutput("tp3"),
-                          uiOutput("tp4"),
-                          uiOutput("tp5")
+                          uiOutput("breakpointTypeSlot"),
+                          uiOutput("distributionTypeSlot"),
+                          uiOutput("NmaxSlot"),
+                          uiOutput("aSlot"),
+                          uiOutput("bSlot"),
+                          uiOutput("hSlot"),
+                          uiOutput("MSlot"),
+                          uiOutput("rhoSlot"),
+                          uiOutput("epsSlot"),
+                          uiOutput("tpRunButtonSlot")
                         ), # column
                         column(5, offset=1, align="center",
                           br(),
-                          uiOutput("tp6"),
-                          uiOutput("tp7"),
-                          uiOutput("tp8"),
-                          uiOutput("tp9"),
-                          uiOutput("tpRun"),
                           br(),
                           br(),
                           h4(textOutput("numBreakpointsText")),

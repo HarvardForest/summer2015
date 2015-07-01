@@ -165,7 +165,7 @@ shinyServer(
         if(input$ewsRadioButtons == "Show all"){
           return()
         }
-        # draw ews line based on radio button selection 
+        # draw ews line based on radio button selection
         else if(input$ewsRadioButtons == "Standard Deviation"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[4]
@@ -849,7 +849,171 @@ shinyServer(
 
     }, options=list(pageLength=10))
 
-  ### end: (quick) ews analysis and output ###
+    ### end: (quick) ews analysis and output ###
+
+################################################################################
+
+#################### Advanced Tipping Point Analysis ###########################
+
+    ### start: dynamic display of tipping point input-interface ###
+
+    output$breakpointTypeSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+
+      selectInput("breakpointType", "Analysis Type:",
+                  choices=c(" ",  "with Negative Binomial Distribution",
+                          "for Continuous Data",
+                          "with Zero-Inflated Negative Binomial Distribution"))
+    })
+
+    output$distributionTypeSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+
+      selectInput("distributionType",
+                  "Distribution to simulate break-point locations:",
+                  choices=c(" ", "Four Parameter Beta Distribution",
+                            "Truncated Normal Distribution"))
+    })
+
+    output$NmaxSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("Nmax", "Maximum number of breakpoints:", value=10)
+    })
+
+    output$aSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("a", "Used in the four parameter beta distribution to smooth
+        both shape parameters. When simulating from the truncated normal
+        distribution, this value is used to smooth the estimates of the mean
+        values:", value=0.8)
+    })
+
+    output$bSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("b", "A smoothing parameter value. It is used in the truncated
+                   normal distribution to smooth the estimates of the standard
+                   deviation:", value=0.8)
+    })
+
+    output$hSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("h", "Minimum aberration width:", value=5)
+    })
+
+    output$MSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("M", "Sample size to be used in simulating the locations of
+        break-points:", value=200)
+    })
+
+    output$rhoSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("rho", "The fraction which is used to obtain the best
+                    performing set of sample solutions (i.e., elite sample):",
+                   value=0.05)
+    })
+
+    output$epsSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      numericInput("eps", "the cut-off value for the stopping criterion in the
+                    CE method:", value=0.01)
+    })
+
+    output$tpRunButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$tpDataType) || input$tpDataType == " "){
+        return()
+      }
+      else if(is.null(input$breakpointType) || input$breakpointType == " "){
+        return()
+      }
+      else if(is.null(input$distributionType) || (input$distributionType == " ")){
+        return()
+      }
+
+      actionButton("tpRunButton", "Run Analysis")
+    })
+
+    ### end: dynamic display of tipping point input-interface ###
 
 ################################################################################
 
