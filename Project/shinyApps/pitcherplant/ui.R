@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 30June2015
+# Last edited: 01July2015
 
 ### User Interface ###
 
@@ -42,7 +42,7 @@ shinyUI(fluidPage(
           fluidRow(
             column(12,
               plotOutput("mainPlot"),
-              uiOutput("ewsMainPlot")
+              uiOutput("ewsMainPlotSlot")
             ) # column
           ), # fluidRow
           fluidRow(
@@ -65,7 +65,7 @@ shinyUI(fluidPage(
                     ), # column
                     column(8,
                       br(),
-                      uiOutput("ewsRadioButton"),
+                      uiOutput("ewsRadioButtonSlot"),
                       br(),
                       uiOutput("quick_downloadTable")
                     ) # column
@@ -73,8 +73,8 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(12,
                       br(),
-                      uiOutput("quick_ewsTable"),
-                      plotOutput("quickGenericPlot")
+                      dataTableOutput("quick_ewsTable"),
+                      plotOutput("quick_ewsPlotMatrix")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis

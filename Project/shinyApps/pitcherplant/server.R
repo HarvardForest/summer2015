@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 30June2015
+# Last edited: 01July2015
 
 ### Pitcher Plant Simulation ###
 
@@ -91,6 +91,7 @@ shinyServer(
     ### start: show simulation plot based on selector ###
 
     output$mainPlot <- renderPlot({
+      # displays Oxygen plot as default
       if(input$quick_dataType == "Oxygen" || input$quick_dataType == " "){
         matplot(x=ppSim()[1], y=ppSim()[2], type="l",
                 xlab=input$xaxis, ylab=input$yaxis, pch=1)
@@ -139,7 +140,7 @@ shinyServer(
       else if(is.null(input$breakpointsCheckbox)){
        return()
       }
-      else if(is.null(input$radioButtons)){
+      else if(is.null(input$ewsRadioButtons)){
        return()
       }
       # indicates breakpoint lines can be drawn
@@ -155,216 +156,203 @@ shinyServer(
 
       ### start: update plot and legend with ews line ###
 
+      # variable used to adjust ews-line start value
+      ewsLineTime <- input$days * 1440
+
       # display default plot attributes if there are no ews lines selected
-      if(input$radioButtons == "Show all"){
+      if(input$ewsRadioButtons == "Show all"){
         return()
       }
-      # draw ews line based on radio button selection
-      else if(input$radioButtons == "Standard Deviation"){
+      # draw ews line based on radio button selection 
+      else if(input$ewsRadioButtons == "Standard Deviation"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[3]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[4]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Skewness"){
+      else if(input$ewsRadioButtons == "Skewness"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[4]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[4]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Kurtosis"){
+      else if(input$ewsRadioButtons == "Kurtosis"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[5]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[5]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Coefficient of Variation"){
+      else if(input$ewsRadioButtons == "Coefficient of Variation"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[6]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[6]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Return Rate"){
+      else if(input$ewsRadioButtons == "Return Rate"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[7]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[7]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Density Ratio"){
+      else if(input$ewsRadioButtons == "Density Ratio"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[8]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[8]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
+      else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[9]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[9]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
-      else if(input$radioButtons == "Autoregressive Coefficient"){
+      else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
         # adjust starting point to accomodate rolling window size (10%)
-        temp <- quickGeneric()[2]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
-          temp <- rbind(NA, temp)
+        ewsLine <- quickGeneric()[2]
+        for(i in 1:(ewsLineTime * 0.1)){
+          ewsLine <- rbind(NA, ewsLine)
         }
-
         # draw ews line
-        matlines(temp, type='l', col="green")
+        matlines(ewsLine, type='l', col="green")
 
         if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend with ews and breakpoint lines
           legend("topleft",c(input$quick_dataType, "Breakpoints",
-                             input$radioButtons),
+                             input$ewsRadioButtons),
                  lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
         }
-        else {
+        else{
           # update plot legend with only ews line
-          legend("topleft", c(input$quick_dataType, input$radioButtons),
-                 lty=c(1, 2), col=c(1, "green"), bty="n")
+          legend("topleft", c(input$quick_dataType, input$ewsRadioButtons),
+                  lty=c(1, 2), col=c(1, "green"), bty="n")
         }
       }
 
@@ -388,15 +376,15 @@ shinyServer(
 
 ########## Dynamic plot for (quick) ews analysis - below main plot #############
 
-    output$ewsMainPlot <- renderUI({
+    output$ewsMainPlotSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
@@ -408,22 +396,23 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
-      if(input$radioButtons == "Standard Deviation"){
+      # variable used to adjust ews-line start value
+      ewsLineTime = input$days * 1440
+
+      if(input$ewsRadioButtons == "Standard Deviation"){
         x <- quickGeneric()[3]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -435,15 +424,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Skewness"){
+      else if(input$ewsRadioButtons == "Skewness"){
         x <- quickGeneric()[4]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -455,15 +442,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Kurtosis"){
+      else if(input$ewsRadioButtons == "Kurtosis"){
         x <- quickGeneric()[5]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -475,15 +460,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Coefficient of Variation"){
+      else if(input$ewsRadioButtons == "Coefficient of Variation"){
         x <- quickGeneric()[6]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -495,15 +478,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Return Rate"){
+      else if(input$ewsRadioButtons == "Return Rate"){
         x <- quickGeneric()[7]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -515,15 +496,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Density Ratio"){
+      else if(input$ewsRadioButtons == "Density Ratio"){
         x <- quickGeneric()[8]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -535,15 +514,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
+      else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
         x <- quickGeneric()[9]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -555,15 +532,13 @@ shinyServer(
         }
       }
 
-      else if(input$radioButtons == "Autoregressive Coefficient"){
+      else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
         x <- quickGeneric()[2]
-        tempTime = input$days * 1440
-        for(i in 1:(tempTime * 0.1)){
+        for(i in 1:(ewsLineTime * 0.1)){
           x <- rbind(NA, x)
         }
-
         # display ews plot
-        matplot(x, type='l', col="green", ylab=input$radioButtons,
+        matplot(x, type='l', col="green", ylab=input$ewsRadioButtons,
                 xlab="Time (minutes)")
 
         # draw breakpoint lines if checkbox button is selected
@@ -593,7 +568,6 @@ shinyServer(
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
 
-          # for oxygen
           if(input$quick_dataType == "Oxygen"){
             CE.Normal(ppSim()[2], distyp=1, parallel=FALSE, Nmax=10,
                       eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
@@ -730,13 +704,13 @@ shinyServer(
     ### start: (quick) ews analysis and output ###
 
     # display ews radio buttons
-    output$ewsRadioButton <- renderUI({
+    output$ewsRadioButtonSlot <- renderUI({
         # check required information
         if(is.null(input$quick_dataType) || input$quick_dataType == " "){
           return()
         }
 
-        radioButtons("radioButtons", "View Early Warning Signal Analysis:",
+        radioButtons("ewsRadioButtons", "View Early Warning Signal Analysis:",
                      c("Show all", "Standard Deviation", "Skewness", "Kurtosis",
                        "Coefficient of Variation", "Return Rate", "Density Ratio",
                        "Autocorrelation at First Lag",
@@ -749,45 +723,44 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons != "Show all"){
-        return()
-      }
+      else if(input$ewsRadioButtons == "Show all"){
+        # loading bar
+        withProgress(message="Plotting Data", value=0, {
+          withProgress(message="...", detail="Please Wait", value=0, {
 
-      # loading bar
-      withProgress(message="Plotting Data", value=0, {
-        withProgress(message="...", detail="Please Wait", value=0, {
+            if(input$quick_dataType == "Oxygen"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Photosynthesis"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Biological Oxygen Demand"){
+              plot_generic_ews(timeseries=subset(ppSim(),
+                                                 select="Biological Oxygen Demand"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Nutrients"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Augmentation Value"){
+              plot_generic_ews(timeseries=subset(ppSim(),
+                                                 select="Augmentation Value"),
+                               detrending="gaussian", winsize=10)
+            }
+            else if(input$quick_dataType == "Food Amount"){
+              plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
+                               detrending="gaussian", winsize=10)
+            }
 
-          if(input$quick_dataType == "Oxygen"){
-            plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
-                             detrending="gaussian", winsize=10)
-          }
-          else if(input$quick_dataType == "Photosynthesis"){
-            plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
-                             detrending="gaussian", winsize=10)
-          }
-          else if(input$quick_dataType == "Biological Oxygen Demand"){
-            plot_generic_ews(timeseries=subset(ppSim(),
-                                               select="Biological Oxygen Demand"),
-                             detrending="gaussian", winsize=10)
-          }
-          else if(input$quick_dataType == "Nutrients"){
-            plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
-                             detrending="gaussian", winsize=10)
-          }
-          else if(input$quick_dataType == "Augmentation Value"){
-            plot_generic_ews(timeseries=subset(ppSim(),
-                                               select="Augmentation Value"),
-                             detrending="gaussian", winsize=10)
-          }
-          else if(input$quick_dataType == "Food Amount"){
-            plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
-                             detrending="gaussian", winsize=10)
-          }
+          }) # withProgress
         }) # withProgress
-      }) # withProgress
+      }
     })
 
     output$quick_downloadTable <- renderUI({
@@ -795,7 +768,7 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
 
@@ -810,100 +783,64 @@ shinyServer(
       }
     )
 
-    # display ews breakdown table
-    output$quick_ewsTable <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      if(is.null(input$radioButtons)){
-        return()
-      }
-      else if(input$radioButtons == "Show all"){
-        return()
-      }
-
-      dataTableOutput("quickMainTable")
-    })
-
     # fill ews breakdown table with appropriate data based on radio buttons
-    output$quickMainTable <- renderDataTable({
+    output$quick_ewsTable <- renderDataTable({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$radioButtons)){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
-      else if(input$radioButtons == "Show all"){
+      else if(input$ewsRadioButtons == "Show all"){
         return()
       }
 
       # check radio buttons value
-      if(input$radioButtons == "Standard Deviation"){
+      if(input$ewsRadioButtons == "Standard Deviation"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[3])
         colnames(table) <- c("Time Index", "Standard Deviation")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Skewness"){
+      else if(input$ewsRadioButtons == "Skewness"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[4])
         colnames(table) <- c("Time Index", "Skewness")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Kurtosis"){
+      else if(input$ewsRadioButtons == "Kurtosis"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[5])
         colnames(table) <- c("Time Index", "Kurtosis")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Coefficient of Variation"){
+      else if(input$ewsRadioButtons == "Coefficient of Variation"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[6])
         colnames(table) <- c("Time Index", "Coefficient of Variation")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Return Rate"){
+      else if(input$ewsRadioButtons == "Return Rate"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[7])
         colnames(table) <- c("Time Index", "Return Rate")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Density Ratio"){
+      else if(input$ewsRadioButtons == "Density Ratio"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[8])
         colnames(table) <- c("Time Index", "Density Ratio")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Autocorrelation at First Lag"){
+      else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[9])
         colnames(table) <- c("Time Index", "Autocorrelation at First Lag")
-
-        # return table with updated column names
-        return(table)
       }
-      else if(input$radioButtons == "Autoregressive Coefficient"){
+      else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
         # use ews time-index determination and associated value
         table <- cbind(timeIndex=quickGeneric()[1], quickGeneric()[2])
         colnames(table) <- c("Time Index", "Autoregressive Coefficient")
-
-        # return table with updated column names
-        return(table)
       }
+
+      # return table with updated column names
+      return(table)
+
     }, options=list(pageLength=10))
 
   ### end: (quick) ews analysis and output ###
