@@ -978,6 +978,9 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
+      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
 
       actionButton("runButton", "Run Analysis")
     })
@@ -1335,9 +1338,300 @@ shinyServer(
 
     ### start: dynamic display of (advanced) ews input-interface ###
 
+    output$ewsParametersText <- renderText({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      "Early Warning Signals parameters"
+    })
+
+    output$ewsMethodSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      selectInput("ewsMethod", "Method:",
+                   choices=c(" ",
+                    "Quick Detection Analysis for Generic Early Warning Signals",
+                    "Generic Early Warning Signals"))
+    })
+
+    # input specific to Generic Early Warning Signals #
+
+    output$detrendingSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+        selectInput("detrending", "Detrended/filtered prior to analysis:",
+                    choices=c("gaussian", "loess", "linear", "first-diff",
+                              "no"))
+    })
+
+    output$bandwidthSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("bandwidth",
+                "Bandwidth used for the Gaussian kernel when gaussian filtering
+                  is applied. It is expressed as percentage of the timeseries
+                  length (must be numeric between 0 and 100):", value=5)
+    })
+
+    output$winsizeSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("winsize", "The size of the rolling window expressed as
+                  percentage of the timeseries length (must be numeric between
+                  0 and 100):", value=50)
+    })
+
+    output$spanSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("span", "Parameter that controls the degree of
+                  smoothing (numeric between 0 and 100):", value=25)
+    })
+
+    output$degreeSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("degree", "The degree of polynomial to be used for
+                  when loess fitting is applied, normally 1 or 2:", value=2)
+    })
+
+    output$AR_nSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      selectInput("AR_n", "If TRUE the best fitted AR(n) model is fitted
+                  to the data:", choices=c(FALSE, TRUE))
+    })
+
+    output$interpolateSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      selectInput("powerspectrum", "If TRUE the power spectrum within each
+                  rolling window is plotted:", choices=c(FALSE, TRUE))
+    })
+
+    # input specific to Quick Detection Analysis #
+
+    output$bootsSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("boots", "The number of surrogate data to generate from
+                  fitting an ARMA(p,1) model:", value=100)
+    })
+
+    output$s_levelSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("s_level", "Significance level:", value=0.05)
+    })
+
+    output$cutoffSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("cutoff", "The cutoff value to visualize the potential
+                  landscape:", value=0.05)
+    })
+
+    output$detection.thresholdSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("detection.threshold", "Detection threshold for
+                  potential minima:", value=0.002)
+    })
+
+    output$grid.sizeSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod)){
+        return()
+      }
+      else if(input$ewsMethod == "Generic Early Warning Signals"
+         || input$ewsMethod == " "){
+            return()
+      }
+
+      numericInput("grid.size", "Grid size (for potential analysis):",
+                   value=50)
+    })
+
+    # input shared by both methods #
+
+        output$logtransformSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      selectInput("logtransform", "If TRUE data are logtransformed prior
+                  to analysis as log(X+1):", choices=c(FALSE, TRUE))
+    })
+
+    output$interpolateSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      selectInput("interpolate", "If TRUE linear interpolation is applied to
+                  produce a timeseries of equal length as the original.
+                  (FALSE assumes there are no gaps in the timeseries):",
+                  choices=c(FALSE, TRUE))
+    })
+
+    output$ewsDocumentation1 <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
+                 href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                 target="_blank"))
+    })
+
+    output$ewsDocumentation2 <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+        return()
+      }
+
+      helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
+                 href="http://www.early-warning-signals.org/", target="_blank"))
+    })
+
     ### end: dynamic display of (advanced) ews input-interface ###
 
     ### start: run (advanced) ews analysis based on user-input ###
+
+
 
     ### end: run (advanced) ews analysis based on user-input ###
 

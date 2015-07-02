@@ -114,48 +114,24 @@ shinyUI(fluidPage(
                       uiOutput("breakpointDocumentation")
                     ), # column
                     column(6, align="center",
-                      h3("Early Warning Signals parameters"),
-                      helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
-                        href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
-                        target="_blank")
-                      ),
-                      helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
-                        href="http://www.early-warning-signals.org/", target="_blank")
-                      )
-                    ) # column
-                  ), # fluidRow
-                  br(),
-                  uiOutput("breakpointPlotSlot"),
-                  br(),
-                  uiOutput("profilePlotTitleSlot"),
-                  uiOutput("profilePlotSlot"),
-                  br(),
-
-                  fluidRow(
-                    column(5, align="left",
-                      uiOutput("ews1"),
-                      uiOutput("ews2"),
-                      uiOutput("ews3"),
-                      uiOutput("ews4")
-                    ), # column
-                    column(5, offset=1, align="center",
-                      br(),
-                      br(),
-                      uiOutput("ews5"),
-                      uiOutput("ews6"),
-                      uiOutput("ews7"),
-                      uiOutput("ews8"),
-                      uiOutput("ews9"),
-                      uiOutput("ews10"),
-                      uiOutput("ews11"),
-                      uiOutput("ews12"),
-                      uiOutput("ews13"),
-                      uiOutput("ews14"),
-                      uiOutput("ews15"),
-                      uiOutput("ews16"),
-                      uiOutput("ews17"),
-                      uiOutput("ewsRun"),
-                      br()
+                      h3(textOutput("ewsParametersText")),
+                      uiOutput("ewsMethodSlot"),
+                      uiOutput("detrendingSlot"),
+                      uiOutput("bandwidthSlot"),
+                      uiOutput("winsizeSlot"),
+                      uiOutput("spanSlot"),
+                      uiOutput("degreeSlot"),
+                      uiOutput("AR_nSlot"),
+                      uiOutput("powerspectrumSlot"),
+                      uiOutput("bootsSlot"),
+                      uiOutput("s_levelSlot"),
+                      uiOutput("cutoffSlot"),
+                      uiOutput("detection.thresholdSlot"),
+                      uiOutput("grid.sizeSlot"),
+                      uiOutput("logtransformSlot"),
+                      uiOutput("interpolateSlot"),
+                      uiOutput("ewsDocumentation1"),
+                      uiOutput("ewsDocumentation2")
                     ) # column
                   ), # fluidRow
                   fluidRow(
