@@ -6,7 +6,6 @@
 # 12:00 noon = 720
 # 18:00 sunset = 1080
 
-
 ## Functions ##
 
 light <- function(days){
