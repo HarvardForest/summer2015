@@ -80,114 +80,108 @@ shinyUI(fluidPage(
                 ), # tabPanel - Quick Analysis
 
                 tabPanel(title="Advanced Analysis",
-                  tabsetPanel(
-                    tabPanel(title="Advanced Tipping Point",
-                      fluidRow(
-                        column(5, align="left",
-                          br(),
-                          helpText(a("Click here to view the R 'breakpoint' Package
-                            documentation.", href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
-                            target="_blank")
-                          ), # helpText
-                          br(),
-                          selectInput("tpDataType", "Choose Data:",
-                            choices=c(" ", "Oxygen", "Photosynthesis",
-                                      "Biological Oxygen Demand", "Nutrients",
-                                      "Augmentation Value", "Food Amount")
-                          ),
-                          uiOutput("breakpointTypeSlot"),
-                          uiOutput("distributionTypeSlot"),
-                          uiOutput("NmaxSlot"),
-                          uiOutput("aSlot"),
-                          uiOutput("bSlot"),
-                          uiOutput("hSlot"),
-                          uiOutput("MSlot"),
-                          uiOutput("rhoSlot"),
-                          uiOutput("epsSlot"),
-                          uiOutput("tpRunButtonSlot")
-                        ), # column
-                        column(7, align="center",
-                          br(),
-                          h3(textOutput("numBreakpoints")),
-                          h3(textOutput("locationText")),
-                          h5(textOutput("tpOutput")),
-                          uiOutput("breakpointsCheckboxSlot")
-                        ) # column
-                      ), # fluidRow
+                  fluidRow(
+                    column(12, align="center",
                       br(),
-                      uiOutput("breakpointPlotSlot"),
-                      br(),
-                      uiOutput("profilePlotTitleSlot"),
-                      uiOutput("profilePlotSlot"),
-                      br()
-                    ), # tabPanel - Tipping Point analysis
+                      selectInput("dataType", "Choose Data:",
+                        choices=c(" ", "Oxygen", "Photosynthesis",
+                                  "Biological Oxygen Demand", "Nutrients",
+                                  "Augmentation Value", "Food Amount")
+                      ),
+                      uiOutput("runButtonSlot")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(7, align="center",
+                      h3(textOutput("numBreakpoints")),
+                      h3(textOutput("locationText")),
+                      h5(textOutput("tpOutput")),
+                      uiOutput("breakpointsCheckboxSlot")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(6, align="left",
+                      h3(textOutput("tpParametersText")),
+                      uiOutput("breakpointTypeSlot"),
+                      uiOutput("distributionTypeSlot"),
+                      uiOutput("NmaxSlot"),
+                      uiOutput("aSlot"),
+                      uiOutput("bSlot"),
+                      uiOutput("hSlot"),
+                      uiOutput("MSlot"),
+                      uiOutput("rhoSlot"),
+                      uiOutput("epsSlot"),
+                      uiOutput("breakpointDocumentation")
+                    ), # column
+                    column(6, align="center",
+                      h3("Early Warning Signals parameters"),
+                      helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
+                        href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                        target="_blank")
+                      ),
+                      helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
+                        href="http://www.early-warning-signals.org/", target="_blank")
+                      )
+                    ) # column
+                  ), # fluidRow
+                  br(),
+                  uiOutput("breakpointPlotSlot"),
+                  br(),
+                  uiOutput("profilePlotTitleSlot"),
+                  uiOutput("profilePlotSlot"),
+                  br(),
 
-                    tabPanel(title="Advanced Early Warning Signal",
-                      fluidRow(
-                        column(5, align="left",
-                          br(),
-                          helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
-                            href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
-                            target="_blank")
-                          ),
-                          helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
-                            href="http://www.early-warning-signals.org/", target="_blank")
-                          ),
-                          br(),
-                          selectInput("ewsDataType", "Choose Data:",
-                            choices=c(" ", "Prey", "Predator")
-                          ),
-                          uiOutput("ews1"),
-                          uiOutput("ews2"),
-                          uiOutput("ews3"),
-                          uiOutput("ews4")
-                        ), # column
-                        column(5, offset=1, align="center",
-                          br(),
-                          br(),
-                          uiOutput("ews5"),
-                          uiOutput("ews6"),
-                          uiOutput("ews7"),
-                          uiOutput("ews8"),
-                          uiOutput("ews9"),
-                          uiOutput("ews10"),
-                          uiOutput("ews11"),
-                          uiOutput("ews12"),
-                          uiOutput("ews13"),
-                          uiOutput("ews14"),
-                          uiOutput("ews15"),
-                          uiOutput("ews16"),
-                          uiOutput("ews17"),
-                          uiOutput("ewsRun"),
-                          br()
-                        ) # column
-                      ), # fluidRow
-                      fluidRow(
-                        column(12,
-                          uiOutput("generic_ewsTableGuideSlot"),
-                          uiOutput("generic_ewsTableSlot")
-                        )
-                      ), # fluidRow
-                      fluidRow(
-                        column(12, align="left",
-                          br(),
-                          uiOutput("generic_ewsPlotSlot"),
-                          br(),
-                          uiOutput("qda_ewsDetailSlot"),
-                          br(),
-                          uiOutput("qda_ewsPlot1Slot"),
-                          br(),
-                          uiOutput("qda_ewsData1Slot"),
-                          br(),
-                          uiOutput("qda_ewsPlot2Slot"),
-                          br(),
-                          uiOutput("qda_ewsData2Slot"),
-                          br(),
-                          uiOutput("qda_ewsPlot3Slot")
-                        ) # column
-                      ) # fluidRow
-                    ) # tabPanel - Early Warning Signal analysis
-                  ) # tabsetPanel
+                  fluidRow(
+                    column(5, align="left",
+                      uiOutput("ews1"),
+                      uiOutput("ews2"),
+                      uiOutput("ews3"),
+                      uiOutput("ews4")
+                    ), # column
+                    column(5, offset=1, align="center",
+                      br(),
+                      br(),
+                      uiOutput("ews5"),
+                      uiOutput("ews6"),
+                      uiOutput("ews7"),
+                      uiOutput("ews8"),
+                      uiOutput("ews9"),
+                      uiOutput("ews10"),
+                      uiOutput("ews11"),
+                      uiOutput("ews12"),
+                      uiOutput("ews13"),
+                      uiOutput("ews14"),
+                      uiOutput("ews15"),
+                      uiOutput("ews16"),
+                      uiOutput("ews17"),
+                      uiOutput("ewsRun"),
+                      br()
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(12,
+                      uiOutput("generic_ewsTableGuideSlot"),
+                      uiOutput("generic_ewsTableSlot")
+                    )
+                  ), # fluidRow
+                  fluidRow(
+                    column(12, align="left",
+                      br(),
+                      uiOutput("generic_ewsPlotSlot"),
+                      br(),
+                      uiOutput("qda_ewsDetailSlot"),
+                      br(),
+                      uiOutput("qda_ewsPlot1Slot"),
+                      br(),
+                      uiOutput("qda_ewsData1Slot"),
+                      br(),
+                      uiOutput("qda_ewsPlot2Slot"),
+                      br(),
+                      uiOutput("qda_ewsData2Slot"),
+                      br(),
+                      uiOutput("qda_ewsPlot3Slot")
+                    ) # column
+                  ) # fluidRow
                 ), # tabPanel- Advanced Analysis
 
                 tabPanel(title="Customize Graph",
