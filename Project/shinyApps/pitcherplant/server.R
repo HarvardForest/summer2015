@@ -855,7 +855,7 @@ shinyServer(
 
 #################### Advanced Tipping Point Analysis ###########################
 
-    ### start: dynamic display of tipping point input-interface ###
+    ### start: dynamic display of (advanced) tipping point input-interface ###
 
     output$tpParametersText <- renderText({
       # check required information
@@ -982,7 +982,7 @@ shinyServer(
       actionButton("runButton", "Run Analysis")
     })
 
-    ### end: dynamic display of tipping point input-interface ###
+    ### end: dynamic display of (advanced) tipping point input-interface ###
 
     ### start: run (advanced) tipping point analysis based on user-input ###
 
@@ -1328,6 +1328,22 @@ shinyServer(
     })
 
     ### end: (advanced) tipping point analysis output ###
+
+################################################################################
+
+############## Advanced Early Warning Signals Analysis #########################
+
+    ### start: dynamic display of (advanced) ews input-interface ###
+
+    ### end: dynamic display of (advanced) ews input-interface ###
+
+    ### start: run (advanced) ews analysis based on user-input ###
+
+    ### end: run (advanced) ews analysis based on user-input ###
+
+    ### start: (advanced) ews point analysis output ###
+
+    ### end: (advanced) ews point analysis output ###
 
 ################################################################################
 

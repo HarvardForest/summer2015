@@ -53,7 +53,7 @@ shinyUI(fluidPage(
                     column(4,
                       br(),
                       br(),
-                      selectInput("quick_dataType", "Choose Data",
+                      selectInput("quick_dataType", "Choose Data:",
                         choices=c(" ", "Oxygen", "Photosynthesis",
                           "Biological Oxygen Demand", "Nutrients",
                           "Augmentation Value", "Food Amount")
