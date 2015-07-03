@@ -50,7 +50,7 @@ shinyUI(fluidPage(
               tabsetPanel(id="tabset_analyses",
                 tabPanel(title="Quick Analysis",
                   fluidRow(
-                    column(4,
+                    column(5,
                       br(),
                       br(),
                       selectInput("quick_dataType", "Choose Data:",
@@ -58,14 +58,23 @@ shinyUI(fluidPage(
                           "Biological Oxygen Demand", "Nutrients",
                           "Augmentation Value", "Food Amount")
                       ),
+                      numericInput("quick_Nmax",
+                        "Maximum number of breakpoints for Tipping Point analysis:",
+                        value=5
+                      ),
+                      numericInput("quick_winsize",
+                                   "Size of the rolling window used in the Early Warning Signals
+                                    analysis (expressed as a percentage of the timeseries):",
+                                   value=50
+                      ),
                       h3(textOutput("quick_numBreakpoints")),
                       h3(textOutput("quick_locationText")),
                       h5(textOutput("quick_tpOutput")),
                       uiOutput("quick_breakpointsCheckboxSlot")
                     ), # column
-                    column(8,
+                    column(7,
                       br(),
-                      uiOutput("ewsRadioButtonSlot"),
+                      uiOutput("quick_ewsRadioButtonSlot"),
                       br(),
                       uiOutput("quick_downloadTable")
                     ) # column
@@ -73,8 +82,7 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(12,
                       br(),
-                      dataTableOutput("quick_ewsTable"),
-                      plotOutput("quick_ewsPlotMatrix")
+                      dataTableOutput("quick_ewsTable")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
@@ -92,70 +100,52 @@ shinyUI(fluidPage(
                     ) # column
                   ), # fluidRow
                   fluidRow(
-                    column(7, align="center",
+                    column(7, align="left",
                       h3(textOutput("numBreakpoints")),
                       h3(textOutput("locationText")),
                       h5(textOutput("tpOutput")),
                       uiOutput("breakpointsCheckboxSlot")
+                    ), # column
+                    column(5, align="center",
+                      uiOutput("ewsRadioButtonSlot"),
+                      br(),
+                      uiOutput("ewsTableCheckboxSlot"),
+                      uiOutput("downloadEWStableSlot")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(12,
+                      br(),
+                      dataTableOutput("ewsTable")
                     ) # column
                   ), # fluidRow
                   fluidRow(
                     column(6, align="left",
                       h3(textOutput("tpParametersText")),
                       uiOutput("breakpointTypeSlot"),
-                      uiOutput("distributionTypeSlot"),
                       uiOutput("NmaxSlot"),
+                      uiOutput("distributionTypeSlot"),
+                      uiOutput("epsSlot"),
+                      uiOutput("rhoSlot"),
+                      uiOutput("MSlot"),
+                      uiOutput("hSlot"),
                       uiOutput("aSlot"),
                       uiOutput("bSlot"),
-                      uiOutput("hSlot"),
-                      uiOutput("MSlot"),
-                      uiOutput("rhoSlot"),
-                      uiOutput("epsSlot"),
                       uiOutput("breakpointDocumentation")
                     ), # column
                     column(6, align="center",
                       h3(textOutput("ewsParametersText")),
-                      uiOutput("ewsMethodSlot"),
+                      uiOutput("winsizeSlot"),
                       uiOutput("detrendingSlot"),
                       uiOutput("bandwidthSlot"),
-                      uiOutput("winsizeSlot"),
                       uiOutput("spanSlot"),
                       uiOutput("degreeSlot"),
-                      uiOutput("AR_nSlot"),
-                      uiOutput("powerspectrumSlot"),
-                      uiOutput("bootsSlot"),
-                      uiOutput("s_levelSlot"),
-                      uiOutput("cutoffSlot"),
-                      uiOutput("detection.thresholdSlot"),
-                      uiOutput("grid.sizeSlot"),
                       uiOutput("logtransformSlot"),
                       uiOutput("interpolateSlot"),
+                      uiOutput("AR_nSlot"),
+                      uiOutput("powerspectrumSlot"),
                       uiOutput("ewsDocumentation1"),
                       uiOutput("ewsDocumentation2")
-                    ) # column
-                  ), # fluidRow
-                  fluidRow(
-                    column(12,
-                      uiOutput("generic_ewsTableGuideSlot"),
-                      uiOutput("generic_ewsTableSlot")
-                    )
-                  ), # fluidRow
-                  fluidRow(
-                    column(12, align="left",
-                      br(),
-                      uiOutput("generic_ewsPlotSlot"),
-                      br(),
-                      uiOutput("qda_ewsDetailSlot"),
-                      br(),
-                      uiOutput("qda_ewsPlot1Slot"),
-                      br(),
-                      uiOutput("qda_ewsData1Slot"),
-                      br(),
-                      uiOutput("qda_ewsPlot2Slot"),
-                      br(),
-                      uiOutput("qda_ewsData2Slot"),
-                      br(),
-                      uiOutput("qda_ewsPlot3Slot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel- Advanced Analysis
@@ -182,17 +172,7 @@ shinyUI(fluidPage(
         ), # tabPanel - Data Table
 
         tabPanel(title="Model",
-          h2("Lotka-Volterra predator-prey model"),
-          br(),
-          h4("Ordinary Differential Equation:"),
-          br(),
-          h3("dx <- (alpha * prey) - (beta * prey * predator)"),
-          h3("dy <- (gamma * prey * predator) - (delta * predator)"),
-          br(),
-          h5("alpha = the growth rate of prey"),
-          h5("beta = the rate at which predators kill prey"),
-          h5("delta = the death rate of predators"),
-          h5("gamma = the rate at which predators increase by consuming prey")
+          h1("HELLO WORLD")
         ), # tabPanel - Model
 
         tabPanel(title="References",

@@ -162,14 +162,14 @@ shinyServer(
         ewsLineTime <- input$days * 1440
 
         # display default plot attributes if there are no ews lines selected
-        if(input$quick_ewsRadioButtons == "Show all"){
+        if(input$quick_ewsRadioButtons == "None"){
           return()
         }
         # draw ews line based on radio button selection
         else if(input$quick_ewsRadioButtons == "Standard Deviation"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[4]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -193,7 +193,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Skewness"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[4]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -217,7 +217,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Kurtosis"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[5]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -241,7 +241,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[6]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -265,7 +265,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Return Rate"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[7]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -289,7 +289,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Density Ratio"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[8]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -313,7 +313,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[9]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -337,7 +337,7 @@ shinyServer(
         else if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
           # adjust starting point to accomodate rolling window size (10%)
           ewsLine <- quickGeneric()[2]
-          for(i in 1:(ewsLineTime * 0.1)){
+          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
           # draw ews line
@@ -390,7 +390,7 @@ shinyServer(
       if(is.null(input$quick_ewsRadioButtons)){
         return()
       }
-      else if(input$quick_ewsRadioButtons == "Show all"){
+      else if(input$quick_ewsRadioButtons == "None"){
         return()
       }
 
@@ -405,7 +405,7 @@ shinyServer(
       if(is.null(input$quick_ewsRadioButtons)){
         return()
       }
-      else if(input$quick_ewsRadioButtons == "Show all"){
+      else if(input$quick_ewsRadioButtons == "None"){
         return()
       }
 
@@ -414,7 +414,7 @@ shinyServer(
 
       if(input$quick_ewsRadioButtons == "Standard Deviation"){
         x <- quickGeneric()[3]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -432,7 +432,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Skewness"){
         x <- quickGeneric()[4]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -450,7 +450,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Kurtosis"){
         x <- quickGeneric()[5]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -468,7 +468,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
         x <- quickGeneric()[6]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -486,7 +486,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Return Rate"){
         x <- quickGeneric()[7]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -504,7 +504,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Density Ratio"){
         x <- quickGeneric()[8]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -522,7 +522,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
         x <- quickGeneric()[9]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -540,7 +540,7 @@ shinyServer(
 
       else if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
         x <- quickGeneric()[2]
-        for(i in 1:(ewsLineTime * 0.1)){
+        for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
           x <- rbind(NA, x)
         }
         # display ews plot
@@ -569,34 +569,46 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
+      if(is.na(input$quick_Nmax)){
+        return()
+      }
+      if(is.na(input$quick_winsize)){
+        return()
+      }
 
       # loading bar
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
 
           if(input$quick_dataType == "Oxygen"){
-            CE.Normal(ppSim()[2], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[2], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
           else if(input$quick_dataType == "Photosynthesis"){
-            CE.Normal(ppSim()[3], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[3], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
           else if(input$quick_dataType == "Biological Oxygen Demand"){
-            CE.Normal(ppSim()[4], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[4], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
           else if(input$quick_dataType == "Nutrients"){
-            CE.Normal(ppSim()[5], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[5], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
           else if(input$quick_dataType == "Augmentation Value"){
-            CE.Normal(ppSim()[6], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[6], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
           else if(input$quick_dataType == "Food Amount"){
-            CE.Normal(ppSim()[7], distyp=1, parallel=FALSE, Nmax=10,
-                      eps=0.01, rho=0.05, M=200, h=5, a=0.8, b=0.8)
+            CE.Normal(ppSim()[7], distyp=1, parallel=FALSE,
+                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8)
           }
 
         }) # withProgress
@@ -609,6 +621,12 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
+      if(is.na(input$quick_Nmax)){
+        return()
+      }
+      if(is.na(input$quick_winsize)){
+        return()
+      }
 
       # loading bar
       withProgress(message="Performing EWS Analysis", value=0,{
@@ -616,28 +634,28 @@ shinyServer(
 
           if(input$quick_dataType == "Oxygen"){
             generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
           else if(input$quick_dataType == "Photosynthesis"){
             generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
           else if(input$quick_dataType == "Biological Oxygen Demand"){
             generic_ews(timeseries=subset(ppSim(),
                           select="Biological Oxygen Demand"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
           else if(input$quick_dataType == "Nutrients"){
             generic_ews(timeseries=subset(ppSim(), select="Nutrients"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
           else if(input$quick_dataType == "Augmentation Value"){
             generic_ews(timeseries=subset(ppSim(), select="Augmentation Value"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
           else if(input$quick_dataType == "Food Amount"){
             generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
-                        detrending="gaussian", winsize=10)
+                        detrending="gaussian", winsize=input$quick_winsize)
           }
 
         }) # withProgress
@@ -710,63 +728,17 @@ shinyServer(
     ### start: (quick) ews analysis output ###
 
     # display ews radio buttons
-    output$ewsRadioButtonSlot <- renderUI({
-        # check required information
-        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-          return()
-        }
-
-        radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
-                     c("Show all", "Standard Deviation", "Skewness", "Kurtosis",
-                       "Coefficient of Variation", "Return Rate", "Density Ratio",
-                       "Autocorrelation at First Lag",
-                       "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
-    })
-
-    # display aggregate plot matrix from generic_ews
-    output$quick_ewsPlotMatrix <- renderPlot({
+    output$quick_ewsRadioButtonSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$quick_ewsRadioButtons)){
-        return()
-      }
-      else if(input$quick_ewsRadioButtons == "Show all"){
-        # loading bar
-        withProgress(message="Plotting Data", value=0, {
-          withProgress(message="...", detail="This may take awhile.", value=0, {
 
-            if(input$quick_dataType == "Oxygen"){
-              plot_generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
-                               detrending="gaussian", winsize=10)
-            }
-            else if(input$quick_dataType == "Photosynthesis"){
-              plot_generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
-                               detrending="gaussian", winsize=10)
-            }
-            else if(input$quick_dataType == "Biological Oxygen Demand"){
-              plot_generic_ews(timeseries=subset(ppSim(),
-                                                 select="Biological Oxygen Demand"),
-                               detrending="gaussian", winsize=10)
-            }
-            else if(input$quick_dataType == "Nutrients"){
-              plot_generic_ews(timeseries=subset(ppSim(), select="Nutriens"),
-                               detrending="gaussian", winsize=10)
-            }
-            else if(input$quick_dataType == "Augmentation Value"){
-              plot_generic_ews(timeseries=subset(ppSim(),
-                                                 select="Augmentation Value"),
-                               detrending="gaussian", winsize=10)
-            }
-            else if(input$quick_dataType == "Food Amount"){
-              plot_generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
-                               detrending="gaussian", winsize=10)
-            }
-
-          }) # withProgress
-        }) # withProgress
-      }
+      radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
+                   c("None", "Standard Deviation", "Skewness", "Kurtosis",
+                     "Coefficient of Variation", "Return Rate", "Density Ratio",
+                     "Autocorrelation at First Lag",
+                     "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
 
     output$quick_downloadTable <- renderUI({
@@ -783,7 +755,7 @@ shinyServer(
 
     # download ews data
     output$downloadQuickTable <- downloadHandler(
-      filename = function() { paste("PitcherPlantEWS", '.csv', sep='') },
+      filename = function() { paste("PitcherPlantEWS(quick)", '.csv', sep='') },
       content = function(file) {
         write.csv(quickGeneric(), file)
       }
@@ -798,7 +770,7 @@ shinyServer(
       if(is.null(input$quick_ewsRadioButtons)){
         return()
       }
-      else if(input$quick_ewsRadioButtons == "Show all"){
+      else if(input$quick_ewsRadioButtons == "None"){
         return()
       }
 
@@ -878,6 +850,14 @@ shinyServer(
                           "with Zero-Inflated Negative Binomial Distribution"))
     })
 
+    output$NmaxSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      numericInput("Nmax", "Maximum number of breakpoints:", value=5)
+    })
+
     output$distributionTypeSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
@@ -890,12 +870,44 @@ shinyServer(
                             "Truncated Normal Distribution"))
     })
 
-    output$NmaxSlot <- renderUI({
+    output$epsSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      numericInput("Nmax", "Maximum number of breakpoints:", value=10)
+
+      numericInput("eps", "the cut-off value for the stopping criterion in the
+                    CE method:", value=0.01)
+    })
+
+    output$rhoSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      numericInput("rho", "The fraction which is used to obtain the best
+                    performing set of sample solutions (i.e., elite sample):",
+                   value=0.05)
+    })
+
+    output$MSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      numericInput("M", "Sample size to be used in simulating the locations of
+        break-points:", value=200)
+    })
+
+    output$hSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      numericInput("h", "Minimum aberration width:", value=5)
     })
 
     output$aSlot <- renderUI({
@@ -921,46 +933,6 @@ shinyServer(
                    deviation:", value=0.8)
     })
 
-    output$hSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      numericInput("h", "Minimum aberration width:", value=5)
-    })
-
-    output$MSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      numericInput("M", "Sample size to be used in simulating the locations of
-        break-points:", value=200)
-    })
-
-    output$rhoSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      numericInput("rho", "The fraction which is used to obtain the best
-                    performing set of sample solutions (i.e., elite sample):",
-                   value=0.05)
-    })
-
-    output$epsSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      numericInput("eps", "the cut-off value for the stopping criterion in the
-                    CE method:", value=0.01)
-    })
-
     output$breakpointDocumentation <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
@@ -976,9 +948,6 @@ shinyServer(
     output$runButtonSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      else if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
 
@@ -1254,12 +1223,6 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      else if(is.null(input$breakpointType) || input$breakpointType == " "){
-        return()
-      }
-      else if(is.null(input$distributionType) || (input$distributionType == " ")){
-        return()
-      }
 
       print(length(TPanalysis()))
 
@@ -1275,12 +1238,6 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      else if(is.null(input$breakpointType) || input$breakpointType == " "){
-        return()
-      }
-      else if(is.null(input$distributionType) || (input$distributionType == " ")){
-        return()
-      }
 
       # display text only if breakpoints are detected
       if(length(TPanalysis()) > 1){
@@ -1292,12 +1249,6 @@ shinyServer(
     output$tpOutput <- renderText({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      else if(is.null(input$breakpointType) || input$breakpointType == " "){
-        return()
-      }
-      else if(is.null(input$distributionType) || (input$distributionType == " ")){
         return()
       }
 
@@ -1314,12 +1265,6 @@ shinyServer(
     output$breakpointsCheckboxSlot <- renderUI({
             # check required information
       if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      else if(is.null(input$breakpointType) || input$breakpointType == " "){
-        return()
-      }
-      else if(is.null(input$distributionType) || (input$distributionType == " ")){
         return()
       }
 
@@ -1347,49 +1292,23 @@ shinyServer(
       "Early Warning Signals parameters"
     })
 
-    output$ewsMethodSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      selectInput("ewsMethod", "Method:",
-                   choices=c(" ",
-                    "Quick Detection Analysis for Generic Early Warning Signals",
-                    "Generic Early Warning Signals"))
-    })
-
     # input specific to Generic Early Warning Signals #
 
-    output$detrendingSlot <- renderUI({
+    output$winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
 
-        selectInput("detrending", "Detrended/filtered prior to analysis:",
-                    choices=c("gaussian", "loess", "linear", "first-diff",
-                              "no"))
+      numericInput("winsize", "The size of the rolling window expressed as
+                  percentage of the timeseries length (must be numeric between
+                  0 and 100):", value=50)
     })
 
     output$bandwidthSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
       }
 
       numericInput("bandwidth",
@@ -1398,35 +1317,21 @@ shinyServer(
                   length (must be numeric between 0 and 100):", value=5)
     })
 
-    output$winsizeSlot <- renderUI({
+    output$detrendingSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
 
-      numericInput("winsize", "The size of the rolling window expressed as
-                  percentage of the timeseries length (must be numeric between
-                  0 and 100):", value=50)
+      selectInput("detrending", "Detrended/filtered prior to analysis:",
+                  choices=c("gaussian", "loess", "linear", "first-diff",
+                            "no"))
     })
 
     output$spanSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
       }
 
       numericInput("span", "Parameter that controls the degree of
@@ -1438,146 +1343,14 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
 
       numericInput("degree", "The degree of polynomial to be used for
                   when loess fitting is applied, normally 1 or 2:", value=2)
     })
 
-    output$AR_nSlot <- renderUI({
+    output$logtransformSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      selectInput("AR_n", "If TRUE the best fitted AR(n) model is fitted
-                  to the data:", choices=c(FALSE, TRUE))
-    })
-
-    output$interpolateSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Quick Detection Analysis for Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      selectInput("powerspectrum", "If TRUE the power spectrum within each
-                  rolling window is plotted:", choices=c(FALSE, TRUE))
-    })
-
-    # input specific to Quick Detection Analysis #
-
-    output$bootsSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      numericInput("boots", "The number of surrogate data to generate from
-                  fitting an ARMA(p,1) model:", value=100)
-    })
-
-    output$s_levelSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      numericInput("s_level", "Significance level:", value=0.05)
-    })
-
-    output$cutoffSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      numericInput("cutoff", "The cutoff value to visualize the potential
-                  landscape:", value=0.05)
-    })
-
-    output$detection.thresholdSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      numericInput("detection.threshold", "Detection threshold for
-                  potential minima:", value=0.002)
-    })
-
-    output$grid.sizeSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod)){
-        return()
-      }
-      else if(input$ewsMethod == "Generic Early Warning Signals"
-         || input$ewsMethod == " "){
-            return()
-      }
-
-      numericInput("grid.size", "Grid size (for potential analysis):",
-                   value=50)
-    })
-
-    # input shared by both methods #
-
-        output$logtransformSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
         return()
       }
 
@@ -1590,9 +1363,6 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
 
       selectInput("interpolate", "If TRUE linear interpolation is applied to
                   produce a timeseries of equal length as the original.
@@ -1600,12 +1370,29 @@ shinyServer(
                   choices=c(FALSE, TRUE))
     })
 
-    output$ewsDocumentation1 <- renderUI({
+    output$AR_nSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
+
+      selectInput("AR_n", "If TRUE the best fitted AR(n) model is fitted
+                  to the data:", choices=c(FALSE, TRUE))
+    })
+
+    output$powerspectrumSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      selectInput("powerspectrum", "If TRUE the power spectrum within each
+                  rolling window is plotted:", choices=c(FALSE, TRUE))
+    })
+
+    output$ewsDocumentation1 <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
 
@@ -1619,9 +1406,6 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsMethod) || input$ewsMethod == " "){
-        return()
-      }
 
       helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
                  href="http://www.early-warning-signals.org/", target="_blank"))
@@ -1631,11 +1415,185 @@ shinyServer(
 
     ### start: run (advanced) ews analysis based on user-input ###
 
+    # reactive for dynamic updates
+    advancedGeneric <- eventReactive(input$runButton, {
 
+      # loading bar
+      withProgress(message="Performing EWS Analysis", value=0,{
+        withProgress(message="...", detail="Please Wait", value=0, {
+
+          if(input$dataType == "Oxygen"){
+            generic_ews(timeseries=subset(ppSim(), select="Oxygen"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+          else if(input$quick_dataType == "Photosynthesis"){
+            generic_ews(timeseries=subset(ppSim(), select="Photosynthesis"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+          else if(input$quick_dataType == "Biological Oxygen Demand"){
+            generic_ews(timeseries=subset(ppSim(),
+                          select="Biological Oxygen Demand"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+          else if(input$quick_dataType == "Nutrients"){
+            generic_ews(timeseries=subset(ppSim(), select="Nutrients"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+          else if(input$quick_dataType == "Augmentation Value"){
+            generic_ews(timeseries=subset(ppSim(), select="Augmentation Value"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+          else if(input$quick_dataType == "Food Amount"){
+            generic_ews(timeseries=subset(ppSim(), select="Food Amount"),
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
 
     ### end: run (advanced) ews analysis based on user-input ###
 
     ### start: (advanced) ews point analysis output ###
+
+    # display ews radio buttons
+    output$ewsRadioButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(advancedGeneric())){
+        return()
+      }
+
+      radioButtons("ewsRadioButtons", "View Early Warning Signal Analysis:",
+                   c("None", "Standard Deviation", "Skewness", "Kurtosis",
+                     "Coefficient of Variation", "Return Rate", "Density Ratio",
+                     "Autocorrelation at First Lag",
+                     "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+    })
+
+    output$ewsTableCheckboxSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsRadioButtons)){
+        return()
+      }
+      else if(input$ewsRadioButtons == "None"){
+        return()
+      }
+
+      checkboxInput("ewsTableCheckbox", "Show Statistic Table",
+                      value=FALSE)
+    })
+
+    output$downloadEWStableSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsRadioButtons)){
+        return()
+      }
+
+      downloadButton('downloadEWStable', 'Download Data')
+    })
+
+    # download ews data
+    output$downloadEWStable <- downloadHandler(
+      filename = function() { paste("PitcherPlantEWS(advanced)", '.csv', sep='') },
+      content = function(file) {
+        write.csv(quickGeneric(), file)
+      }
+    )
+
+    # fill ews breakdown table with appropriate data based on radio buttons
+    output$ewsTable <- renderDataTable({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(is.null(input$ewsRadioButtons)){
+        return()
+      }
+      else if(input$ewsRadioButtons == "None"){
+        return()
+      }
+
+      if(input$ewsTableCheckbox == TRUE){
+        # check radio buttons value
+        if(input$ewsRadioButtons == "Standard Deviation"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[3])
+          colnames(EWStable) <- c("Time Index", "Standard Deviation")
+        }
+        else if(input$ewsRadioButtons == "Skewness"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[4])
+          colnames(EWStable) <- c("Time Index", "Skewness")
+        }
+        else if(input$ewsRadioButtons == "Kurtosis"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[5])
+          colnames(EWStable) <- c("Time Index", "Kurtosis")
+        }
+        else if(input$ewsRadioButtons == "Coefficient of Variation"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[6])
+          colnames(EWStable) <- c("Time Index", "Coefficient of Variation")
+        }
+        else if(input$ewsRadioButtons == "Return Rate"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[7])
+          colnames(EWStable) <- c("Time Index", "Return Rate")
+        }
+        else if(input$ewsRadioButtons == "Density Ratio"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[8])
+          colnames(EWStable) <- c("Time Index", "Density Ratio")
+        }
+        else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[9])
+          colnames(EWStable) <- c("Time Index", "Autocorrelation at First Lag")
+        }
+        else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+          # use ews time-index determination and associated value
+          EWStable <- cbind(timeIndex=advancedGeneric()[1], advancedGeneric()[2])
+          colnames(EWStable) <- c("Time Index", "Autoregressive Coefficient")
+        }
+
+        # return table with updated column names
+        return(EWStable)
+      }
+
+    }, options=list(pageLength=10))
 
     ### end: (advanced) ews point analysis output ###
 
