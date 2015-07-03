@@ -230,7 +230,7 @@ shinyUI(fluidPage(
         ), # tabPanel - Data Table
 
         tabPanel(title="Model",
-          h1("HELLO WORLD")
+          h1("Temp")
         ), # tabPanel - Model
 
         tabPanel(title="References",
