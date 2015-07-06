@@ -250,7 +250,40 @@ shinyUI(fluidPage(
           h5("alpha = the growth rate of prey"),
           h5("beta = the rate at which predators kill prey"),
           h5("delta = the death rate of predators"),
-          h5("gamma = the rate at which predators increase by consuming prey")
+          h5("gamma = the rate at which predators increase by consuming prey"),
+          br(),
+          br(),
+          h3("R code:"),
+          pre(code(
+            "
+            # load dependencies
+            library(deSolve)
+
+            lvPredPreyModel <- function(time, initState, params){
+              # function for ordinary differential equations (ODE)
+              lvPredPreyEqs <-function(time, initState, params){
+                with(as.list(c(initState, params)),{
+
+                  # lotka-Volterra predator-prey model
+                  dx <- (alpha * prey) - (beta * prey * predator)
+                  dy <- (gamma * prey * predator) - (delta * predator)
+
+                  # alpha = the growth rate of prey
+                  # beta = the rate at which predators kill prey
+                  # delta = the death rate of predators
+                  # gamma = the rate at which predators increase by consuming prey
+
+                  list(c(dx, dy))
+                })
+              }
+
+              # deSolve method to solve initial value problems (IVP)
+              output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs, parms=params)[,-1])
+
+              return(output)
+            }"
+
+          )) # pre & code
         ), # tabPanel - Model
 
         tabPanel(title="References",
