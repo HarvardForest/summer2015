@@ -1,6 +1,6 @@
 #### Pitcher plant O2 simulation - stack algorithm
 ### Nathan Justice
-## Last edited: 03July2015
+## Last edited: 05July2015
 
 # load dependencies
 library(shiny)
