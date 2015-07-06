@@ -1,6 +1,6 @@
-### Lotka-Volterra predator-prey model
-## By: Nathan Justice
-# Last edited: 26June2015
+#### Lotka-Volterra Predator Prey Model
+### Nathan Justice
+## Last edited: 06July2015
 
 ### User Interface ###
 
@@ -8,8 +8,7 @@
 source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
-  useShinyjs(),
-  titlePanel("Lotka-Volterra predator-prey model"),
+  titlePanel("Lotka-Volterra Predator-Prey model"),
 
   sidebarLayout(position="left",
     sidebarPanel(
@@ -58,142 +57,163 @@ shinyUI(fluidPage(
           ), # fluidRow
           fluidRow(
             column(12, align="center",
-              tabsetPanel(
+              tabsetPanel(id="tabset_analyses",
                 tabPanel(title="Quick Analysis",
                   fluidRow(
-                    column(4,
+                    column(5,
                       br(),
                       br(),
-                      selectInput("quickDataType", "Choose Data",
-                                  choices=c(" ", "Prey", "Predator")),
-                      h3(textOutput("quickNumBreakpoints")),
-                      h3(textOutput("quickLocationText")),
-                      h5(textOutput("quickTPAnalysis2")),
-                      uiOutput("breakpointsCheckboxSlot")
+                      selectInput("quick_dataType", "Choose Data:",
+                        choices=c(" ", "Prey", "Predator")
+                      ),
+                      numericInput("quick_Nmax",
+                        "Maximum number of breakpoints for Tipping Point analysis:",
+                        value=5
+                      ),
+                      numericInput("quick_winsize",
+                                   "Size of the rolling window used in the Early Warning Signals
+                                    analysis (expressed as a percentage of the timeseries):",
+                                   value=50
+                      )
                     ), # column
-                    column(8,
+                    column(7,
                       br(),
-                      uiOutput("radioButtonSlot"),
+                      h3(textOutput("quick_numBreakpoints")),
+                      h3(textOutput("quick_locationText")),
+                      h5(textOutput("quick_tpOutput")),
+                      uiOutput("quick_breakpointsCheckboxSlot"),
+                      uiOutput("quick_ewsRadioButtonSlot"),
                       br(),
-                      uiOutput("downloadQuickTableSlot")
+                      uiOutput("quick_downloadTable")
                     ) # column
                   ), # fluidRow
                   fluidRow(
                     column(12,
                       br(),
-                      uiOutput("quickMainTableSlot"),
-                      plotOutput("quickGenericPlotSlot")
+                      dataTableOutput("quick_ewsTable")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
+
                 tabPanel(title="Advanced Analysis",
-                  tabsetPanel(
-                    tabPanel(title="Advanced Tipping Point",
-                      fluidRow(
-                        column(5, align="left",
-                          br(),
-                          helpText(
-                            a("Click here to view the R 'breakpoint' Package
-                              documentation.",
-                              href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
-                              target="_blank")
-                          ), # helpText
-                          br(),
-                          selectInput("dataType", "Choose Data:",
-                                      choices=c(" ", "Prey", "Predator")),
-                          uiOutput("tp1"),
-                          uiOutput("tp2"),
-                          uiOutput("tp3"),
-                          uiOutput("tp4"),
-                          uiOutput("tp5")
-                        ), # column
-                        column(5, offset=1, align="center",
-                          br(),
-                          uiOutput("tp6"),
-                          uiOutput("tp7"),
-                          uiOutput("tp8"),
-                          uiOutput("tp9"),
-                          uiOutput("tpRun"),
-                          br(),
-                          br(),
-                          h4(textOutput("numBreakpointsText")),
-                          h3(textOutput("tpAnalysis1")),
-                          h3(textOutput("locationText")),
-                          h4(textOutput("tpAnalysis2"))
-                        ) # column
-                      ), # fluidRow
+                  fluidRow(
+                    column(12, align="center",
                       br(),
-                      uiOutput("breakpointPlotSlot"),
+                      selectInput("dataType", "Choose Data:",
+                        choices=c(" ", "Prey", "Predator")
+                      )
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(7, align="left",
+                      h3(textOutput("numBreakpoints")),
+                      h3(textOutput("locationText")),
+                      h5(textOutput("tpOutput")),
+                      uiOutput("breakpointsCheckboxSlot")
+                    ), # column
+                    column(5, align="center",
+                      uiOutput("ewsRadioButtonSlot"),
+                      uiOutput("ewsTableCheckboxSlot"),
+                      uiOutput("downloadEWStableSlot")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(12,
                       br(),
-                      uiOutput("profilePlotTitleSlot"),
-                      uiOutput("profilePlotSlot"),
-                      br()
-                    ), # tabPanel - Tipping Point analysis
-                    tabPanel(title="Advanced Early Warning Signal",
-                      fluidRow(
-                        column(5, align="left",
-                          br(),
-                          helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
-                                    href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
-                                    target="_blank")),
-                          helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
-                                    href="http://www.early-warning-signals.org/",
-                                    target="_blank")),
-                          br(),
-                          selectInput("ewsDataType", "Choose Data:",
-                                      choices=c(" ", "Prey", "Predator")),
-                          uiOutput("ews1"),
-                          uiOutput("ews2"),
-                          uiOutput("ews3"),
-                          uiOutput("ews4")
-                        ), # column
-                        column(5, offset=1, align="center",
-                               br(),
-                               br(),
-                               uiOutput("ews5"),
-                               uiOutput("ews6"),
-                               uiOutput("ews7"),
-                               uiOutput("ews8"),
-                               uiOutput("ews9"),
-                               uiOutput("ews10"),
-                               uiOutput("ews11"),
-                               uiOutput("ews12"),
-                               uiOutput("ews13"),
-                               uiOutput("ews14"),
-                               uiOutput("ews15"),
-                               uiOutput("ews16"),
-                               uiOutput("ews17"),
-                               uiOutput("ewsRun"),
-                               br()
-                        ) # column
-                      ), # fluidRow
-                      fluidRow(
-                        column(12,
-                          uiOutput("generic_ewsTableGuideSlot"),
-                          uiOutput("generic_ewsTableSlot")
-                        )
-                      ), # fluidRow
-                      fluidRow(
-                        column(12, align="left",
-                          br(),
-                          uiOutput("generic_ewsPlotSlot"),
-                          br(),
-                          uiOutput("qda_ewsDetailSlot"),
-                          br(),
-                          uiOutput("qda_ewsPlot1Slot"),
-                          br(),
-                          uiOutput("qda_ewsData1Slot"),
-                          br(),
-                          uiOutput("qda_ewsPlot2Slot"),
-                          br(),
-                          uiOutput("qda_ewsData2Slot"),
-                          br(),
-                          uiOutput("qda_ewsPlot3Slot")
-                        ) # column
-                      ) # fluidRow
-                    ) # tabPanel - Early Warning Signal analysis
-                  ) # tabsetPanel
+                      dataTableOutput("ewsTable")
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
+                    column(6, align="left",
+                      h3("Tipping Point parameters"),
+                      selectInput("breakpointType", "Analysis Type:",
+                        choices=c("for Continuous Data",
+                          "with Negative Binomial Distribution",
+                          "with Zero-Inflated Negative Binomial Distribution")
+                      ),
+                      numericInput("Nmax", "Maximum number of breakpoints:", value=5),
+                      selectInput("distributionType", "Distribution to simulate break-point locations:",
+                        choices=c("Four Parameter Beta Distribution",
+                          "Truncated Normal Distribution")
+                      ),
+                      numericInput("eps",
+                        "the cut-off value for the stopping criterion in the CE method:",
+                        value=0.01
+                      ),
+                      numericInput("rho",
+                        "The fraction which is used to obtain the best performing set of sample solutions (i.e., elite sample):",
+                        value=0.05
+                      ),
+                      numericInput("M",
+                        "Sample size to be used in simulating the locations of break-points:",
+                        value=200
+                      ),
+                      numericInput("h", "Minimum aberration width:", value=5),
+                      numericInput("a",
+                        "Used in the four parameter beta distribution to smooth both shape parameters.
+                          When simulating from the truncated normal distribution,
+                          this value is used to smooth the estimates of the mean values:",
+                        value=0.8
+                      ),
+                      numericInput("b", "A smoothing parameter value. It is used in the truncated
+                        normal distribution to smooth the estimates of the standard deviation:",
+                        value=0.8
+                      ),
+                      helpText(a("Click here to view the R 'breakpoint' Package documentation.",
+                        href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
+                        target="_blank")
+                      )
+                    ), # column
+                    column(6, align="center",
+                      h3("Early Warning Signals parameters"),
+                      numericInput("winsize", "The size of the rolling window expressed as
+                        percentage of the timeseries length (must be numeric between 0 and 100):",
+                        value=50
+                      ),
+                      numericInput("bandwidth",
+                        "Bandwidth used for the Gaussian kernel when gaussian filtering s applied.
+                        It is expressed as percentage of the timeseries length (must be numeric between 0 and 100):",
+                        value=5
+                      ),
+                      selectInput("detrending", "Detrended/filtered prior to analysis:",
+                        choices=c("gaussian", "loess", "linear", "first-diff", "no")
+                      ),
+                      numericInput("span",
+                        "Parameter that controls the degree of smoothing (numeric between 0 and 100):",
+                        value=25
+                      ),
+                      numericInput("degree",
+                        "The degree of polynomial to be used for when loess fitting is applied, normally 1 or 2:",
+                        value=2
+                      ),
+                      selectInput("logtransform",
+                        "If TRUE data are logtransformed prior to analysis as log(X+1):",
+                        choices=c(FALSE, TRUE)
+                      ),
+                      selectInput("interpolate",
+                        "If TRUE linear interpolation is applied to produce a timeseries of
+                          equal length as the original. (FALSE assumes there are no gaps in the timeseries):",
+                        choices=c(FALSE, TRUE)
+                      ),
+                      selectInput("AR_n",
+                        "If TRUE the best fitted AR(n) model is fitted to the data:",
+                        choices=c(FALSE, TRUE)
+                      ),
+                      selectInput("powerspectrum",
+                        "If TRUE the power spectrum within each rolling window is plotted:",
+                        choices=c(FALSE, TRUE)
+                      ),
+                      helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
+                        href="http://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf",
+                        target="_blank")
+                      ),
+                      helpText(a("Click here to visit the Early Warnings Signals Toolbox website.",
+                        href="http://www.early-warning-signals.org/", target="_blank")
+                      )
+                    ) # column
+                  ) # fluidRow
                 ), # tabPanel- Advanced Analysis
+
                 tabPanel(title="Customize Graph",
                     br(),
                     br(),
@@ -208,6 +228,7 @@ shinyUI(fluidPage(
             ) # column
           ) # fluidRow
         ), # tabPanel - Graph
+
         tabPanel(title="Data Table",
           fluidRow(
             br(),
@@ -217,6 +238,7 @@ shinyUI(fluidPage(
             dataTableOutput("mainTable")
           ) # fluidRow
         ), # tabPanel - Data Table
+
         tabPanel(title="Model",
           h2("Lotka-Volterra predator-prey model"),
           br(),
@@ -230,6 +252,7 @@ shinyUI(fluidPage(
           h5("delta = the death rate of predators"),
           h5("gamma = the rate at which predators increase by consuming prey")
         ), # tabPanel - Model
+
         tabPanel(title="References",
           br(),
           h3("R:"),
@@ -255,9 +278,13 @@ shinyUI(fluidPage(
             Package deSolve Journal of Statistical Software, 33(9), 1--25.
             URL http://www.jstatsoft.org/v33/i09/."),
           h3("ggplot2:"),
-          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
+          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009."),
+          h3("Pitcher Plant Model:"),
+          p("Sirota, J., Baiser, B., Gotelli, N. J., & Ellison, A. M. (2013).
+            Organic-matter loading determines regime shifts and alternative states in an aquatic ecosystem.
+            Proceedings of the National Academy of Sciences, 110(19), 7742-7747.")
         ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel
   ) # sidebarLayout
-))
+)) # end UI
