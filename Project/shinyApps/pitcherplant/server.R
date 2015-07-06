@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 05July2015
+# Last edited: 06July2015
 
 ### Pitcher Plant Simulation ###
 

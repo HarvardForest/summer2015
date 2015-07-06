@@ -1,6 +1,6 @@
 ### Pitcher Plant model
 ## By: Nathan Justice
-# Last edited: 05July2015
+# Last edited: 06July2015
 
 ### User Interface ###
 
@@ -245,8 +245,9 @@ shinyUI(fluidPage(
               rep(out, days)
             }
 
-            pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.005, k=1, Bscaler=1,
-                                        aMax=10, aMin=1, s=10, d=0.5, c=100) {
+            pitcherPlantSim <-
+              function(days=3, feedingTime=720, foodWeight=5, beta=0.005, k=1, Bscaler=1,
+                        aMax=10, aMin=1, s=10, d=0.5, c=100) {
 
               minute <- vector(mode='numeric') # t/time variable
               x <- vector(mode='numeric') # amount of o2
