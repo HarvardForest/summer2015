@@ -1539,6 +1539,8 @@ shinyServer(
         return()
       }
 
+      print(length(TPanalysis()))
+
       #display text only if breakpoints are detected
       if(length(TPanalysis()) > 1){
         c("Number of breakpoints detected:", TPanalysis()[[1]])
