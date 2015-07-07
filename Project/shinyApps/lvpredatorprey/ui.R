@@ -299,6 +299,9 @@ shinyUI(fluidPage(
             http://CRAN.R-project.org/package=shiny"),
           h3("shinyapps Package:"),
           p("JJ Allaire (2013). shinyapps: Interface to ShinyApps. R package version 0.3.64."),
+          h3("shinythemes Package:"),
+          p("Winston Chang (2015). shinythemes: Themes for Shiny. R package version 1.0.1.
+            http://CRAN.R-project.org/package=shinythemes"),
           h3("breakpoint (Tipping Point) Package:"),
           p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
               Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
