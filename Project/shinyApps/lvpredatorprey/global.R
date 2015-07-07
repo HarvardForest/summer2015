@@ -6,6 +6,7 @@
 library(shiny)
 library(shinyapps)
 library(shinythemes)
+library(shinyAce)
 library(deSolve)
 library(breakpoint)
 library(ggplot2)

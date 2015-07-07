@@ -1462,5 +1462,89 @@ shinyServer(
 
 ################################################################################
 
+######################### Ace Editor ###########################################
+
+    aceEval <- eventReactive(input$aceEvalButton, {
+      # loading bar
+      withProgress(message="Running Script", value=0,{
+        withProgress(message="...", detail="Please Wait", value=0, {
+          eval(parse(text=input$ace))
+        })
+      })
+    })
+
+    output$aceOutput <- renderPrint({
+      aceEval()
+    })
+
+    observe({
+      updateAceEditor(session, "ace",
+"# load dependencies
+library(deSolve)
+library(breakpoint)
+library(ggplot2)
+library(earlywarnings)
+
+##### Lotka-Volterra Predator Prey Model #####
+
+lvPredPreyModel <- function(time, initState, params){
+  # function for ordinary differential equations (ODE)
+  lvPredPreyEqs <-function(time, initState, params){
+    with(as.list(c(initState, params)),{
+
+      # lotka-Volterra predator-prey model
+      dx <- (alpha * prey) - (beta * prey * predator)
+      dy <- (gamma * prey * predator) - (delta * predator)
+
+      list(c(dx, dy))
+    })
+  }
+
+  # deSolve method to solve initial value problems (IVP)
+  output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
+                            parms=params)[,-1])
+
+  return(output)
+}
+
+## Test-values ##
+
+# alpha = the growth rate of prey
+# beta = the rate at which predators kill prey
+# delta = the death rate of predators
+# gamma = the rate at which predators increase by consuming prey
+
+time <- seq(1, 100, by=1)
+initState <- c(prey=100, predator=10)
+params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
+
+## Function-call ##
+data <- lvPredPreyModel(time, initState, params)
+
+##### Breakpoint Analysis ('breakpoint' Package) ######
+
+# data[1] = 'Prey' and data[2] = 'Predator'
+# argument 'distyp=1' is four parameter beta distribution
+# argument 'distyp=2' is truncated normal distribution
+# argument 'Nmax' is the maximum number of breakpoints
+
+# run breakpoint analysis for Continuous Data
+cont_BP <- CE.Normal(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
+                      a=0.8, b=0.8, distyp=1, parallel=FALSE)
+
+# run breakpoint analysis with Negative Binomial Distribution
+#nb_BP <- CE.NB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
+#                b=0.8, distyp=1, parallel=FALSE)
+
+# run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
+#zinb_BP <- CE.ZINB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
+#                    b=0.8, distyp=1, parallel=FALSE)
+",
+        mode="r", theme="vibrant_ink"
+      )
+    })
+
+################################################################################
+
   } ## end server ##
 )

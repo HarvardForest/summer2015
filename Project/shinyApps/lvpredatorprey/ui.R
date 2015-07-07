@@ -244,7 +244,6 @@ shinyUI(fluidPage(
           h2("Lotka-Volterra predator-prey model"),
           br(),
           h4("Ordinary Differential Equation:"),
-          br(),
           h3("dx <- (alpha * prey) - (beta * prey * predator)"),
           h3("dy <- (gamma * prey * predator) - (delta * predator)"),
           br(),
@@ -252,40 +251,49 @@ shinyUI(fluidPage(
           h5("beta = the rate at which predators kill prey"),
           h5("delta = the death rate of predators"),
           h5("gamma = the rate at which predators increase by consuming prey"),
-          br(),
-          br(),
           h3("R code:"),
           pre(code(
-            "
-            # load dependencies
-            library(deSolve)
+"
+# Load dependencies
+library(deSolve)
 
-            lvPredPreyModel <- function(time, initState, params){
-              # function for ordinary differential equations (ODE)
-              lvPredPreyEqs <-function(time, initState, params){
-                with(as.list(c(initState, params)),{
+lvPredPreyModel <- function(time, initState, params){
+  # function for ordinary differential equations (ODE)
+  lvPredPreyEqs <-function(time, initState, params){
+    with(as.list(c(initState, params)),{
 
-                  # lotka-Volterra predator-prey model
-                  dx <- (alpha * prey) - (beta * prey * predator)
-                  dy <- (gamma * prey * predator) - (delta * predator)
+      # lotka-Volterra predator-prey model
+      dx <- (alpha * prey) - (beta * prey * predator)
+      dy <- (gamma * prey * predator) - (delta * predator)
 
-                  # alpha = the growth rate of prey
-                  # beta = the rate at which predators kill prey
-                  # delta = the death rate of predators
-                  # gamma = the rate at which predators increase by consuming prey
+      # alpha = the growth rate of prey
+      # beta = the rate at which predators kill prey
+      # delta = the death rate of predators
+      # gamma = the rate at which predators increase by consuming prey
 
-                  list(c(dx, dy))
-                })
-              }
+      list(c(dx, dy))
+    })
+  }
 
-              # deSolve method to solve initial value problems (IVP)
-              output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs, parms=params)[,-1])
+  # deSolve method to solve initial value problems (IVP)
+  output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
+                           parms=params)[,-1])
 
-              return(output)
-            }"
-
+  return(output)
+}"
           )) # pre & code
         ), # tabPanel - Model
+
+        tabPanel(title="R",
+          aceEditor("ace", value=" "),
+          fluidRow(
+            column(12, offset=10, align="left",
+              actionButton("aceEvalButton", "Run")
+            )
+          ),
+          br(),
+          verbatimTextOutput("aceOutput")
+        ), # tabPanel - R
 
         tabPanel(title="References",
           br(),
@@ -302,6 +310,9 @@ shinyUI(fluidPage(
           h3("shinythemes Package:"),
           p("Winston Chang (2015). shinythemes: Themes for Shiny. R package version 1.0.1.
             http://CRAN.R-project.org/package=shinythemes"),
+          h3("shinyAce Package:"),
+          p("Trestle Technology and LLC. (2013). shinyAce: Ace editor bindings for Shiny. R package version 0.1.0.
+            http://CRAN.R-project.org/package=shinyAce"),
           h3("breakpoint (Tipping Point) Package:"),
           p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
               Break-Point Detection via the Cross-Entropy Method. R package version 1.1.

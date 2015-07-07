@@ -5,9 +5,9 @@
 # Load dependencies
 library(deSolve)
 
-lotVpredPrey <- function(time, initState, params){
+lvPredPreyModel <- function(time, initState, params){
   # function for ordinary differential equations (ODE)
-  lotVPPeqs <-function(time, initState, params){
+  lvPredPreyEqs <-function(time, initState, params){
     with(as.list(c(initState, params)),{
 
       # lotka-Volterra predator-prey model
@@ -24,7 +24,8 @@ lotVpredPrey <- function(time, initState, params){
   }
 
   # deSolve method to solve initial value problems (IVP)
-  output <- data.frame(ode(y=initState, times=time, func=lotVPPeqs, parms=params)[,-1])
+  output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
+                           parms=params)[,-1])
 
   return(output)
 }
@@ -35,4 +36,4 @@ lotVpredPrey <- function(time, initState, params){
 #time <- seq(1, 100, by=1)
 
 ## Function-call
-#data <- lotVpredPrey(time, initState, params)
+#data <- lvPredPreyModel(time, initState, params)
