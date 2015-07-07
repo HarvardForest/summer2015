@@ -252,47 +252,18 @@ shinyUI(fluidPage(
           h5("delta = the death rate of predators"),
           h5("gamma = the rate at which predators increase by consuming prey"),
           h3("R code:"),
-          pre(code(
-"
-# Load dependencies
-library(deSolve)
-
-lvPredPreyModel <- function(time, initState, params){
-  # function for ordinary differential equations (ODE)
-  lvPredPreyEqs <-function(time, initState, params){
-    with(as.list(c(initState, params)),{
-
-      # lotka-Volterra predator-prey model
-      dx <- (alpha * prey) - (beta * prey * predator)
-      dy <- (gamma * prey * predator) - (delta * predator)
-
-      # alpha = the growth rate of prey
-      # beta = the rate at which predators kill prey
-      # delta = the death rate of predators
-      # gamma = the rate at which predators increase by consuming prey
-
-      list(c(dx, dy))
-    })
-  }
-
-  # deSolve method to solve initial value problems (IVP)
-  output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
-                           parms=params)[,-1])
-
-  return(output)
-}"
-          )) # pre & code
+          pre(code(textOutput("codeText")))
         ), # tabPanel - Model
 
-        tabPanel(title="R",
+        tabPanel(title="R Code",
+          h3("Read-only"),
           aceEditor("ace", value=" "),
           fluidRow(
-            column(12, offset=10, align="left",
-              actionButton("aceEvalButton", "Run")
+            column(12, align="center",
+              downloadButton("aceDownloadButton", "Download Script")
             )
           ),
-          br(),
-          verbatimTextOutput("aceOutput")
+          textOutput("Temp")
         ), # tabPanel - R
 
         tabPanel(title="References",

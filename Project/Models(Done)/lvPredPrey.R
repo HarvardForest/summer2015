@@ -32,7 +32,7 @@ lvPredPreyModel <- function(time, initState, params){
 
 ## Test-values
 #params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
-#initState <- c(prey=100, predator=10)
+#initState <- c(prey=500, predator=10)
 #time <- seq(1, 100, by=1)
 
 ## Function-call

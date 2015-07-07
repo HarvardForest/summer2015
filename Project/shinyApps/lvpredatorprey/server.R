@@ -551,7 +551,7 @@ shinyServer(
 
     # download main table feature
     output$downloadMainTable <- downloadHandler(
-      filename = function() { paste("PredatorPrey", '.csv', sep='') },
+      filename = function() { paste("PredatorPreySim", '.csv', sep='') },
       content = function(file) {
         write.csv(lvPredPrey(), file)
       }
@@ -1462,23 +1462,43 @@ shinyServer(
 
 ################################################################################
 
-######################### Ace Editor ###########################################
+############################## Model ###########################################
 
-    aceEval <- eventReactive(input$aceEvalButton, {
-      # loading bar
-      withProgress(message="Running Script", value=0,{
-        withProgress(message="...", detail="Please Wait", value=0, {
-          eval(parse(text=input$ace))
-        })
-      })
+    # load code text to page
+    output$codeText <- renderText({
+"# Load dependencies
+library(deSolve)
+
+lvPredPreyModel <- function(time, initState, params){
+# function for ordinary differential equations (ODE)
+lvPredPreyEqs <-function(time, initState, params){
+  with(as.list(c(initState, params)),{
+
+    # lotka-Volterra predator-prey model
+    dx <- (alpha * prey) - (beta * prey * predator)
+    dy <- (gamma * prey * predator) - (delta * predator)
+
+    # alpha = the growth rate of prey
+    # beta = the rate at which predators kill prey
+    # delta = the death rate of predators
+    # gamma = the rate at which predators increase by consuming prey
+
+    list(c(dx, dy))
+  })
+}
+
+# deSolve method to solve initial value problems (IVP)
+output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
+                         parms=params)[,-1])
+
+return(output)
+}"
     })
 
-    output$aceOutput <- renderPrint({
-      aceEval()
-    })
+######################### Ace ##################################################
 
-    observe({
-      updateAceEditor(session, "ace",
+    # render script text
+    aceScript <- reactive({
 "# load dependencies
 library(deSolve)
 library(breakpoint)
@@ -1488,11 +1508,11 @@ library(earlywarnings)
 ##### Lotka-Volterra Predator Prey Model #####
 
 lvPredPreyModel <- function(time, initState, params){
-  # function for ordinary differential equations (ODE)
+  ## function for ordinary differential equations (ODE)
   lvPredPreyEqs <-function(time, initState, params){
     with(as.list(c(initState, params)),{
 
-      # lotka-Volterra predator-prey model
+      ## lotka-Volterra predator-prey model
       dx <- (alpha * prey) - (beta * prey * predator)
       dy <- (gamma * prey * predator) - (delta * predator)
 
@@ -1500,7 +1520,7 @@ lvPredPreyModel <- function(time, initState, params){
     })
   }
 
-  # deSolve method to solve initial value problems (IVP)
+  ## deSolve method to solve initial value problems (IVP)
   output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
                             parms=params)[,-1])
 
@@ -1509,13 +1529,13 @@ lvPredPreyModel <- function(time, initState, params){
 
 ## Test-values ##
 
-# alpha = the growth rate of prey
-# beta = the rate at which predators kill prey
-# delta = the death rate of predators
-# gamma = the rate at which predators increase by consuming prey
+## alpha = the growth rate of prey
+## beta = the rate at which predators kill prey
+## delta = the death rate of predators
+## gamma = the rate at which predators increase by consuming prey
 
 time <- seq(1, 100, by=1)
-initState <- c(prey=100, predator=10)
+initState <- c(prey=500, predator=10)
 params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
 
 ## Function-call ##
@@ -1523,26 +1543,58 @@ data <- lvPredPreyModel(time, initState, params)
 
 ##### Breakpoint Analysis ('breakpoint' Package) ######
 
-# data[1] = 'Prey' and data[2] = 'Predator'
-# argument 'distyp=1' is four parameter beta distribution
-# argument 'distyp=2' is truncated normal distribution
-# argument 'Nmax' is the maximum number of breakpoints
+## data[1] = 'Prey' and data[2] = 'Predator'
+## argument 'distyp=1' is four parameter beta distribution
+## argument 'distyp=2' is truncated normal distribution
+## argument 'Nmax' is the maximum number of breakpoints
 
-# run breakpoint analysis for Continuous Data
+## run breakpoint analysis for Continuous Data
+  ## used in this application's 'Quick Analysis'
 cont_BP <- CE.Normal(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
                       a=0.8, b=0.8, distyp=1, parallel=FALSE)
 
-# run breakpoint analysis with Negative Binomial Distribution
+## run breakpoint analysis with Negative Binomial Distribution
 #nb_BP <- CE.NB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
 #                b=0.8, distyp=1, parallel=FALSE)
 
-# run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
-#zinb_BP <- CE.ZINB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
-#                    b=0.8, distyp=1, parallel=FALSE)
-",
-        mode="r", theme="vibrant_ink"
-      )
+## run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
+#zinb_BP <- CE.ZINB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
+#                    a=0.8, b=0.8, distyp=1, parallel=FALSE)
+
+##### Early Warning Signals Analysis ('earlywarnings' Package)
+
+## generic early warning signals
+  ## used in this application's 'Quick Analysis'
+gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
+                        winsize=50, detrending = c('no', 'gaussian', 'loess',
+                                                    'linear', 'first-diff'),
+                        bandwidth = NULL, span = NULL, degree = NULL,
+                        logtransform = FALSE, interpolate = FALSE, AR_n = FALSE,
+                        powerspectrum = FALSE))
+
+## quick detection analysis for generic early warning signals
+#quick_EWS <- qda_ews(timeseries=subset(lvPredPrey(), select='prey'),
+#                      param = NULL, winsize = 50, detrending = c('no',
+#                      'gaussian', 'linear', 'first-diff'), bandwidth = NULL,
+#                      boots = 100, s_level = 0.05, cutoff = 0.05,
+#                      detection.threshold = 0.002, grid.size = 50,
+#                      logtransform = FALSE, interpolate = FALSE)
+"
     })
+
+    # load script text into Ace
+    observe({
+      updateAceEditor(session, "ace", value=aceScript(), mode="r",
+                      theme="chrome", readOnly=TRUE)
+    })
+
+    # download ace scripte
+    output$aceDownloadButton <- downloadHandler(
+      filename = function() { paste("PredatorPreyScript", '.R', sep='') },
+      content = function(file) {
+        write(aceScript(), file)
+      }
+    )
 
 ################################################################################
 
