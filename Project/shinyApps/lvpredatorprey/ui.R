@@ -8,6 +8,7 @@
 source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
+  theme=shinytheme("flatly"),
   titlePanel("Lotka-Volterra Predator-Prey model"),
 
   sidebarLayout(position="left",
@@ -311,11 +312,7 @@ shinyUI(fluidPage(
             Package deSolve Journal of Statistical Software, 33(9), 1--25.
             URL http://www.jstatsoft.org/v33/i09/."),
           h3("ggplot2:"),
-          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009."),
-          h3("Pitcher Plant Model:"),
-          p("Sirota, J., Baiser, B., Gotelli, N. J., & Ellison, A. M. (2013).
-            Organic-matter loading determines regime shifts and alternative states in an aquatic ecosystem.
-            Proceedings of the National Academy of Sciences, 110(19), 7742-7747.")
+          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
         ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel

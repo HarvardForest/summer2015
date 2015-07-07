@@ -5,6 +5,7 @@
 # load dependencies
 library(shiny)
 library(shinyapps)
+library(shinythemes)
 library(deSolve)
 library(breakpoint)
 library(ggplot2)
