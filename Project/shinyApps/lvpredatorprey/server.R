@@ -63,7 +63,6 @@ shinyServer(
         title(main=input$plotTitle)
         legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
                col=c(1, 2), bty="n")
-
       }
 
       if(input$tabset_analyses == "Advanced Analysis"){
