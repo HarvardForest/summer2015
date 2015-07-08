@@ -12,6 +12,19 @@ library(earlywarnings)
 
 ## Functions ##
 
+## rescale = transforms the values of x to fit within the bounds of y
+
+rescale <- function(x,y){
+    x.range <- range(x)
+    y.range <- range(y)
+    x <- ((x - x.range[1])* (diff(y.range))) / diff(x.range) + y.range[1]
+    if (any(range(x) != range(y))){
+        warning('Ranges do not match.')
+    }else{
+        return(x)
+    }
+}
+
 light <- function(days){
   out <- sin(2*pi*(1:720)/1440)
   out[out < 0] <- 0
