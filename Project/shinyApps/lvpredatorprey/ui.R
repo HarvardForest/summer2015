@@ -52,8 +52,7 @@ shinyUI(fluidPage(
         tabPanel(title="Graph",
           fluidRow(
             column(12,
-              plotOutput("mainPlot"),
-              uiOutput("ewsMainPlotSlot")
+              plotOutput("mainPlot")
             ) # column
           ), # fluidRow
           fluidRow(
