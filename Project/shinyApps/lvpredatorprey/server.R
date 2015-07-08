@@ -58,7 +58,6 @@ shinyServer(
     output$mainPlot <- renderPlot({
       if(input$tabset_analyses == "Quick Analysis" ||
          input$tabset_analyses == "Customize Graph"){
-
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
         title(main=input$plotTitle)
         legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
@@ -66,7 +65,6 @@ shinyServer(
       }
 
       if(input$tabset_analyses == "Advanced Analysis"){
-
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
         title(main=input$plotTitle)
         legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
@@ -109,13 +107,19 @@ shinyServer(
         }
         # draw ews line based on radio button selection
         else if(input$quick_ewsRadioButtons == "Standard Deviation"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[3]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -134,13 +138,19 @@ shinyServer(
         }
 
         else if(input$quick_ewsRadioButtons == "Skewness"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[4]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -159,13 +169,19 @@ shinyServer(
         }
 
         else if(input$quick_ewsRadioButtons == "Kurtosis"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[5]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -184,13 +200,19 @@ shinyServer(
         }
 
         else if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[6]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -202,20 +224,26 @@ shinyServer(
           }
           else{
             # update plot legend with only ews line
-            legend("topleft", c(input$input$preyLabel, input$predatorLabel,
+            legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
                     lty=c(1, 2), col=c(1, 2, "green"), bty="n")
           }
         }
 
         else if(input$quick_ewsRadioButtons == "Return Rate"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[7]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -234,13 +262,19 @@ shinyServer(
         }
 
         else if(input$quick_ewsRadioButtons == "Density Ratio"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[8]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -252,20 +286,26 @@ shinyServer(
           }
           else{
             # update plot legend with only ews line
-            legend("topleft", c(input$input$preyLabel, input$predatorLabel,
+            legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
                     lty=c(1, 2), col=c(1, 2, "green"), bty="n")
           }
         }
 
         else if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[9]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -277,20 +317,26 @@ shinyServer(
           }
           else{
             # update plot legend with only ews line
-            legend("topleft", c(input$input$preyLabel, input$predatorLabel,
+            legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
                     lty=c(1, 2), col=c(1, 2, "green"), bty="n")
           }
         }
 
         else if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- quickGeneric()[2]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -340,13 +386,19 @@ shinyServer(
         }
         # draw ews line based on radio button selection
         else if(input$ewsRadioButtons == "Standard Deviation"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[3]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -365,13 +417,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Skewness"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[4]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -383,20 +441,26 @@ shinyServer(
           }
           else{
             # update plot legend with only ews line
-            legend("topleft", c(input$input$preyLabel, input$predatorLabel,
+            legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
                     lty=c(1, 2), col=c(1, 2, "green"), bty="n")
           }
         }
 
         else if(input$ewsRadioButtons == "Kurtosis"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[5]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -415,13 +479,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Coefficient of Variation"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[6]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -440,13 +510,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Return Rate"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[7]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -465,13 +541,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Density Ratio"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[8]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -490,13 +572,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[9]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -515,13 +603,19 @@ shinyServer(
         }
 
         else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
-          # adjust starting point to accomodate rolling window size (10%)
+          # re-scale ews statistic
           ewsLine <- advancedGeneric()[2]
+          # adjust starting point to accomodate rolling window size
           for(i in 1:(input$time * (input$winsize * 0.01))){
             ewsLine <- rbind(NA, ewsLine)
           }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+          twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                      1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+          lines(lvPredPrey()[[2]], col="red", lty=2)
+          title(main=input$plotTitle)
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines

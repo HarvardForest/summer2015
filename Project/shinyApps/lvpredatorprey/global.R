@@ -9,8 +9,8 @@ library(shinythemes)
 library(shinyAce)
 library(deSolve)
 library(breakpoint)
-library(ggplot2)
 library(earlywarnings)
+library(plotrix)
 
 lvPredPreyModel <- function(time, initState, params){
   # function for ordinary differential equations (ODE)
@@ -34,17 +34,4 @@ lvPredPreyModel <- function(time, initState, params){
   output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs, parms=params)[,-1])
 
   return(output)
-}
-
-# transform the values of x so that the range of x is equal to the range of y
-rescale <- function(x, y){
-    x.range <- range(x)
-    y.range <- range(y)
-    x <- ((x - x.range[1]) * (diff(y.range))) / diff(x.range) + y.range[1]
-    if(any(range(x) != range(y))){
-        warning('Ranges do not match.')
-    }
-    else{
-        return(x)
-    }
 }
