@@ -12,9 +12,7 @@ library(earlywarnings)
 
 ## Functions ##
 
-## rescale = transforms the values of x so that 
-## the range of x is equal to the range of y
-
+# transform the values of x so that the range of x is equal to the range of y
 rescale <- function(x,y){
     x.range <- range(x)
     y.range <- range(y)
