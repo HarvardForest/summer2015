@@ -614,6 +614,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -632,6 +635,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -650,6 +656,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -668,6 +677,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -686,6 +698,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -704,6 +719,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -722,6 +740,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -740,6 +761,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$quick_breakpointsCheckbox)){
+            return()
+          }
           if(input$quick_breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=quickTP()[[2]], col="blue")
@@ -770,6 +794,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -788,6 +815,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -806,6 +836,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -824,6 +857,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -842,6 +878,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -860,6 +899,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -878,6 +920,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
@@ -896,6 +941,9 @@ shinyServer(
                   xlab="Time (minutes)")
 
           # draw breakpoint lines if checkbox button is selected
+          if(is.null(input$breakpointsCheckbox)){
+            return()
+          }
           if(input$breakpointsCheckbox == TRUE){
             # include breakpoint lines
             abline(v=TPanalysis()[[2]], col="blue")
