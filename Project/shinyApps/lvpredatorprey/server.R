@@ -117,9 +117,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -127,13 +128,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                     input$quick_ewsRadioButtons), lty=c(1, 2),
-                   col=c(1, 2, "green"), bty="n")
+                   col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -148,9 +149,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -158,13 +160,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -179,9 +181,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -189,13 +192,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -210,9 +213,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -220,13 +224,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -241,9 +245,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -251,13 +256,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -272,9 +277,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -282,13 +288,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -303,9 +309,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -313,13 +320,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -334,9 +341,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
           if(input$quick_breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -344,18 +352,18 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
       }
 
-      # run only if the "Advanced  Analysis" tab is active
+      ### run only if the "Advanced  Analysis" tab is active ###
       if(input$tabset_analyses == "Advanced Analysis"){
         # check if breakpoint lines and ews lines can be drawn
         if(is.null(input$dataType) || input$dataType == " "){
@@ -396,9 +404,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -406,13 +415,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -427,9 +436,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -437,13 +447,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -458,9 +468,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -468,13 +479,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -489,9 +500,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -499,13 +511,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -520,9 +532,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -530,13 +543,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -551,9 +564,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -561,13 +575,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -582,9 +596,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -592,13 +607,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
 
@@ -613,9 +628,10 @@ shinyServer(
           # draw rescaled ews line, axis, and label (from 'plotrix')
           twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
                       1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                      rcol="green", xlab=input$xaxis, ylab=input$yaxis)
+                      rcol="green4", xlab=input$xaxis, ylab=input$yaxis)
           lines(lvPredPrey()[[2]], col="red", lty=2)
           title(main=input$plotTitle)
+          mtext(input$ewsRadioButtons, side=4, col="green4")
 
           if(input$breakpointsCheckbox == TRUE) {
             # include breakpoint lines
@@ -623,13 +639,13 @@ shinyServer(
             # update plot legend with ews and breakpoint lines
             legend("topleft",c(input$preyLabel, input$predatorLabel, "Breakpoints",
                                input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, 2, "blue", "green"), bty="n")
+                   lty=c(1, 2, 1, 1), col=c(1, 2, "blue", "green4"), bty="n")
           }
           else{
             # update plot legend with only ews line
             legend("topleft", c(input$preyLabel, input$predatorLabel,
                                 input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, 2, "green"), bty="n")
+                    lty=c(1, 2), col=c(1, 2, "green4"), bty="n")
           }
         }
       }
