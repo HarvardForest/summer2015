@@ -1,6 +1,6 @@
 #### Lotka-Volterra Predator Prey Model
 ### Nathan Justice
-## Last edited: 07July2015
+## Last edited: 10July2015
 
 ### User Interface ###
 
@@ -79,8 +79,8 @@ shinyUI(fluidPage(
                     ), # column
                     column(7,
                       br(),
-                      radioButtons("mainPlotDisplayOptions", "Display:",
-                                   choices=c("Predator", "Prey", "Both"),
+                      radioButtons("quickPlotOptions", "Display:",
+                                   choices=c("Prey", "Predator", "Both"),
                                    selected="Both", inline=TRUE),
                       h3(textOutput("quick_numBreakpoints")),
                       h3(textOutput("quick_locationText")),
@@ -101,11 +101,17 @@ shinyUI(fluidPage(
 
                 tabPanel(title="Advanced Analysis",
                   fluidRow(
-                    column(12, align="center",
+                    column(6, align="center",
                       br(),
                       selectInput("dataType", "Choose Data:",
                         choices=c(" ", "Prey", "Predator")
                       )
+                    ), # column
+                    column(6, align="center",
+                      br(),
+                      radioButtons("advancedPlotOptions", "Display:",
+                                   choices=c("Prey", "Predator", "Both"),
+                                   selected="Both", inline=TRUE)
                     ) # column
                   ), # fluidRow
                   fluidRow(

@@ -58,18 +58,45 @@ shinyServer(
     output$mainPlot <- renderPlot({
       if(input$tabset_analyses == "Quick Analysis" ||
          input$tabset_analyses == "Customize Graph"){
-        matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-        title(main=input$plotTitle)
-        legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-               col=c(1, 2), bty="n")
+        if(input$quickPlotOptions == "Both"){
+          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+          title(main=input$plotTitle)
+          legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+                 col=c(1, 2), bty="n")
+        }
+        else if(input$quickPlotOptions == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=1, col=1)
+          title(main=input$plotTitle)
+          legend("topleft", input$preyLabel, lty=1, col=1, bty="n")
+        }
+        else if(input$quickPlotOptions == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=2, col="red")
+          title(main=input$plotTitle)
+          legend("topleft", input$predatorLabel, lty=2, col="red", bty="n")
+        }
       }
 
       if(input$tabset_analyses == "Advanced Analysis"){
-        matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
-        title(main=input$plotTitle)
-        legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-               col=c(1, 2), bty="n")
-
+        if(input$advancedPlotOptions == "Both"){
+          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+          title(main=input$plotTitle)
+          legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
+                 col=c(1, 2), bty="n")
+        }
+        else if(input$advancedPlotOptions == "Prey"){
+          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=1, col=1)
+          title(main=input$plotTitle)
+          legend("topleft", input$preyLabel, lty=1, col=1, bty="n")
+        }
+        else if(input$advancedPlotOptions == "Predator"){
+          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=2, col="red")
+          title(main=input$plotTitle)
+          legend("topleft", input$predatorLabel, lty=2, col="red", bty="n")
+        }
       }
 
       ### end: show simulation plot ###
@@ -1227,29 +1254,23 @@ shinyServer(
     output$codeText <- renderText({
 "# Load dependencies
 library(deSolve)
-
 lvPredPreyModel <- function(time, initState, params){
 # function for ordinary differential equations (ODE)
 lvPredPreyEqs <-function(time, initState, params){
   with(as.list(c(initState, params)),{
-
     # lotka-Volterra predator-prey model
     dx <- (alpha * prey) - (beta * prey * predator)
     dy <- (gamma * prey * predator) - (delta * predator)
-
     # alpha = the growth rate of prey
     # beta = the rate at which predators kill prey
     # delta = the death rate of predators
     # gamma = the rate at which predators increase by consuming prey
-
     list(c(dx, dy))
   })
 }
-
 # deSolve method to solve initial value problems (IVP)
 output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
                          parms=params)[,-1])
-
 return(output)
 }"
     })
@@ -1263,65 +1284,48 @@ library(deSolve)
 library(breakpoint)
 library(ggplot2)
 library(earlywarnings)
-
 ##### Lotka-Volterra Predator Prey Model #####
-
 lvPredPreyModel <- function(time, initState, params){
   ## function for ordinary differential equations (ODE)
   lvPredPreyEqs <-function(time, initState, params){
     with(as.list(c(initState, params)),{
-
       ## lotka-Volterra predator-prey model
       dx <- (alpha * prey) - (beta * prey * predator)
       dy <- (gamma * prey * predator) - (delta * predator)
-
       list(c(dx, dy))
     })
   }
-
   ## deSolve method to solve initial value problems (IVP)
   output <- data.frame(ode(y=initState, times=time, func=lvPredPreyEqs,
                             parms=params)[,-1])
-
   return(output)
 }
-
 ## Test-values ##
-
 ## alpha = the growth rate of prey
 ## beta = the rate at which predators kill prey
 ## delta = the death rate of predators
 ## gamma = the rate at which predators increase by consuming prey
-
 time <- seq(1, 100, by=1)
 initState <- c(prey=500, predator=10)
 params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
-
 ## Function-call ##
 data <- lvPredPreyModel(time, initState, params)
-
 ##### Breakpoint Analysis ('breakpoint' Package) ######
-
 ## data[1] = 'Prey' and data[2] = 'Predator'
 ## argument 'distyp=1' is four parameter beta distribution
 ## argument 'distyp=2' is truncated normal distribution
 ## argument 'Nmax' is the maximum number of breakpoints
-
 ## run breakpoint analysis for Continuous Data
   ## used in this application's 'Quick Analysis'
 cont_BP <- CE.Normal(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
                       a=0.8, b=0.8, distyp=1, parallel=FALSE)
-
 ## run breakpoint analysis with Negative Binomial Distribution
 #nb_BP <- CE.NB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
 #                b=0.8, distyp=1, parallel=FALSE)
-
 ## run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
 #zinb_BP <- CE.ZINB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
 #                    a=0.8, b=0.8, distyp=1, parallel=FALSE)
-
 ##### Early Warning Signals Analysis ('earlywarnings' Package)
-
 ## generic early warning signals
   ## used in this application's 'Quick Analysis'
 gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
@@ -1330,7 +1334,6 @@ gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
                         bandwidth = NULL, span = NULL, degree = NULL,
                         logtransform = FALSE, interpolate = FALSE, AR_n = FALSE,
                         powerspectrum = FALSE))
-
 ## quick detection analysis for generic early warning signals
 #quick_EWS <- qda_ews(timeseries=subset(lvPredPrey(), select='prey'),
 #                      param = NULL, winsize = 50, detrending = c('no',
