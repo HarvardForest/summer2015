@@ -9,7 +9,8 @@ source("global.R", local=TRUE)
 
 shinyUI(fluidPage(
   theme=shinytheme("flatly"),
-  titlePanel("Lotka-Volterra Predator-Prey model"),
+  headerPanel(title="Lotka-Volterra Predator-Prey model",
+              windowTitle="Predator-Prey model"),
 
   sidebarLayout(position="left",
     sidebarPanel(
@@ -78,6 +79,9 @@ shinyUI(fluidPage(
                     ), # column
                     column(7,
                       br(),
+                      radioButtons("mainPlotDisplayOptions", "Display:",
+                                   choices=c("Predator", "Prey", "Both"),
+                                   selected="Both", inline=TRUE),
                       h3(textOutput("quick_numBreakpoints")),
                       h3(textOutput("quick_locationText")),
                       h5(textOutput("quick_tpOutput")),
