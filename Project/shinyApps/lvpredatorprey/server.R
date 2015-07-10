@@ -62,13 +62,13 @@ shinyServer(
           matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
           legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-                 col=c(1, 2), bty="n")
+                 col=c("black", "red"), bty="n")
         }
         else if(input$quickPlotOptions == "Prey"){
           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col=1)
+                  lty=1, col="black")
           title(main=input$plotTitle)
-          legend("topleft", input$preyLabel, lty=1, col=1, bty="n")
+          legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
         }
         else if(input$quickPlotOptions == "Predator"){
           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
@@ -83,13 +83,13 @@ shinyServer(
           matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
           legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-                 col=c(1, 2), bty="n")
+                 col=c("black", "red"), bty="n")
         }
         else if(input$advancedPlotOptions == "Prey"){
           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col=1)
           title(main=input$plotTitle)
-          legend("topleft", input$preyLabel, lty=1, col=1, bty="n")
+          legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
         }
         else if(input$advancedPlotOptions == "Predator"){
           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
@@ -101,7 +101,7 @@ shinyServer(
 
       ### end: show simulation plot ###
 
-      ### start: draw breakpoint lines on main plot ###
+      ### start: draw breakpoint lines on (quick) main plot ###
 
       # run only if the "Quick Analysis" tab is active
       if(input$tabset_analyses == "Quick Analysis"){
@@ -112,19 +112,27 @@ shinyServer(
         else if(is.null(input$quick_breakpointsCheckbox)){
          return()
         }
-        else if(is.null(input$quick_ewsRadioButtons)){
-         return()
-        }
         # indicates breakpoint lines can be drawn
         else if(input$quick_breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=quickTP()[[2]], col="blue")
           # update plot legend
-          legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"),
-                 lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
+          if(input$quickPlotOptions == "Both"){
+            legend("topleft",
+                   c(input$preyLabel, input$predatorLabel, "Breakpoints"),
+                   lty=c(1, 2, 1), col=c("black", "red", "blue"), bty="n")
+          }
+          else if(input$quickPlotOptions == "Prey"){
+            legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                   col=c("black", "blue"), bty="n")
+          }
+          else if(input$quickPlotOptions == "Predator"){
+            legend("topleft", c(input$predatorLabel, "Breakpoints"), lty=c(2, 1),
+                   col=c("red", "blue"), bty="n")
+          }
         }
 
-        ### end: draw breakpoint lines on main plot ###
+        ### end: draw breakpoint lines on (quick) main plot ###
 
         ### start: update plot and legend with ews line ###
 
@@ -399,16 +407,24 @@ shinyServer(
         else if(is.null(input$breakpointsCheckbox)){
          return()
         }
-        else if(is.null(input$ewsRadioButtons)){
-         return()
-        }
         # indicates breakpoint lines can be drawn
         else if(input$breakpointsCheckbox == TRUE) {
           # include breakpoint lines
           abline(v=TPanalysis()[[2]], col="blue")
           # update plot legend
-          legend("topleft", c(input$preyLabel, input$predatorLabel, "Breakpoints"),
-                 lty=c(1, 2), col=c(1, 2, "blue"), bty="n")
+          if(input$advancedPlotOptions == "Both"){
+            legend("topleft",
+                   c(input$preyLabel, input$predatorLabel, "Breakpoints"),
+                   lty=c(1, 2, 1), col=c("black", "red", "blue"), bty="n")
+          }
+          else if(input$advancedPlotOptions == "Prey"){
+            legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                   col=c("black", "blue"), bty="n")
+          }
+          else if(input$advancedPlotOptions == "Predator"){
+            legend("topleft", c(input$predatorLabel, "Breakpoints"), lty=c(2, 1),
+                   col=c("red", "blue"), bty="n")
+          }
         }
 
         ### end: draw breakpoint lines on main plot ###
