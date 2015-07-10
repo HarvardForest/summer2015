@@ -17,3 +17,10 @@ in biological sequences of continuous and discrete measurements."
 computes the optimal breakpoints."
 
 *** Uses an object of class Fstats - which is computed by Chow test
+
+~~~ Package: 'partsm' ~~~
+
+*** "This package allows the user to check for periodicity in the data, FFt a periodic autoregressive
+model  of  order  p,  PAR(p),  select  the  periodic  autoregressive  lag  order  parameter,  test
+for periodic integration, FFt a periodically integrated autoregressive model up to order 2,
+PIAR, as well as to perform out-of-sample forecasts."
