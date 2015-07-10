@@ -1,4 +1,5 @@
 library("breakpoint")
+library("strucchange")
 
 x <- sin(seq(0, 5*pi, 0.01))
 
@@ -35,3 +36,27 @@ matplot(frame_x, type="l")
 abline(v=tp_dx[[2]], col="green")
 abline(v=tp_x[[2]], col="blue")
 abline(v=tp_ddx[[2]], col="red")
+
+data("Nile")
+plot(Nile)
+
+fs.nile <- Fstats(Nile ~ 1)
+plot(fs.nile)
+lines(breakpoints(fs.nile))
+
+bp.nile <- breakpoints(Nile ~ 1)
+summary(bp.nile)
+lines(bp.nile)
+
+temp <- Fstats(x ~ 1)
+plot(x, type="l")
+lines(breakpoints(temp))
+
+test <- seq(50, 500, 1)
+test <- c(test, seq(1, 25, 1))
+
+plot(test, type="l")
+frame_test <- data.frame(test)
+
+test_BP <- CE.Normal(frame_test, Nmax=10)
+abline(v=test_BP[[1]], col="blue")

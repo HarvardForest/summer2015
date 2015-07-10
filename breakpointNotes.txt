@@ -1,0 +1,19 @@
+~~~ Package: 'breakpoint' ~~~
+
+*** "Implements the cross-entropy (CE) method, which is a model based stochastic optimization
+technique to estimate both the number and their corresponding locations of breakpoints
+in biological sequences of continuous and discrete measurements."
+(Priyadarshana, W. J. R. M., Sofronov G. (2014). Multiple Break-Points Detection in array CGH)
+
+*** general Monte Carlo approach to combinatorial optimization and importance sampling
+
+*** "In a nutshell the CE method consists of two phases:
+1) Generate a random data sample (trajectories, vectors, etc.) according to a specified mechanism.
+2) Update the parameters of the random mechanism based on the data to produce a "better" sample in the next iteration. This step involves minimizing the cross-entropy or Kullback–Leibler divergence.""
+
+~~~ Package: 'strucchange' ~~~
+
+*** "Computation of breakpoints in regression relationships. Given a number of breaks the function
+computes the optimal breakpoints."
+
+*** Uses an object of class Fstats - which is computed by Chow test
