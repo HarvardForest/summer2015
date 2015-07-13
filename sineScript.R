@@ -1,5 +1,8 @@
 library("breakpoint")
 library("strucchange")
+library("cumSeg")
+library("boot")
+library("segmented")
 
 x <- sin(seq(0, 5*pi, 0.01))
 
@@ -60,3 +63,9 @@ frame_test <- data.frame(test)
 
 test_BP <- CE.Normal(frame_test, Nmax=10)
 abline(v=test_BP[[1]], col="blue")
+
+m <- jumpoints(y=x, output=1)
+abline(v=m$psi, col="blue")
+
+g <- glm(x ~ 1)
+sg <- segmented(g)
