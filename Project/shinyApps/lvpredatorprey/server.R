@@ -1524,7 +1524,8 @@ shinyServer(
       }
 
       numericInput("quick_frequency",
-                   "The number of observations per unit of time:",
+                   "The number of observations per unit of time for
+                      Decomposition analysis:",
                     value=2)
     })
 
