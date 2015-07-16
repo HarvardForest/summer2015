@@ -234,6 +234,8 @@ shinyUI(fluidPage(
         tabPanel(title="Data Table",
           fluidRow(
             br(),
+            h2("Data Table for Model Simulation:"),
+            br(),
             downloadButton('downloadMainTable', 'Download Table'),
             br(),
             br(),
