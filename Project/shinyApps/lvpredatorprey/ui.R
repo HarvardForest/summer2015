@@ -73,20 +73,20 @@ shinyUI(fluidPage(
                         choices=c(" ", "Prey", "Predator")
                       ),
                       uiOutput("quick_decomposeOptionsSlot"),
+                      uiOutput("quick_frequencySlot"),
                       uiOutput("quick_NmaxSlot"),
                       uiOutput("quick_winsizeSlot"),
                       uiOutput("quick_runButtonSlot")
                     ), # column
                     column(8,
                       br(),
-                      uiOutput("quick_decomposePlotSlot"),
-                      h3(textOutput("quick_numBreakpoints")),
-                      h3(textOutput("quick_locationText")),
+                      h4(textOutput("quick_numBreakpoints")),
+                      h4(textOutput("quick_locationText")),
                       h5(textOutput("quick_tpOutput")),
                       uiOutput("quick_breakpointsCheckboxSlot"),
                       uiOutput("quick_ewsRadioButtonSlot"),
-                      br(),
-                      uiOutput("quick_downloadTable")
+                      uiOutput("quick_downloadTable"),
+                      uiOutput("quick_decomposePlotSlot")
                     ) # column
                   ), # fluidRow
                   fluidRow(

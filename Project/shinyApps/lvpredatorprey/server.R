@@ -1517,6 +1517,17 @@ shinyServer(
                               "Random (Residuals)"))
     })
 
+    output$quick_frequencySlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+
+      numericInput("quick_frequency",
+                   "The number of observations per unit of time:",
+                    value=2)
+    })
+
     output$quick_NmaxSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
@@ -1584,10 +1595,10 @@ shinyServer(
 
     output$quick_decomposePlot <- renderPlot({
       if(input$quick_dataType == "Prey"){
-        plot(decompose(ts(lvPredPrey()[[1]], frequency=2)))
+        plot(decompose(ts(lvPredPrey()[[1]], frequency=input$quick_frequency)))
       }
       else if(input$quick_dataType == "Predator"){
-        plot(decompose(ts(lvPredPrey()[[2]], frequency=2)))
+        plot(decompose(ts(lvPredPrey()[[2]], frequency=input$quick_frequency)))
       }
     })
 
@@ -1726,10 +1737,13 @@ shinyServer(
 
     ### start: (quick) ews analysis output ###
 
-    # display ews radio buttons
-    output$quick_ewsRadioButtonSlot <- renderUI({
+    quick_ewsRadioButtonDisplay <- eventReactive(input$quick_runButton, {
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
         return()
       }
 
@@ -1738,6 +1752,11 @@ shinyServer(
                      "Coefficient of Variation", "Return Rate", "Density Ratio",
                      "Autocorrelation at First Lag",
                      "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+    })
+
+    # display ews radio buttons
+    output$quick_ewsRadioButtonSlot <- renderUI({
+      quick_ewsRadioButtonDisplay()
     })
 
     output$quick_downloadTable <- renderUI({
