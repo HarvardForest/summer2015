@@ -1513,8 +1513,8 @@ shinyServer(
       }
 
       selectInput("quick_decomposeOptions", "Select a component for analysis:",
-                    choices=c(" ", "Observed", "Trend", "Seasonal (Periodicity)",
-                              "Random (Residuals)"))
+                    choices=c(" ", "Observed (Simulated Data)", "Trend",
+                              "Seasonal (Periodicity)", "Random (Residuals)"))
     })
 
     output$quick_frequencySlot <- renderUI({
@@ -1524,7 +1524,7 @@ shinyServer(
       }
 
       numericInput("quick_frequency",
-                   "The number of observations per unit of time for
+                   "The number of observations per unit of time (frequency) for
                       Decomposition analysis:",
                     value=2)
     })
@@ -1624,16 +1624,84 @@ shinyServer(
 
           # for prey
           if(input$quick_dataType == "Prey"){
-            CE.Normal(lvPredPrey()[1], distyp=1, parallel=FALSE,
-                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                      a=0.8, b=0.8)
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$quick_frequency))
+
+            # run breakpoint analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
           }
 
           # for predator
           else if(input$quick_dataType == "Predator"){
-            CE.Normal(lvPredPrey()[2], distyp=1, parallel=FALSE,
-                      Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                      a=0.8, b=0.8)
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$quick_frequency))
+
+            # run breakpoint analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
           }
 
         }) # withProgress
@@ -1641,7 +1709,7 @@ shinyServer(
     })
 
     # reactive for dynamic updates
-    quickGeneric <- reactive({
+    quickGeneric <- eventReactive(input$quick_runButton, {
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
@@ -1738,7 +1806,8 @@ shinyServer(
 
     ### start: (quick) ews analysis output ###
 
-    quick_ewsRadioButtonDisplay <- eventReactive(input$quick_runButton, {
+    # display ews radio buttons
+    output$quick_ewsRadioButtonSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
@@ -1755,14 +1824,14 @@ shinyServer(
                      "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
 
-    # display ews radio buttons
-    output$quick_ewsRadioButtonSlot <- renderUI({
-      quick_ewsRadioButtonDisplay()
-    })
-
+    # display button to download ews statistics
     output$quick_downloadTable <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
         return()
       }
       if(is.null(input$quick_ewsRadioButtons)){
@@ -1784,6 +1853,10 @@ shinyServer(
     output$quick_ewsTable <- renderDataTable({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
         return()
       }
       if(is.null(input$quick_ewsRadioButtons)){
@@ -1837,7 +1910,6 @@ shinyServer(
 
       # return table with updated column names
       return(table)
-
     }, options=list(pageLength=10))
 
     ### end: (quick) ews analysis output ###
