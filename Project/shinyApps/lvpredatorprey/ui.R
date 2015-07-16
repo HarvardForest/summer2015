@@ -57,31 +57,29 @@ shinyUI(fluidPage(
             ) # column
           ), # fluidRow
           fluidRow(
+            column(12, offset=8,
+              uiOutput("plotOptionsSlot")
+            ) # column
+          ),
+          fluidRow(
             column(12, align="center",
               tabsetPanel(id="tabset_analyses",
                 tabPanel(title="Quick Analysis",
                   fluidRow(
-                    column(5,
+                    column(4,
                       br(),
                       br(),
                       selectInput("quick_dataType", "Choose Data:",
                         choices=c(" ", "Prey", "Predator")
                       ),
-                      numericInput("quick_Nmax",
-                        "Maximum number of breakpoints for Tipping Point analysis:",
-                        value=5
-                      ),
-                      numericInput("quick_winsize",
-                                   "Size of the rolling window used in the Early Warning Signals
-                                    analysis (expressed as a percentage of the timeseries):",
-                                   value=50
-                      )
+                      uiOutput("quick_decomposeOptionsSlot"),
+                      uiOutput("quick_NmaxSlot"),
+                      uiOutput("quick_winsizeSlot"),
+                      uiOutput("quick_runButtonSlot")
                     ), # column
-                    column(7,
+                    column(8,
                       br(),
-                      radioButtons("quickPlotOptions", "Display:",
-                                   choices=c("Prey", "Predator", "Both"),
-                                   selected="Both", inline=TRUE),
+                      uiOutput("quick_decomposePlotSlot"),
                       h3(textOutput("quick_numBreakpoints")),
                       h3(textOutput("quick_locationText")),
                       h5(textOutput("quick_tpOutput")),
@@ -101,17 +99,11 @@ shinyUI(fluidPage(
 
                 tabPanel(title="Advanced Analysis",
                   fluidRow(
-                    column(6, align="center",
+                    column(12, align="center",
                       br(),
                       selectInput("dataType", "Choose Data:",
                         choices=c(" ", "Prey", "Predator")
                       )
-                    ), # column
-                    column(6, align="center",
-                      br(),
-                      radioButtons("advancedPlotOptions", "Display:",
-                                   choices=c("Prey", "Predator", "Both"),
-                                   selected="Both", inline=TRUE)
                     ) # column
                   ), # fluidRow
                   fluidRow(
@@ -281,32 +273,32 @@ shinyUI(fluidPage(
           p("R Core Team (2015). R: A language and environment for statistical computing.
               Foundation for Statistical Computing, Vienna, Austria.
               URL http://www.R-project.org/."),
-          h3("shiny Package:"),
+          h3("'shiny' Package:"),
           p("Winston Chang, Joe Cheng, JJ Allaire, Yihui Xie and Jonathan McPherson (2015).
             shiny: Web Application Framework for R. R package version 0.12.0.
             http://CRAN.R-project.org/package=shiny"),
-          h3("shinyapps Package:"),
+          h3("'shinyapps' Package:"),
           p("JJ Allaire (2013). shinyapps: Interface to ShinyApps. R package version 0.3.64."),
-          h3("shinythemes Package:"),
+          h3("'shinythemes' Package:"),
           p("Winston Chang (2015). shinythemes: Themes for Shiny. R package version 1.0.1.
             http://CRAN.R-project.org/package=shinythemes"),
-          h3("shinyAce Package:"),
+          h3("'shinyAce' Package:"),
           p("Trestle Technology and LLC. (2013). shinyAce: Ace editor bindings for Shiny. R package version 0.1.0.
             http://CRAN.R-project.org/package=shinyAce"),
-          h3("breakpoint (Tipping Point) Package:"),
+          h3("'breakpoint' Package:"),
           p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
               Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
               http://CRAN.R-project.org/package=breakpoint"),
-          h3("earlywarnings Package:"),
+          h3("'earlywarnings' Package:"),
           p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
               in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
               http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0041010"),
-          h3("deSolve Package (for dfferential equations):"),
+          h3("'deSolve' Package:"),
           p("Karline Soetaert, Thomas Petzoldt, R. Woodrow Setzer (2010). Solving Differential Equations in R:
             Package deSolve Journal of Statistical Software, 33(9), 1--25.
             URL http://www.jstatsoft.org/v33/i09/."),
-          h3("ggplot2:"),
-          p("H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.")
+          h3("'plotrix' Package:"),
+          p("Lemon, J. (2006) Plotrix: a package in the red light district of R. R-News, 6(4): 8-12.")
         ) # tabPanel
       ) # tabsetPanel
     ) # mainPanel

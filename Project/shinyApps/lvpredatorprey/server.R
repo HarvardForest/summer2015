@@ -21,7 +21,7 @@ shinyServer(
 
 ################# Side Panel ###################################################
 
-    ### start: load user-input boxes (parameters) ###
+    ### start: load user input-boxes (parameters) ###
 
     output$alpha2 <- renderUI({
       numericInput("alpha2", label=NULL, value=input$alpha)
@@ -39,9 +39,9 @@ shinyServer(
       numericInput("gamma2", label=NULL, value=input$gamma)
     })
 
-    ### end: load user-input boxes (parameters) ###
+    ### end: load user input-boxes (parameters) ###
 
-    # link user-input box values with respective slider values (parameters)
+    # link user input-box values with respective slider values (parameters)
     observe({
       updateSliderInput(session, "alpha", value=input$alpha2)
       updateSliderInput(session, "beta", value=input$beta2)
@@ -53,17 +53,27 @@ shinyServer(
 
 ########### Display dynamic plot (main) and table of the simulation ############
 
-    ### start: show simulation plot  ###
-
     output$mainPlot <- renderPlot({
 
+      ### start: display default simulation plot  ###
+
+      # default plot for 'customize graph' panel
       if(input$tabset_analyses == "Customize Graph"){
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
           legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
                  col=c("black", "red"), bty="n")
       }
+
+      ### start: default quick-analysis-panel plot ###
+
       else if(input$tabset_analyses == "Quick Analysis"){
+        # this check removes a transient error
+        if(is.null(input$quickPlotOptions)){
+          return()
+        }
+
+        # generate default plot based on radio-selection
         if(input$quickPlotOptions == "Both"){
           matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
@@ -84,7 +94,17 @@ shinyServer(
         }
       }
 
+      ### end: default quick-analysis-panel plot ###
+
+      ### start: default advanced-analysis-panel plot ###
+
       if(input$tabset_analyses == "Advanced Analysis"){
+        # this check removes a transient error
+        if(is.null(input$advancedPlotOptions)){
+          return()
+        }
+
+        # generate default plot based on radio-selection
         if(input$advancedPlotOptions == "Both"){
           matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
@@ -105,9 +125,11 @@ shinyServer(
         }
       }
 
-      ### end: show simulation plot ###
+      ### end: default advanced-analysis-panel plot ###
 
-      ### start: draw breakpoint lines on (quick) main plot ###
+      ### end: display default simulation plot  ###
+
+      ### start: draw breakpoint lines on main plot (quick-analysis) ###
 
       # run only if the "Quick Analysis" tab is active
       if(input$tabset_analyses == "Quick Analysis"){
@@ -138,14 +160,18 @@ shinyServer(
           }
         }
 
-        ### end: draw breakpoint lines on (quick) main plot ###
+        ### end: draw breakpoint lines on main plot (quick-analysis) ###
 
-        ### start: update plot and legend with ews line ###
+        ### start: update plot and legend with ews line (quick-analysis) ###
 
         # display default plot attributes if there are no ews lines selected
         if(input$quick_ewsRadioButtons == "None"){
           return()
         }
+
+        # each ews selection has three variations to accomodate plot radio
+            # button selection (both, prey, predator)
+
         # draw ews line based on radio button selection
         else if(input$quick_ewsRadioButtons == "Standard Deviation"){
           # re-scale ews statistic
@@ -772,6 +798,10 @@ shinyServer(
         }
       }
 
+      ### end: update plot and legend with ews line (quick-analysis) ###
+
+      ### start: draw breakpoint lines on main plot (advanced-analysis) ###
+
       ### run only if the "Advanced  Analysis" tab is active ###
       if(input$tabset_analyses == "Advanced Analysis"){
         # check if breakpoint lines and ews lines can be drawn
@@ -809,6 +839,10 @@ shinyServer(
         if(input$ewsRadioButtons == "None"){
           return()
         }
+
+        # each ews selection has three variations to accomodate plot radio
+            # button selection (both, prey, predator)
+
         # draw ews line based on radio button selection
         else if(input$ewsRadioButtons == "Standard Deviation"){
           # re-scale ews statistic
@@ -1435,7 +1469,22 @@ shinyServer(
         }
       }
 
-      ### end: update plot and legend with ews line ###
+      ### end: draw breakpoint lines on main plot (advanced-analysis) ###
+    })
+
+    # display plot selection options
+    output$plotOptionsSlot <- renderUI({
+      # one copy of radio buttons for each panel
+      if(input$tabset_analyses == "Quick Analysis"){
+        radioButtons("quickPlotOptions", "Display:",
+                      choices=c("Prey", "Predator", "Both"),
+                      selected="Both", inline=TRUE)
+      }
+      else if(input$tabset_analyses == "Advanced Analysis"){
+        radioButtons("advancedPlotOptions", "Display:",
+                      choices=c("Prey", "Predator", "Both"),
+                      selected="Both", inline=TRUE)
+      }
     })
 
     # simulation data table (main table)
@@ -1443,7 +1492,7 @@ shinyServer(
       lvPredPrey()
     })
 
-    # download main table feature
+    # download main table feature (with button)
     output$downloadMainTable <- downloadHandler(
       filename = function() { paste("PredatorPreySim", '.csv', sep='') },
       content = function(file) {
@@ -1455,18 +1504,105 @@ shinyServer(
 
 ############## Quick Analysis ##################################################
 
-    ### start: predetermined (quick) breakpoint and ews analyses ###
+    ### start: build responsive user-input widgets ###
 
-    # reactive for dynamic updates
-    quickTP <- reactive({
+    output$quick_decomposeOptionsSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.na(input$quick_Nmax)){
+
+      selectInput("quick_decomposeOptions", "Select a component for analysis:",
+                    choices=c(" ", "Observed", "Trend", "Seasonal (Periodicity)",
+                              "Random (Residuals)"))
+    })
+
+    output$quick_NmaxSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.na(input$quick_winsize)){
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+
+      numericInput("quick_Nmax",
+                    "Maximum number of breakpoints for Tipping Point analysis:",
+                    value=10)
+    })
+
+    output$quick_winsizeSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+
+      numericInput("quick_winsize",
+                    "Size of the rolling window used in the Early Warning Signals
+                      analysis (expressed as a percentage of the timeseries):",
+                  value=50)
+    })
+
+    output$quick_runButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
+
+      actionButton("quick_runButton", "Run Analysis")
+    })
+
+    ### end: build responsive user-input widgets
+
+    ### start: display decomposition plot (quick-analysis) ###
+
+    output$quick_decomposePlotSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+
+      plotOutput("quick_decomposePlot")
+    })
+
+    output$quick_decomposePlot <- renderPlot({
+      if(input$quick_dataType == "Prey"){
+        plot(decompose(ts(lvPredPrey()[[1]], frequency=2)))
+      }
+      else if(input$quick_dataType == "Predator"){
+        plot(decompose(ts(lvPredPrey()[[2]], frequency=2)))
+      }
+    })
+
+    ### end: display decomposition plot (quick-analysis) ###
+
+    ### start: predetermined (quick) breakpoint and ews analyses ###
+
+    # reactive for dynamic updates
+    quickTP <- eventReactive( input$quick_runButton, {
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
         return()
       }
 
