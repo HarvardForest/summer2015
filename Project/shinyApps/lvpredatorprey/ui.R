@@ -1,6 +1,6 @@
 #### Lotka-Volterra Predator Prey Model
 ### Nathan Justice
-## Last edited: 10July2015
+## Last edited: 16July2015
 
 ### User Interface ###
 
@@ -50,7 +50,7 @@ shinyUI(fluidPage(
 
     mainPanel(
       tabsetPanel(
-        tabPanel(title="Graph",
+        tabPanel(title="Simulation",
           fluidRow(
             column(12,
               plotOutput("mainPlot")
@@ -72,8 +72,8 @@ shinyUI(fluidPage(
                       selectInput("quick_dataType", "Choose Data:",
                         choices=c(" ", "Prey", "Predator")
                       ),
-                      uiOutput("quick_decomposeOptionsSlot"),
                       uiOutput("quick_frequencySlot"),
+                      uiOutput("quick_decomposeOptionsSlot"),
                       uiOutput("quick_NmaxSlot"),
                       uiOutput("quick_winsizeSlot"),
                       uiOutput("quick_runButtonSlot")

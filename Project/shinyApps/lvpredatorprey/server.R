@@ -1,6 +1,6 @@
 #### Lotka-Volterra Predator Prey Model
 ### Nathan Justice
-## Last edited: 07July2015
+## Last edited: 16July2015
 
 ################## Lotka-Volterra Predator-Prey ################################
 
@@ -1538,6 +1538,10 @@ shinyServer(
               || input$quick_decomposeOptions == " "){
         return()
       }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
 
       numericInput("quick_Nmax",
                     "Maximum number of breakpoints for Tipping Point analysis:",
@@ -1551,6 +1555,10 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
               || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
         return()
       }
 
@@ -1567,6 +1575,10 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
               || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
         return()
       }
       else if(is.null(input$quick_Nmax)
@@ -1615,6 +1627,18 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
               || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
         return()
       }
 
@@ -1709,7 +1733,7 @@ shinyServer(
     })
 
     # reactive for dynamic updates
-    quickGeneric <- eventReactive(input$quick_runButton, {
+    quickGeneric <- reactive({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
@@ -1720,6 +1744,18 @@ shinyServer(
       if(is.na(input$quick_winsize)){
         return()
       }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
       # loading bar
       withProgress(message="Performing EWS Analysis", value=0,{
@@ -1727,14 +1763,56 @@ shinyServer(
 
           # for prey
           if(input$quick_dataType == "Prey"){
-            generic_ews(timeseries=subset(lvPredPrey(), select="prey"),
-                        detrending="gaussian", winsize=input$quick_winsize)
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$quick_frequency))
+
+            # run ews analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
           }
 
           # for predator
           else if(input$quick_dataType == "Predator"){
-            generic_ews(timeseries=subset(lvPredPrey(), select="predator"),
-                        detrending="gaussian", winsize=input$quick_winsize)
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$quick_frequency))
+
+            # run ews analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
           }
 
         }) # withProgress
@@ -1751,6 +1829,22 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
       # display text only if breakpoints are detected
       if(length(quickTP()) > 1){
@@ -1764,6 +1858,22 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
       # display text only if breakpoints are detected
       if(length(quickTP()) > 1){
@@ -1775,6 +1885,22 @@ shinyServer(
     output$quick_tpOutput <- renderText({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
         return()
       }
 
@@ -1792,6 +1918,22 @@ shinyServer(
     output$quick_breakpointsCheckboxSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
         return()
       }
 
@@ -1816,12 +1958,26 @@ shinyServer(
               || input$quick_decomposeOptions == " "){
         return()
       }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-      radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
-                   c("None", "Standard Deviation", "Skewness", "Kurtosis",
-                     "Coefficient of Variation", "Return Rate", "Density Ratio",
-                     "Autocorrelation at First Lag",
-                     "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+      if(length(quickTP()) >= 1){
+        radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
+                     c("None", "Standard Deviation", "Skewness", "Kurtosis",
+                       "Coefficient of Variation", "Return Rate", "Density Ratio",
+                       "Autocorrelation at First Lag",
+                       "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+      }
     })
 
     # display button to download ews statistics
@@ -1830,15 +1986,26 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$quick_decomposeOptions)
+      else if(is.null(input$quick_decomposeOptions)
               || input$quick_decomposeOptions == " "){
         return()
       }
-      if(is.null(input$quick_ewsRadioButtons)){
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
         return()
       }
 
-      downloadButton('downloadQuickTable', 'Download Data')
+      if(length(quickTP()) >= 1){
+        downloadButton('downloadQuickTable', 'Download Data')
+      }
     })
 
     # download ews data

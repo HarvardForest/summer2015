@@ -1,6 +1,6 @@
 #### Lotka-Volterra Predator Prey Model
 ### Nathan Justice
-## Last edited: 10July2015
+## Last edited: 16July2015
 
 # load dependencies
 library(shiny)
