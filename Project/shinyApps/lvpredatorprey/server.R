@@ -166,15 +166,15 @@ shinyServer(
 
           # for 'prey'
           if(input$quick_dataType == "Prey"){
-            matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                    lty=1, col="black")
+            matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, lty=1, col="black")
             title(main=input$preyLabel)
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           # for 'predator'
           else if(input$quick_dataType == "Predator"){
-            matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                    lty=1, col="red")
+            matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, lty=1, col="red")
             title(main=input$predatorLabel)
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -235,11 +235,11 @@ shinyServer(
 
 ##### end: draw plots based on 'quick_dataType' for 'quick analysis' panel #####
 
-###### start: draw breakpoint lines on plots for 'quick analysis panel' ########
+### start: draw breakpoint lines (only) on plots for 'quick analysis' panel ####
 
       # run only if the "Quick Analysis" tab is active
       if(input$tabset_analyses == "Quick Analysis"){
-        # check if breakpoint lines and ews lines can be drawn
+        # check if breakpoint lines can be drawn
         if(is.null(input$quick_dataType) || input$quick_dataType == " "){
           return()
         }
@@ -268,9 +268,95 @@ shinyServer(
         }
       }
 
-})
-######### end: draw breakpoint lines on default plot (quick-analysis) ########
+#### end: draw breakpoint lines (only) on plots for 'quick analysis' panel #####
 
+########## start: draw ews lines on plots for 'quick analysis' panel ###########
+
+      if(input$tabset_analyses == "Quick Analysis"){
+        # check if ews lines can be drawn
+        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+          return()
+        }
+        else if(is.null(input$quick_ewsRadioButtons)){
+         return()
+        }
+
+        # display default plot attributes if there are no ews lines selected
+        if(input$quick_ewsRadioButtons == "None"){
+          return()
+        }
+        else if(input$quick_ewsRadioButtons == "Standard Deviation"){
+          # re-scale ews statistic
+          ewsLine <- quickGeneric()[3]
+          # adjust starting point to accomodate rolling window size
+          for(i in 1:(input$time * (input$quick_winsize * 0.01))){
+            ewsLine <- rbind(NA, ewsLine)
+          }
+
+          # draw rescaled ews line, axis, and label (from 'plotrix')
+
+          # for 'prey'
+          if(input$quick_dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$quick_frequency))
+
+            # for 'observed'
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", lcol="black", xlab=input$xaxis,
+                          ylab=input$yaxis, lty=1,)
+              title(main=input$preyLabel)
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+
+              # draw breakpoint lines if selected and update legend
+              if(input$quick_breakpointsCheckbox == TRUE) {
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                        col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                        c(input$preyLabel, input$quick_ewsRadioButtons),
+                        lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'trend'
+            else if(input$quick_decomposeOptions == "Trend"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", lcol="black", xlab=input$xaxis,
+                          ylab="Trend", lty=1,)
+              title(main="Prey: Trend")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+
+              # draw breakpoint lines if selected and update legend
+              if(input$quick_breakpointsCheckbox == TRUE) {
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                        col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                        c(input$preyLabel, input$quick_ewsRadioButtons),
+                        lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+        }        
+      }
+
+########## end: draw ews lines on plots for 'quick analysis' panel #############
+})
 
     #       ### start: update plot and legend with ews line (quick-analysis) ###
 
@@ -2973,94 +3059,71 @@ shinyServer(
       }) # withProgress
     })
 
-#     # reactive for dynamic updates
-#     quickGeneric <- reactive({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       if(is.na(input$quick_Nmax)){
-#         return()
-#       }
-#       if(is.na(input$quick_winsize)){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # reactive for dynamic updates
+    quickGeneric <- reactive({
+      # loading bar
+      withProgress(message="Performing EWS Analysis", value=0,{
+        withProgress(message="...", detail="Please Wait", value=0, {
 
-#       # loading bar
-#       withProgress(message="Performing EWS Analysis", value=0,{
-#         withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quick_dataType == "Prey"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$quick_frequency))
 
-#           # for prey
-#           if(input$quick_dataType == "Prey"){
-#             # decompose simulated data
-#             decomposed <- decompose(ts(lvPredPrey()[1],
-#                                        frequency=input$quick_frequency))
+            # run ews analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+          }
 
-#             # run ews analysis on desired component
-#             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-#               generic_ews(timeseries=decomposed$x[1:input$time],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Trend"){
-#               # range is offset because head and tail values are NA
-#               generic_ews(timeseries=decomposed$trend[3:input$time-1],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-#               generic_ews(timeseries=decomposed$seasonal[1:input$time],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-#               # range is offset because head and tail values are NA
-#               generic_ews(timeseries=decomposed$random[3:input$time-1],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#           }
+          # for predator
+          else if(input$quick_dataType == "Predator"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$quick_frequency))
 
-#           # for predator
-#           else if(input$quick_dataType == "Predator"){
-#             # decompose simulated data
-#             decomposed <- decompose(ts(lvPredPrey()[2],
-#                                        frequency=input$quick_frequency))
+            # run ews analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                          detrending="gaussian", winsize=input$quick_winsize)
+            }
+          }
 
-#             # run ews analysis on desired component
-#             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-#               generic_ews(timeseries=decomposed$x[1:input$time],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Trend"){
-#               # range is offset because head and tail values are NA
-#               generic_ews(timeseries=decomposed$trend[3:input$time-1],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-#               generic_ews(timeseries=decomposed$seasonal[1:input$time],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-#               # range is offset because head and tail values are NA
-#               generic_ews(timeseries=decomposed$random[3:input$time-1],
-#                           detrending="gaussian", winsize=input$quick_winsize)
-#             }
-#           }
+        }) # withProgress
+      }) # withProgress
+    })
 
-#         }) # withProgress
-#       }) # withProgress
-#     })
-
-#     ### end: predetermined (quick) breakpoint and ews analyses ###
+    ### end: predetermined (quick) breakpoint and ews analyses ###
 
     ### start: (quick) breakpoint analysis output ###
 
@@ -3187,39 +3250,39 @@ shinyServer(
 
     ### end: (quick) breakpoint analysis output ###
 
-#     ### start: (quick) ews analysis output ###
+    ### start: (quick) ews analysis output ###
 
-#     # display ews radio buttons
-#     output$quick_ewsRadioButtonSlot <- renderUI({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # display ews radio buttons
+    output$quick_ewsRadioButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-#       if(length(quickTP()) >= 1){
-#         radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
-#                      c("None", "Standard Deviation", "Skewness", "Kurtosis",
-#                        "Coefficient of Variation", "Return Rate", "Density Ratio",
-#                        "Autocorrelation at First Lag",
-#                        "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
-#       }
-#     })
+      if(length(quickTP()) >= 1){
+        radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
+                     c("None", "Standard Deviation", "Skewness", "Kurtosis",
+                       "Coefficient of Variation", "Return Rate", "Density Ratio",
+                       "Autocorrelation at First Lag",
+                       "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+      }
+    })
 
 #     # display button to download ews statistics
 #     output$quick_downloadTable <- renderUI({
