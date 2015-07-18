@@ -1,6 +1,12 @@
-### Lotka-Volterra predator-prey model
-## By: Nathan Justice
-# Latest Edit: 6/1/15
+################################################################################
+################################################################################
+################## Lotka-Volterra Predator-Prey ################################
+####################### By: Nathan Justice #####################################
+##################### Last edited: 17July2015 ##################################
+################################################################################
+################################################################################
+
+##### Model Simulation ######
 
 # Load dependencies
 library(deSolve)
@@ -31,14 +37,9 @@ lvPredPreyModel <- function(time, initState, params){
 }
 
 ## Test-values ##
-params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
-initState <- c(prey=500, predator=10)
-time <- seq(1, 100, by=1)
+#params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
+#initState <- c(prey=500, predator=10)
+#time <- seq(1, 100, by=1)
 
 ## Function-call ##
-data <- lvPredPreyModel(time, initState, params)
-
-x <- decompose(ts(x[[1]], frequency=2))
-
-ews <- generic_ews(timeseries=x$trend[3:100-1],
-                          detrending="gaussian", winsize=50)
+#data <- lvPredPreyModel(time, initState, params)

@@ -1,11 +1,15 @@
-#### Lotka-Volterra Predator Prey Model
-### Nathan Justice
-## Last edited: 16July2015
+################################################################################
+################################################################################
+################## Lotka-Volterra Predator-Prey ################################
+####################### By: Nathan Justice #####################################
+##################### Last edited: 17July2015 ##################################
+################################################################################
+################################################################################
 
-### User Interface ###
 
-# load dependencies
-source("global.R", local=TRUE)
+##### Shiny user interface #####
+
+### start: interface ###
 
 shinyUI(fluidPage(
   theme=shinytheme("flatly"),
@@ -13,6 +17,9 @@ shinyUI(fluidPage(
               windowTitle="Predator-Prey model"),
 
   sidebarLayout(position="left",
+
+    ### start: sidebar ###
+
     sidebarPanel(
       numericInput("prey",
         label=h4("Number of Prey:"),
@@ -48,8 +55,15 @@ shinyUI(fluidPage(
       uiOutput("gamma2")
     ), # sidebarPanel
 
+    ### end: sidebar ###
+
+    ### start: mainpanel ###
+
     mainPanel(
       tabsetPanel(
+
+        ### start: simulation panel ###
+
         tabPanel(title="Simulation",
           fluidRow(
             column(12,
@@ -64,6 +78,9 @@ shinyUI(fluidPage(
           fluidRow(
             column(12, align="center",
               tabsetPanel(id="tabset_analyses",
+
+                ### start: quick analysis panel ###
+
                 tabPanel(title="Quick Analysis",
                   fluidRow(
                     column(4,
@@ -96,6 +113,10 @@ shinyUI(fluidPage(
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
+
+                ### end: quick analysis panel ###
+
+                ### start: advanced analysis panel ###
 
                 tabPanel(title="Advanced Analysis",
                   fluidRow(
@@ -216,6 +237,10 @@ shinyUI(fluidPage(
                   ) # fluidRow
                 ), # tabPanel- Advanced Analysis
 
+                ### end: advanced analysis panel ###
+
+                ### start: customize graph panel ###
+
                 tabPanel(title="Customize Graph",
                     br(),
                     br(),
@@ -226,10 +251,17 @@ shinyUI(fluidPage(
                     textInput("preyLabel", "Prey", value="Prey"),
                     textInput("predatorLabel", "Predator", value="Predator")
                 ) # tabPanel - Customize graph
+
+                ### end: customize graph panel ###
+
               ) # tabsetPanel
             ) # column
           ) # fluidRow
         ), # tabPanel - Graph
+
+        ### end: simulation panel ###
+
+        ### start: data table panel ###
 
         tabPanel(title="Data Table",
           fluidRow(
@@ -242,6 +274,10 @@ shinyUI(fluidPage(
             dataTableOutput("mainTable")
           ) # fluidRow
         ), # tabPanel - Data Table
+
+        ### end: data table panel ###
+
+        ### start: model panel ###
 
         tabPanel(title="Model",
           h2("Lotka-Volterra predator-prey model"),
@@ -258,6 +294,10 @@ shinyUI(fluidPage(
           pre(code(textOutput("codeText")))
         ), # tabPanel - Model
 
+        ### end: model panel ###
+
+        ### start: R code panel ###
+
         tabPanel(title="R Code",
           h3("Read-only"),
           aceEditor("ace", value=" "),
@@ -268,6 +308,10 @@ shinyUI(fluidPage(
           ),
           textOutput("Temp")
         ), # tabPanel - R
+
+        ### end: R code panel ###
+
+        ### start references panel ###
 
         tabPanel(title="References",
           br(),
@@ -302,7 +346,15 @@ shinyUI(fluidPage(
           h3("'plotrix' Package:"),
           p("Lemon, J. (2006) Plotrix: a package in the red light district of R. R-News, 6(4): 8-12.")
         ) # tabPanel
+
+        ### end: references panel ###
+
       ) # tabsetPanel
     ) # mainPanel
+
+    ### end: mainpanel ###
+
   ) # sidebarLayout
 )) # end UI
+
+### end: interface ###
