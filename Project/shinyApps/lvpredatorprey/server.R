@@ -179,10 +179,65 @@ shinyServer(
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
         }
+
+        # display plot according to 'quick_decomposeOptions' selection
+
+        # for 'trend'
+        else if(input$quick_decomposeOptions == "Trend"){
+          if(input$quick_dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="black")
+            title(main="Prey: Trend")
+          }
+          else if(input$quick_dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="red")
+            title(main="Predator: Trend")
+          }
+        }
+        # for 'seasonal'
+        else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+          if(input$quick_dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$seasonal, xlab=input$xaxis,
+                  ylab="Seasonal (Periodicity)", col="black")
+            title(main="Prey: Seasonal (Periodicity)")
+          }
+          else if(input$quick_dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$seasonal, xlab=input$xaxis,
+                  ylab="Seasonal (Periodicity)", col="red")
+            title(main="Predator: Seasonal (Periodicity)")
+          }
+        }
+        # for 'random'
+        else if(input$quick_decomposeOptions == "Random (Residuals)"){
+          if(input$quick_dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$random, xlab=input$xaxis,
+                  ylab="Random (Residuals)", col="black")
+            title(main="Prey: Random (Residuals)")
+          }
+          else if(input$quick_dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$quick_frequency))
+            plot(decomposed$random, xlab=input$xaxis,
+                  ylab="Random (Residuals)", col="red")
+            title(main="Predator: Random (Residuals)")
+          }
+        }
       }
+      
+##### end: draw plots based on 'quick_dataType' for 'quick analysis' panel #####
+
     })
 
-##### end: draw plots based on 'quick_dataType' for 'quick analysis' panel #####
+
 
 ######### start: draw breakpoint lines on default plot (quick-analysis) ########
 
