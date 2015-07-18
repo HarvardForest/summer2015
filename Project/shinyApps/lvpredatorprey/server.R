@@ -232,58 +232,43 @@ shinyServer(
           }
         }
       }
-      
+
 ##### end: draw plots based on 'quick_dataType' for 'quick analysis' panel #####
 
-    })
+###### start: draw breakpoint lines on plots for 'quick analysis panel' ########
 
+      # run only if the "Quick Analysis" tab is active
+      if(input$tabset_analyses == "Quick Analysis"){
+        # check if breakpoint lines and ews lines can be drawn
+        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+          return()
+        }
+        else if(is.null(input$quick_breakpointsCheckbox)){
+         return()
+        }
 
+        # indicates breakpoint lines can be drawn
+        else if(input$quick_breakpointsCheckbox == TRUE) {
+          # for 'prey'
+          if(input$quick_dataType == "Prey"){
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend
+            legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                    col=c("black", "blue"), bty="n")
+          }
+          # for 'predator'
+          else if(input$quick_dataType == "Predator"){
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend
+            legend("topleft", c(input$predatorLabel, "Breakpoints"),
+                      lty=c(1, 1), col=c("red", "blue"), bty="n")
+          }
+        }
+      }
 
-######### start: draw breakpoint lines on default plot (quick-analysis) ########
-
-    #   # run only if the "Quick Analysis" tab is active
-    #   if(input$tabset_analyses == "Quick Analysis"){
-    #     # use default plot settings (above) if no decomposition component is selected
-    #     if(is.null(input$quick_decomposeOptions)
-    #       || input$quick_decomposeOptions == "Observed (Simulated Data)"
-    #       || input$quick_decomposeOptions == " "){
-
-    #       # check if breakpoint lines and ews lines can be drawn
-    #       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-    #         return()
-    #       }
-    #       else if(is.null(input$quick_breakpointsCheckbox)){
-    #        return()
-    #       }
-
-    #       # indicates breakpoint lines can be drawn
-    #       else if(input$quick_breakpointsCheckbox == TRUE) {
-    #         # for 'prey'
-    #         if(input$quick_dataType == "Prey"){
-    #           # update plot to show only prey
-    #           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
-    #                   ylab=input$yaxis, lty=1, col="black")
-    #           # include breakpoint lines
-    #           abline(v=quickTP()[[2]], col="blue")
-    #           # update plot legend
-    #           legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
-    #                   col=c("black", "blue"), bty="n")
-    #         }
-    #         # for 'predator'
-    #         else if(input$quick_dataType == "Predator"){
-    #           # update plot to show only predator
-    #           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
-    #                   ylab=input$yaxis, lty=1, col="red")
-    #           # include breakpoint lines
-    #           abline(v=quickTP()[[2]], col="blue")
-    #           # update plot legend
-    #           legend("topleft", c(input$predatorLabel, "Breakpoints"),
-    #                   lty=c(1, 1), col=c("red", "blue"), bty="n")
-    #         }
-    #       }
-    #     }
-    #   }
-
+})
 ######### end: draw breakpoint lines on default plot (quick-analysis) ########
 
 
@@ -2896,118 +2881,97 @@ shinyServer(
 
 #     ### start: predetermined (quick) breakpoint and ews analyses ###
 
-#     # reactive for dynamic updates
-#     quickTP <- eventReactive( input$quick_runButton, {
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # reactive for dynamic updates
+    quickTP <- eventReactive(input$quick_runButton, {
+      # loading bar
+      withProgress(message="Determining Breakpoints", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
 
-#       # loading bar
-#       withProgress(message="Determining Breakpoints", value=0, {
-#         withProgress(message="...", detail="Please Wait", value=0, {
+          # for prey
+          if(input$quick_dataType == "Prey"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$quick_frequency))
 
-#           # for prey
-#           if(input$quick_dataType == "Prey"){
-#             # decompose simulated data
-#             decomposed <- decompose(ts(lvPredPrey()[1],
-#                                        frequency=input$quick_frequency))
+            # run breakpoint analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+          }
 
-#             # run breakpoint analysis on desired component
-#             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$x)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Trend"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$trend)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$seasonal)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$random)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#           }
+          # for predator
+          else if(input$quick_dataType == "Predator"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$quick_frequency))
 
-#           # for predator
-#           else if(input$quick_dataType == "Predator"){
-#             # decompose simulated data
-#             decomposed <- decompose(ts(lvPredPrey()[2],
-#                                        frequency=input$quick_frequency))
+            # run breakpoint analysis on desired component
+            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+            else if(input$quick_decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+              # run breakpoint method on component
+              CE.Normal(component[1], distyp=1, parallel=FALSE,
+                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
+                        a=0.8, b=0.8)
+            }
+          }
 
-#             # run breakpoint analysis on desired component
-#             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$x)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Trend"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$trend)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$seasonal)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-#               # wrap appropriate component into a data-frame for breakpoint method
-#               component <- data.frame(decomposed$random)
-#               # run breakpoint method on component
-#               CE.Normal(component[1], distyp=1, parallel=FALSE,
-#                         Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-#                         a=0.8, b=0.8)
-#             }
-#           }
-
-#         }) # withProgress
-#       }) # withProgress
-#     })
+        }) # withProgress
+      }) # withProgress
+    })
 
 #     # reactive for dynamic updates
 #     quickGeneric <- reactive({
@@ -3098,130 +3062,130 @@ shinyServer(
 
 #     ### end: predetermined (quick) breakpoint and ews analyses ###
 
-#     ### start: (quick) breakpoint analysis output ###
+    ### start: (quick) breakpoint analysis output ###
 
-#     # display "Number of breakpoints detected:" text and value
-#     output$quick_numBreakpoints <- renderText({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # display "Number of breakpoints detected:" text and value
+    output$quick_numBreakpoints <- renderText({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-#       # display text only if breakpoints are detected
-#       if(length(quickTP()) > 1){
-#         c("Number of breakpoints detected:", quickTP()[[1]])
-#       }
-#     })
+      # display text only if breakpoints are detected
+      if(length(quickTP()) > 1){
+        c("Number of breakpoints detected:", quickTP()[[1]])
+      }
+    })
 
-#     # display "Location:" text
-#     output$quick_locationText <- renderText({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # display "Location:" text
+    output$quick_locationText <- renderText({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-#       # display text only if breakpoints are detected
-#       if(length(quickTP()) > 1){
-#         "Location(s):"
-#       }
-#     })
+      # display text only if breakpoints are detected
+      if(length(quickTP()) > 1){
+        "Location(s):"
+      }
+    })
 
-#     # display locations of detected breakpoints
-#     output$quick_tpOutput <- renderText({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # display locations of detected breakpoints
+    output$quick_tpOutput <- renderText({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-#       # display this if breakpoints are detected
-#       if(length(quickTP()) > 1){
-#         paste(quickTP()[[2]], collapse=", ")
-#       }
-#       # if no breakpoints are detected, use default output
-#       else{
-#         quickTP()
-#       }
-#     })
+      # display this if breakpoints are detected
+      if(length(quickTP()) > 1){
+        paste(quickTP()[[2]], collapse=", ")
+      }
+      # if no breakpoints are detected, use default output
+      else{
+        quickTP()
+      }
+    })
 
-#     # display checkbox for drawing breakpoint lines
-#     output$quick_breakpointsCheckboxSlot <- renderUI({
-#       # check required information
-#       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_decomposeOptions)
-#               || input$quick_decomposeOptions == " "){
-#         return()
-#       }
-#       else if(is.null(input$quick_frequency)
-#               || is.numeric(input$quick_frequency) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_Nmax)
-#               || is.numeric(input$quick_Nmax) == FALSE){
-#         return()
-#       }
-#       else if(is.null(input$quick_winsize)
-#               || is.numeric(input$quick_winsize) == FALSE){
-#         return()
-#       }
+    # display checkbox for drawing breakpoint lines
+    output$quick_breakpointsCheckboxSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+              || input$quick_decomposeOptions == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+              || is.numeric(input$quick_frequency) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_Nmax)
+              || is.numeric(input$quick_Nmax) == FALSE){
+        return()
+      }
+      else if(is.null(input$quick_winsize)
+              || is.numeric(input$quick_winsize) == FALSE){
+        return()
+      }
 
-#       # display only if breakpoints are detected
-#       if(length(quickTP()) > 1){
-#         checkboxInput("quick_breakpointsCheckbox", "Draw Breakpoint Lines",
-#                       value=FALSE)
-#       }
-#     })
+      # display only if breakpoints are detected
+      if(length(quickTP()) > 1){
+        checkboxInput("quick_breakpointsCheckbox", "Draw Breakpoint Lines",
+                      value=FALSE)
+      }
+    })
 
-#     ### end: (quick) breakpoint analysis output ###
+    ### end: (quick) breakpoint analysis output ###
 
 #     ### start: (quick) ews analysis output ###
 
