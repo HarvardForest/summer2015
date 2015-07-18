@@ -86,7 +86,7 @@ shinyUI(fluidPage(
                     column(4,
                       br(),
                       br(),
-                      selectInput("quick_dataType", "Choose Data:",
+                      selectInput("quick_dataType", "Choose Data for Analysis:",
                         choices=c(" ", "Prey", "Predator")
                       ),
                       uiOutput("quick_frequencySlot"),
@@ -122,7 +122,7 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(12, align="center",
                       br(),
-                      selectInput("dataType", "Choose Data:",
+                      selectInput("dataType", "Choose Data for Analysis:",
                         choices=c(" ", "Prey", "Predator")
                       )
                     ) # column

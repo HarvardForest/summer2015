@@ -11,7 +11,8 @@
 ## load dependencies ##
 source("global.R", local=TRUE)
 
-## start server ##
+### start: server ###
+
 shinyServer(
   function(input, output, session){
 
@@ -65,9 +66,10 @@ shinyServer(
 
     output$mainPlot <- renderPlot({
 
-      ### start: display default simulation plots  ###
+############ start: display default simulation plots  ##########################
 
-      # default plot for 'customize graph' panel
+      ### start: show only a default plot for 'customize graph' panel ###
+
       if(input$tabset_analyses == "Customize Graph"){
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
@@ -75,7 +77,9 @@ shinyServer(
                  col=c("black", "red"), bty="n")
       }
 
-      ### start: default quick-analysis-panel plot ###
+      ### end: show only a default plot for 'customize graph' panel ###
+
+      ### start: show default plot for 'quick analysis' panel ###
 
       else if(input$tabset_analyses == "Quick Analysis"){
         # this check removes a transient error
@@ -83,19 +87,23 @@ shinyServer(
           return()
         }
 
-        # generate default plot based on radio-selection
+        # generate default plot based on 'quick_plotOptions' radio selection
+
+        # for 'both'
         if(input$quickPlotOptions == "Both"){
           matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
           legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
                  col=c("black", "red"), bty="n")
         }
+        # for 'prey'
         else if(input$quickPlotOptions == "Prey"){
           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col="black")
           title(main=input$plotTitle)
           legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
         }
+        # for 'predator'
         else if(input$quickPlotOptions == "Predator"){
           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col="red")
@@ -104,9 +112,9 @@ shinyServer(
         }
       }
 
-      ### end: default quick-analysis-panel plot ###
+      ### end: show default plot for 'quick analysis' panel ###
 
-      ### start: default advanced-analysis-panel plot ###
+       ### start: show default plot for 'advanced analysis' panel ###
 
       if(input$tabset_analyses == "Advanced Analysis"){
         # this check removes a transient error
@@ -2618,24 +2626,29 @@ shinyServer(
       ### end: draw breakpoint lines on main plot (advanced-analysis) ###
     })
 
-    # display plot selection options
+    ### start: show either 'quick' or 'advanced' plotOptions radio buttons ###
+
     output$plotOptionsSlot <- renderUI({
+      # check required information
       if(is.null(input$quick_decomposeOptions)
-         || input$quick_decomposeOptions == " "
-         || input$quick_decomposeOptions == "Observed (Simulated Data)"){
-      # one copy of radio buttons for each panel
-      if(input$tabset_analyses == "Quick Analysis"){
-        radioButtons("quickPlotOptions", "Display:",
-                      choices=c("Prey", "Predator", "Both"),
-                      selected="Both", inline=TRUE)
-      }
-      else if(input$tabset_analyses == "Advanced Analysis"){
-        radioButtons("advancedPlotOptions", "Display:",
-                      choices=c("Prey", "Predator", "Both"),
-                      selected="Both", inline=TRUE)
-      }
+        || input$quick_decomposeOptions == " "
+        || input$quick_decomposeOptions == "Observed (Simulated Data)"){
+
+        # render one copy of radio buttons for each panel ('quick' and 'advanced')
+        if(input$tabset_analyses == "Quick Analysis"){
+          radioButtons("quickPlotOptions", "Display:",
+                        choices=c("Prey", "Predator", "Both"),
+                        selected="Both", inline=TRUE)
+        }
+        else if(input$tabset_analyses == "Advanced Analysis"){
+          radioButtons("advancedPlotOptions", "Display:",
+                        choices=c("Prey", "Predator", "Both"),
+                        selected="Both", inline=TRUE)
+        }
       }
     })
+
+    ### end: show either 'quick' or 'advanced' plotOptions radio buttons ###
 
 ################################################################################
 ################################################################################
@@ -3673,5 +3686,7 @@ gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
 
 ################################################################################
 
-  } ## end server ##
+  }
 )
+
+### end: server ###
