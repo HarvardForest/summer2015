@@ -65,9 +65,10 @@ shinyServer(
 
     output$mainPlot <- renderPlot({
 
-      ### start: display default simulation plots  ###
+############ start: display default simulation plots  ##########################
 
-      # default plot for 'customize graph' panel
+      ### start: show only a default plot for 'customize graph' panel ###
+
       if(input$tabset_analyses == "Customize Graph"){
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
@@ -75,7 +76,9 @@ shinyServer(
                  col=c("black", "red"), bty="n")
       }
 
-      ### start: default quick-analysis-panel plot ###
+      ### end: show only a default plot for 'customize graph' panel ###
+
+      ### start: show default plot for 'quick analysis' panel ###
 
       else if(input$tabset_analyses == "Quick Analysis"){
         # this check removes a transient error
