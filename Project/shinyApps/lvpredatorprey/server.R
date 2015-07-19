@@ -108,9 +108,9 @@ shinyServer(
         }
       }
 
-      ### end: default quick-analysis-panel plot ###
+      ### end: show default plot for 'quick analysis' panel ###
 
-      ### start: default advanced-analysis-panel plot ###
+      ### start: show default for 'advanced analysis' panel ###
 
       if(input$tabset_analyses == "Advanced Analysis"){
         # this check removes a transient error
@@ -120,28 +120,29 @@ shinyServer(
 
         # generate default plot based on radio-selection
         if(input$advancedPlotOptions == "Both"){
-          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=c(1, 1), col=c("black", "red"))
           title(main=input$plotTitle)
-          legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-                 col=c("black", "red"), bty="n")
+          legend("topleft", c(input$preyLabel, input$predatorLabel),
+                 lty=c(1, 1), col=c("black", "red"), bty="n")
         }
         else if(input$advancedPlotOptions == "Prey"){
           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col=1)
-          title(main=input$plotTitle)
+                  lty=1, col="black")
+          title(main=input$preyLabel)
           legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
         }
         else if(input$advancedPlotOptions == "Predator"){
           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col="red")
-          title(main=input$plotTitle)
+          title(main=input$predatorLabel)
           legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
         }
       }
 
-      ### end: default advanced-analysis-panel plot ###
+      ### end: show default for 'advanced analysis' panel ###
 
-      ### end: display default simulation plots  ###
+############# end: display default simulation plots  ###########################
 
       ### start: draw breakpoint lines on main plot (quick-analysis) ###
 
