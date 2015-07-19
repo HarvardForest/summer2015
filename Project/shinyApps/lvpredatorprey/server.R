@@ -72,8 +72,8 @@ shinyServer(
       if(input$tabset_analyses == "Customize Graph"){
         matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
           title(main=input$plotTitle)
-          legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-                 col=c("black", "red"), bty="n")
+          legend("topleft", c(input$preyLabel, input$predatorLabel),
+                 lty=c(1, 2), col=c("black", "red"), bty="n")
       }
 
       ### end: show only a default plot for 'customize graph' panel ###
@@ -88,21 +88,22 @@ shinyServer(
 
         # generate default plot based on radio-selection
         if(input$quickPlotOptions == "Both"){
-          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
+                  lty=c(1, 1), col=c("black", "red"))
           title(main=input$plotTitle)
-          legend("topleft", c(input$preyLabel, input$predatorLabel), lty=c(1, 2),
-                 col=c("black", "red"), bty="n")
+          legend("topleft", c(input$preyLabel, input$predatorLabel),
+                 lty=c(1, 1), col=c("black", "red"), bty="n")
         }
         else if(input$quickPlotOptions == "Prey"){
           matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col="black")
-          title(main=input$plotTitle)
+          title(main=input$preyLabel)
           legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
         }
         else if(input$quickPlotOptions == "Predator"){
           matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
                   lty=1, col="red")
-          title(main=input$plotTitle)
+          title(main=input$predatorLabel)
           legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
         }
       }
