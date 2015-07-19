@@ -84,278 +84,429 @@ shinyServer(
 
       if(input$tabset_analyses == "Quick Analysis"){
         # this check removes a transient error
+        #if(!is.null(input$quickPlotOptions)){
+
+          # generate default plot based on 'quick_plotOptions' radio selection
+
+          # for 'both'
+          if(input$quickPlotOptions == "Both"){
+            matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
+                    lty=c(1, 1), col=c("black", "red"))
+            title(main=input$plotTitle)
+            legend("topleft", c(input$preyLabel, input$predatorLabel),
+                    lty=c(1, 1), col=c("black", "red"), bty="n")
+          }
+          # for 'prey'
+          else if(input$quickPlotOptions == "Prey"){
+            matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                    lty=1, col="black")
+            title(main=input$preyLabel)
+            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+          }
+          # for 'predator'
+          else if(input$quickPlotOptions == "Predator"){
+            matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
+                    lty=1, col="red")
+            title(main=input$predatorLabel)
+            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+          }
+        #}
         if(is.null(input$quickPlotOptions)){
-          return()
-        }
+          # display only the state variable under investigation
 
-        # generate default plot based on 'quick_plotOptions' radio selection
+          # display as default and if 'decomposeOptions' is observed data
+          if(is.null(input$quick_decomposeOptions)
+            || input$quick_decomposeOptions == " "
+            || input$quick_decomposeOptions == "Observed (Simulated Data)"){
 
-        # for 'both'
-        if(input$quickPlotOptions == "Both"){
-          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=c(1, 1), col=c("black", "red"))
-          title(main=input$plotTitle)
-          legend("topleft", c(input$preyLabel, input$predatorLabel),
-                  lty=c(1, 1), col=c("black", "red"), bty="n")
-        }
-        # for 'prey'
-        else if(input$quickPlotOptions == "Prey"){
-          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col="black")
-          title(main=input$preyLabel)
-          legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
-        }
-        # for 'predator'
-        else if(input$quickPlotOptions == "Predator"){
-          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col="red")
-          title(main=input$predatorLabel)
-          legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+            # for 'prey'
+            if(input$quick_dataType == "Prey"){
+              matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
+                      ylab=input$yaxis, lty=1, col="black")
+              title(main=input$preyLabel)
+              legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+            }
+            # for 'predator'
+            else if(input$quick_dataType == "Predator"){
+              matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
+                      ylab=input$yaxis, lty=1, col="red")
+              title(main=input$predatorLabel)
+              legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+            }
+          }
+          # display plot according to 'quick_decomposeOptions' selection
+
+          # for 'trend'
+          else if(input$quick_decomposeOptions == "Trend"){
+            if(input$quick_dataType == "Prey"){
+              decomposed = decompose(ts(lvPredPrey()[[1]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="black")
+              title(main="Prey: Trend")
+            }
+            else if(input$quick_dataType == "Predator"){
+              decomposed = decompose(ts(lvPredPrey()[[2]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="red")
+              title(main="Predator: Trend")
+            }
+          }
+          # for 'seasonal'
+          else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+            if(input$quick_dataType == "Prey"){
+              decomposed = decompose(ts(lvPredPrey()[[1]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$seasonal, xlab=input$xaxis,
+                    ylab="Seasonal (Periodicity)", col="black")
+              title(main="Prey: Seasonal (Periodicity)")
+            }
+            else if(input$quick_dataType == "Predator"){
+              decomposed = decompose(ts(lvPredPrey()[[2]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$seasonal, xlab=input$xaxis,
+                    ylab="Seasonal (Periodicity)", col="red")
+              title(main="Predator: Seasonal (Periodicity)")
+            }
+          }
+          # for 'random'
+          else if(input$quick_decomposeOptions == "Random (Residuals)"){
+            if(input$quick_dataType == "Prey"){
+              decomposed = decompose(ts(lvPredPrey()[[1]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$random, xlab=input$xaxis,
+                    ylab="Random (Residuals)", col="black")
+              title(main="Prey: Random (Residuals)")
+            }
+            else if(input$quick_dataType == "Predator"){
+              decomposed = decompose(ts(lvPredPrey()[[2]],
+                                        frequency=input$quick_frequency))
+              plot(decomposed$random, xlab=input$xaxis,
+                    ylab="Random (Residuals)", col="red")
+              title(main="Predator: Random (Residuals)")
+            }
+          }
         }
       }
-    
+      #}
       ### end: show default plot for 'quick analysis' panel ###
 
-      ### start: show default plot for 'advanced analysis' panel ###
+      # ### start: show default plot for 'advanced analysis' panel ###
 
-      if(input$tabset_analyses == "Advanced Analysis"){
-        # this check removes a transient error
-        if(is.null(input$advancedPlotOptions)){
-          return()
-        }
+      # if(input$tabset_analyses == "Advanced Analysis"){
+      #   # this check removes a transient error
+      #   if(is.null(input$advancedPlotOptions)){
+      #     return()
+      #   }
 
-        # generate default plot based on 'quick_plotOptions' radio selection
+      #   # generate default plot based on 'quick_plotOptions' radio selection
 
-        # for 'both'
-        if(input$advancedPlotOptions == "Both"){
-          matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=c(1, 1), col=c("black", "red"))
-          title(main=input$plotTitle)
-          legend("topleft", c(input$preyLabel, input$predatorLabel),
-            lty=c(1, 1), col=c("black", "red"), bty="n")
-        }
-        # for 'prey'
-        else if(input$advancedPlotOptions == "Prey"){
-          matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col="black")
-          title(main=input$preyLabel)
-          legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
-        }
-        # for 'predator'
-        else if(input$advancedPlotOptions == "Predator"){
-          matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
-                  lty=1, col="red")
-          title(main=input$predatorLabel)
-          legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
-        }
-      }
+      #   # for 'both'
+      #   if(input$advancedPlotOptions == "Both"){
+      #     matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
+      #             lty=c(1, 1), col=c("black", "red"))
+      #     title(main=input$plotTitle)
+      #     legend("topleft", c(input$preyLabel, input$predatorLabel),
+      #       lty=c(1, 1), col=c("black", "red"), bty="n")
+      #   }
+      #   # for 'prey'
+      #   else if(input$advancedPlotOptions == "Prey"){
+      #     matplot(lvPredPrey()[1], type="l", xlab=input$xaxis, ylab=input$yaxis,
+      #             lty=1, col="black")
+      #     title(main=input$preyLabel)
+      #     legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+      #   }
+      #   # for 'predator'
+      #   else if(input$advancedPlotOptions == "Predator"){
+      #     matplot(lvPredPrey()[2], type="l", xlab=input$xaxis, ylab=input$yaxis,
+      #             lty=1, col="red")
+      #     title(main=input$predatorLabel)
+      #     legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+      #   }
+      # }
 
       ### end: show default plot for 'advanced analysis' panel ###
 
 ############ end: display default simulation plots  ############################
 
 ##### start: draw plots based on 'quick_dataType' for 'quick analysis' panel ###
-      
-      if(input$tabset_analyses == "Quick Analysis"){
-        # display only the state variable under investigation
+    
+      # if(input$tabset_analyses == "Quick Analysis"){
+      #   # display only the state variable under investigation
 
-        # display as default and if 'decomposeOptions' is observed data
-        if(is.null(input$quick_decomposeOptions)
-          || input$quick_decomposeOptions == " "
-          || input$quick_decomposeOptions == "Observed (Simulated Data)"){
+      #   # display as default and if 'decomposeOptions' is observed data
+      #   if(is.null(input$quick_decomposeOptions)
+      #     || input$quick_decomposeOptions == " "
+      #     || input$quick_decomposeOptions == "Observed (Simulated Data)"){
 
-          # for 'prey'
-          if(input$quick_dataType == "Prey"){
-            matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
-                    ylab=input$yaxis, lty=1, col="black")
-            title(main=input$preyLabel)
-            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
-          }
-          # for 'predator'
-          else if(input$quick_dataType == "Predator"){
-            matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
-                    ylab=input$yaxis, lty=1, col="red")
-            title(main=input$predatorLabel)
-            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
-          }
-        }
+      #     # for 'prey'
+      #     if(input$quick_dataType == "Prey"){
+      #       matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
+      #               ylab=input$yaxis, lty=1, col="black")
+      #       title(main=input$preyLabel)
+      #       legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+      #     }
+      #     # for 'predator'
+      #     else if(input$quick_dataType == "Predator"){
+      #       matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
+      #               ylab=input$yaxis, lty=1, col="red")
+      #       title(main=input$predatorLabel)
+      #       legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+      #     }
+      #   }
+      #   # display plot according to 'quick_decomposeOptions' selection
 
-        # display plot according to 'quick_decomposeOptions' selection
-
-        # for 'trend'
-        else if(input$quick_decomposeOptions == "Trend"){
-          if(input$quick_dataType == "Prey"){
-            decomposed = decompose(ts(lvPredPrey()[[1]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="black")
-            title(main="Prey: Trend")
-          }
-          else if(input$quick_dataType == "Predator"){
-            decomposed = decompose(ts(lvPredPrey()[[2]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="red")
-            title(main="Predator: Trend")
-          }
-        }
-        # for 'seasonal'
-        else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-          if(input$quick_dataType == "Prey"){
-            decomposed = decompose(ts(lvPredPrey()[[1]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis,
-                  ylab="Seasonal (Periodicity)", col="black")
-            title(main="Prey: Seasonal (Periodicity)")
-          }
-          else if(input$quick_dataType == "Predator"){
-            decomposed = decompose(ts(lvPredPrey()[[2]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis,
-                  ylab="Seasonal (Periodicity)", col="red")
-            title(main="Predator: Seasonal (Periodicity)")
-          }
-        }
-        # for 'random'
-        else if(input$quick_decomposeOptions == "Random (Residuals)"){
-          if(input$quick_dataType == "Prey"){
-            decomposed = decompose(ts(lvPredPrey()[[1]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$random, xlab=input$xaxis,
-                  ylab="Random (Residuals)", col="black")
-            title(main="Prey: Random (Residuals)")
-          }
-          else if(input$quick_dataType == "Predator"){
-            decomposed = decompose(ts(lvPredPrey()[[2]],
-                                      frequency=input$quick_frequency))
-            plot(decomposed$random, xlab=input$xaxis,
-                  ylab="Random (Residuals)", col="red")
-            title(main="Predator: Random (Residuals)")
-          }
-        }
-      }
+      #   # for 'trend'
+      #   else if(input$quick_decomposeOptions == "Trend"){
+      #     if(input$quick_dataType == "Prey"){
+      #       decomposed = decompose(ts(lvPredPrey()[[1]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="black")
+      #       title(main="Prey: Trend")
+      #     }
+      #     else if(input$quick_dataType == "Predator"){
+      #       decomposed = decompose(ts(lvPredPrey()[[2]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="red")
+      #       title(main="Predator: Trend")
+      #     }
+      #   }
+      #   # for 'seasonal'
+      #   else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+      #     if(input$quick_dataType == "Prey"){
+      #       decomposed = decompose(ts(lvPredPrey()[[1]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$seasonal, xlab=input$xaxis,
+      #             ylab="Seasonal (Periodicity)", col="black")
+      #       title(main="Prey: Seasonal (Periodicity)")
+      #     }
+      #     else if(input$quick_dataType == "Predator"){
+      #       decomposed = decompose(ts(lvPredPrey()[[2]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$seasonal, xlab=input$xaxis,
+      #             ylab="Seasonal (Periodicity)", col="red")
+      #       title(main="Predator: Seasonal (Periodicity)")
+      #     }
+      #   }
+      #   # for 'random'
+      #   else if(input$quick_decomposeOptions == "Random (Residuals)"){
+      #     if(input$quick_dataType == "Prey"){
+      #       decomposed = decompose(ts(lvPredPrey()[[1]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$random, xlab=input$xaxis,
+      #             ylab="Random (Residuals)", col="black")
+      #       title(main="Prey: Random (Residuals)")
+      #     }
+      #     else if(input$quick_dataType == "Predator"){
+      #       decomposed = decompose(ts(lvPredPrey()[[2]],
+      #                                 frequency=input$quick_frequency))
+      #       plot(decomposed$random, xlab=input$xaxis,
+      #             ylab="Random (Residuals)", col="red")
+      #       title(main="Predator: Random (Residuals)")
+      #     }
+      #   }
+      # }
 
 ##### end: draw plots based on 'quick_dataType' for 'quick analysis' panel #####
 
 ### start: draw breakpoint lines (only) on plots for 'quick analysis' panel ####
 
-      # run only if the "Quick Analysis" tab is active
-      if(input$tabset_analyses == "Quick Analysis"){
-        # check if breakpoint lines can be drawn
-        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-          return()
-        }
-        else if(is.null(input$quick_breakpointsCheckbox)){
-         return()
-        }
+      # # run only if the "Quick Analysis" tab is active
+      # if(input$tabset_analyses == "Quick Analysis"){
+      #   # check if breakpoint lines can be drawn
+      #   if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+      #     return()
+      #   }
+      #   else if(is.null(input$quick_breakpointsCheckbox)){
+      #    return()
+      #   }
 
-        # indicates breakpoint lines can be drawn
-        else if(input$quick_breakpointsCheckbox == TRUE) {
-          # for 'prey'
-          if(input$quick_dataType == "Prey"){
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend
-            legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
-                    col=c("black", "blue"), bty="n")
-          }
-          # for 'predator'
-          else if(input$quick_dataType == "Predator"){
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend
-            legend("topleft", c(input$predatorLabel, "Breakpoints"),
-                      lty=c(1, 1), col=c("red", "blue"), bty="n")
-          }
-        }
-      }
+      #   # indicates breakpoint lines can be drawn
+      #   else if(input$quick_breakpointsCheckbox == TRUE) {
+      #     # for 'prey'
+      #     if(input$quick_dataType == "Prey"){
+      #       # include breakpoint lines
+      #       abline(v=quickTP()[[2]], col="blue")
+      #       # update plot legend
+      #       legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+      #               col=c("black", "blue"), bty="n")
+      #     }
+      #     # for 'predator'
+      #     else if(input$quick_dataType == "Predator"){
+      #       # include breakpoint lines
+      #       abline(v=quickTP()[[2]], col="blue")
+      #       # update plot legend
+      #       legend("topleft", c(input$predatorLabel, "Breakpoints"),
+      #                 lty=c(1, 1), col=c("red", "blue"), bty="n")
+      #     }
+      #   }
+      # }
 
 #### end: draw breakpoint lines (only) on plots for 'quick analysis' panel #####
 
-########## start: draw ews lines on plots for 'quick analysis' panel ###########
+# ########## start: draw ews lines on plots for 'quick analysis' panel ###########
 
-      if(input$tabset_analyses == "Quick Analysis"){
-        # check if ews lines can be drawn
-        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-          return()
-        }
-        else if(is.null(input$quick_ewsRadioButtons)){
-         return()
-        }
+#       if(input$tabset_analyses == "Quick Analysis"){
+#         # check if ews lines can be drawn
+#         if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+#           return()
+#         }
+#         #if(is.null(input$quick_ewsRadioButtons)){
+#         #  return()
+#         #}
 
-        # display default plot attributes if there are no ews lines selected
-        if(input$quick_ewsRadioButtons == "None"){
-          return()
-        }
-        else if(input$quick_ewsRadioButtons == "Standard Deviation"){
-          # re-scale ews statistic
-          ewsLine <- quickGeneric()[3]
-          # adjust starting point to accomodate rolling window size
-          for(i in 1:(input$time * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
+#         # display default plot attributes if there are no ews lines selected
+#         #if(input$quick_ewsRadioButtons == "None"){
+#         #  return()
+#         #}
+#         if(input$quick_ewsRadioButtons == "Standard Deviation"){
+#           # re-scale ews statistic
+#           ewsLine <- quickGeneric()[3]
+#           # adjust starting point to accomodate rolling window size
+#           for(i in 1:(input$time * (input$quick_winsize * 0.01))){
+#             ewsLine <- rbind(NA, ewsLine)
+#           }
 
-          # draw rescaled ews line, axis, and label (from 'plotrix')
+#           # draw rescaled ews line, axis, and label (from 'plotrix')
 
-          # for 'prey'
-          if(input$quick_dataType == "Prey"){
-            decomposed = decompose(ts(lvPredPrey()[[1]],
-                                      frequency=input$quick_frequency))
+#           # for 'prey'
+#           if(input$quick_dataType == "Prey"){
+#             decomposed = decompose(ts(lvPredPrey()[[1]],
+#                                       frequency=input$quick_frequency))
 
-            # for 'observed'
-            if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
-                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                          rcol="green4", lcol="black", xlab=input$xaxis,
-                          ylab=input$yaxis, lty=1,)
-              title(main=input$preyLabel)
-              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+#             # for 'observed'
+#             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
+#               twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+#                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+#                           rcol="green4", lcol="black", xlab=input$xaxis,
+#                           ylab=input$yaxis, lty=1,)
+#               title(main=input$preyLabel)
+#               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
-              # draw breakpoint lines if selected and update legend
-              if(input$quick_breakpointsCheckbox == TRUE) {
-                # include breakpoint lines
-                abline(v=quickTP()[[2]], col="blue")
-                # update plot legend with ews and breakpoint lines
-                legend("topleft",c(input$preyLabel, "Breakpoints",
-                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
-                        col=c("black", "blue", "green4"), bty="n")
-              }
-              else{
-                # update plot legend with only ews line
-                legend("topleft",
-                        c(input$preyLabel, input$quick_ewsRadioButtons),
-                        lty=c(1, 1), col=c("black", "green4"), bty="n")
-              }
-            }
+#               # draw breakpoint lines if selected and update legend
+#               if(input$quick_breakpointsCheckbox == TRUE) {
+#                 # include breakpoint lines
+#                 abline(v=quickTP()[[2]], col="blue")
+#                 # update plot legend with ews and breakpoint lines
+#                 legend("topleft",c(input$preyLabel, "Breakpoints",
+#                                    input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+#                         col=c("black", "blue", "green4"), bty="n")
+#               }
+#               else{
+#                 # update plot legend with only ews line
+#                 legend("topleft",
+#                         c(input$preyLabel, input$quick_ewsRadioButtons),
+#                         lty=c(1, 1), col=c("black", "green4"), bty="n")
+#               }
+#             }
 
-            # for 'trend'
-            else if(input$quick_decomposeOptions == "Trend"){
-              twoord.plot(1:length(decomposed$trend), decomposed$trend,
-                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
-                          rcol="green4", lcol="black", xlab=input$xaxis,
-                          ylab="Trend", lty=1,)
-              title(main="Prey: Trend")
-              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+#             # for 'trend'
+#             else if(input$quick_decomposeOptions == "Trend"){
+#               twoord.plot(1:length(decomposed$trend), decomposed$trend,
+#                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+#                           rcol="green4", lcol="black", xlab=input$xaxis,
+#                           ylab="Trend", lty=1,)
+#               title(main="Prey: Trend")
+#               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
 
-              # draw breakpoint lines if selected and update legend
-              if(input$quick_breakpointsCheckbox == TRUE) {
-                # include breakpoint lines
-                abline(v=quickTP()[[2]], col="blue")
-                # update plot legend with ews and breakpoint lines
-                legend("topleft",c(input$preyLabel, "Breakpoints",
-                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
-                        col=c("black", "blue", "green4"), bty="n")
-              }
-              else{
-                # update plot legend with only ews line
-                legend("topleft",
-                        c(input$preyLabel, input$quick_ewsRadioButtons),
-                        lty=c(1, 1), col=c("black", "green4"), bty="n")
-              }
-            }
-          }
-        }        
-      }
+#               # draw breakpoint lines if selected and update legend
+#               if(input$quick_breakpointsCheckbox == TRUE) {
+#                 # include breakpoint lines
+#                 abline(v=quickTP()[[2]], col="blue")
+#                 # update plot legend with ews and breakpoint lines
+#                 legend("topleft",c(input$preyLabel, "Breakpoints",
+#                                    input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+#                         col=c("black", "blue", "green4"), bty="n")
+#               }
+#               else{
+#                 # update plot legend with only ews line
+#                 legend("topleft",
+#                         c(input$preyLabel, input$quick_ewsRadioButtons),
+#                         lty=c(1, 1), col=c("black", "green4"), bty="n")
+#               }
+#             }
+#           }
+#         }
+#         else{
+#           if(input$tabset_analyses == "Quick Analysis"){
+#         # display only the state variable under investigation
+
+#         # display as default and if 'decomposeOptions' is observed data
+#         if(is.null(input$quick_decomposeOptions)
+#           || input$quick_decomposeOptions == " "
+#           || input$quick_decomposeOptions == "Observed (Simulated Data)"){
+
+#           # for 'prey'
+#           if(input$quick_dataType == "Prey"){
+#             matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
+#                     ylab=input$yaxis, lty=1, col="black")
+#             title(main=input$preyLabel)
+#             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+#           }
+#           # for 'predator'
+#           else if(input$quick_dataType == "Predator"){
+#             matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
+#                     ylab=input$yaxis, lty=1, col="red")
+#             title(main=input$predatorLabel)
+#             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+#           }
+#         }
+#         # display plot according to 'quick_decomposeOptions' selection
+
+#         # for 'trend'
+#         else if(input$quick_decomposeOptions == "Trend"){
+#           if(input$quick_dataType == "Prey"){
+#             decomposed = decompose(ts(lvPredPrey()[[1]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="black")
+#             title(main="Prey: Trend")
+#           }
+#           else if(input$quick_dataType == "Predator"){
+#             decomposed = decompose(ts(lvPredPrey()[[2]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$trend, xlab=input$xaxis, ylab="Trend", col="red")
+#             title(main="Predator: Trend")
+#           }
+#         }
+#         # for 'seasonal'
+#         else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+#           if(input$quick_dataType == "Prey"){
+#             decomposed = decompose(ts(lvPredPrey()[[1]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$seasonal, xlab=input$xaxis,
+#                   ylab="Seasonal (Periodicity)", col="black")
+#             title(main="Prey: Seasonal (Periodicity)")
+#           }
+#           else if(input$quick_dataType == "Predator"){
+#             decomposed = decompose(ts(lvPredPrey()[[2]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$seasonal, xlab=input$xaxis,
+#                   ylab="Seasonal (Periodicity)", col="red")
+#             title(main="Predator: Seasonal (Periodicity)")
+#           }
+#         }
+#         # for 'random'
+#         else if(input$quick_decomposeOptions == "Random (Residuals)"){
+#           if(input$quick_dataType == "Prey"){
+#             decomposed = decompose(ts(lvPredPrey()[[1]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$random, xlab=input$xaxis,
+#                   ylab="Random (Residuals)", col="black")
+#             title(main="Prey: Random (Residuals)")
+#           }
+#           else if(input$quick_dataType == "Predator"){
+#             decomposed = decompose(ts(lvPredPrey()[[2]],
+#                                       frequency=input$quick_frequency))
+#             plot(decomposed$random, xlab=input$xaxis,
+#                   ylab="Random (Residuals)", col="red")
+#             title(main="Predator: Random (Residuals)")
+#           }
+#         }
+#       }
+#         }        
+#       }
 
 ########## end: draw ews lines on plots for 'quick analysis' panel #############
+
 })
 
     #       ### start: update plot and legend with ews line (quick-analysis) ###
