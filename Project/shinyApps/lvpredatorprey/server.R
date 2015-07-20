@@ -3643,42 +3643,118 @@ shinyServer(
 ############## end: (advanced) tipping point analysis output ###################
 
 ################################################################################
+################################################################################
+################################################################################
 
+################################################################################
 ############## Advanced Early Warning Signals Analysis #########################
+################################################################################
 
-    ### start: run (advanced) ews analysis based on user-input ###
+########### start: run (advanced) ews analysis based on user-input #############
 
-#     # reactive for dynamic updates
-#     advancedGeneric <- reactive({
-#
-#       # loading bar
-#       withProgress(message="Performing EWS Analysis", value=0,{
-#         withProgress(message="...", detail="Please Wait", value=0, {
-#
-#           if(input$dataType == "Prey"){
-#             generic_ews(timeseries=subset(lvPredPrey(), select="prey"),
-#                         winsize=input$winsize, bandwidth=input$bandwidth,
-#                         detrending=input$detrending, span=input$span,
-#                         degree=input$degree, logtransform=input$logtransform,
-#                         interpolate=input$interpolate, AR_n=input$AR_n,
-#                         powerspectrum=input$powerspectrum)
-#           }
-#           else if(input$dataType == "Predator"){
-#             generic_ews(timeseries=subset(lvPredPrey(), select="predator"),
-#                         winsize=input$winsize, bandwidth=input$bandwidth,
-#                         detrending=input$detrending, span=input$span,
-#                         degree=input$degree, logtransform=input$logtransform,
-#                         interpolate=input$interpolate, AR_n=input$AR_n,
-#                         powerspectrum=input$powerspectrum)
-#           }
-#
-#         }) # withProgress
-#       }) # withProgress
-#     })
+    advancedGeneric <- eventReactive(input$runButton, {
+      # check required information
+      if(is.null(input$runButton)){
+        return()
+      }
 
-    ### end: run (advanced) ews analysis based on user-input ###
+      # loading bar
+      withProgress(message="Performing EWS Analysis", value=0,{
+        withProgress(message="...", detail="Please Wait", value=0, {
 
-    ### start: (advanced) ews point analysis output ###
+          # for prey
+          if(input$dataType == "Prey"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$frequency))
+
+            # run ews analysis on desired component
+            if(input$decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+          }
+
+          # for predator
+          else if(input$dataType == "Predator"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$frequency))
+
+            # run ews analysis on desired component
+            if(input$decomposeOptions == "Observed (Simulated Data)"){
+              generic_ews(timeseries=decomposed$x[1:input$time],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Trend"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Seasonal (Periodicity)"){
+              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+            else if(input$decomposeOptions == "Random (Residuals)"){
+              # range is offset because head and tail values are NA
+              generic_ews(timeseries=decomposed$random[3:input$time-1],
+                        winsize=input$winsize, bandwidth=input$bandwidth,
+                        detrending=input$detrending, span=input$span,
+                        degree=input$degree, logtransform=input$logtransform,
+                        interpolate=input$interpolate, AR_n=input$AR_n,
+                        powerspectrum=input$powerspectrum)
+            }
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
+########### end: run (advanced) ews analysis based on user-input ###############
+
+################## start: show (advanced) ews analysis output ##################
 
     # display ews radio buttons
     output$ewsRadioButtonSlot <- renderUI({
@@ -3686,7 +3762,27 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(advancedGeneric())){
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
@@ -3697,35 +3793,36 @@ shinyServer(
                      "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
     })
 
-    output$ewsTableCheckboxSlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-      if(is.null(input$ewsRadioButtons)){
-        return()
-      }
-      else if(input$ewsRadioButtons == "None"){
-        return()
-      }
-
-      checkboxInput("ewsTableCheckbox", "Show Statistic Table",
-                      value=FALSE)
-    })
-
     output$downloadEWStableSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsRadioButtons)){
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
         return()
       }
-      if(is.null(TPanalysis())){
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
-      downloadButton('downloadEWStable', 'Download Data')
+      downloadButton('downloadEWStable', 'Download Early Warning Statistics')
     })
 
     # download ews data
@@ -3742,13 +3839,27 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(is.null(input$ewsRadioButtons)){
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
         return()
       }
-      else if(input$ewsRadioButtons == "None"){
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
         return()
       }
-      else if(is.null(input$ewsTableCheckbox) || input$ewsTableCheckbox == FALSE){
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
@@ -3799,11 +3910,15 @@ shinyServer(
 
     }, options=list(pageLength=10))
 
-    ### end: (advanced) ews point analysis output ###
+################## end: show (advanced) ews analysis output ####################
 
 ################################################################################
+################################################################################
+################################################################################
 
+################################################################################
 ############################## Model ###########################################
+################################################################################
 
     # load code text to page
     output$codeText <- renderText({
@@ -3830,7 +3945,13 @@ return(output)
 }"
     })
 
-######################### Ace ##################################################
+################################################################################
+################################################################################
+################################################################################
+
+################################################################################
+################################## Ace #########################################
+################################################################################
 
     # render script text
     aceScript <- reactive({
@@ -3913,6 +4034,8 @@ gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
       }
     )
 
+################################################################################
+################################################################################
 ################################################################################
 
   } ## end server ##

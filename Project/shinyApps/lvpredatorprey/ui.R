@@ -137,7 +137,6 @@ shinyUI(fluidPage(
                       h5(textOutput("tpOutput")),
                       uiOutput("breakpointsCheckboxSlot"),
                       uiOutput("ewsRadioButtonSlot"),
-                      uiOutput("ewsTableCheckboxSlot"),
                       uiOutput("downloadEWStableSlot")
                     ) # column
                   ), # fluidRow
