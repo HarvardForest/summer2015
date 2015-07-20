@@ -2542,23 +2542,19 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax)
-        || !is.numeric(input$quick_Nmax)){
-
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-        || !is.numeric(input$quick_winsize)){
-
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
       actionButton("quick_runButton", "Run Analysis")
     })
 
-    ### end: build responsive user-input widgets
+############## end: build responsive user-input widgets ########################
 
-    ### start: display decomposition plot (quick-analysis) ###
+############# start: display decomposition plot (quick analysis) ###############
 
     output$quick_decomposePlotSlot <- renderUI({
       # check required information
@@ -2578,12 +2574,16 @@ shinyServer(
       }
     })
 
-############## end: build responsive user-input widgets ########################
+############# end: display decomposition plot (quick analysis) #################
 
-########## start: predetermined (quick) breakpoint and ews analyses ############
+########## start: predetermined (quick) breakpoint analysis ####################
 
-    # reactive for dynamic updates
-    quickTP <- eventReactive( input$quick_runButton, {
+    quickTP <- eventReactive(input$quick_runButton, {
+      # check required information
+      if(is.null(input$quick_runButton)){
+        return()
+      }
+
       # loading bar
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
@@ -2672,30 +2672,15 @@ shinyServer(
 
         }) # withProgress
       }) # withProgress
-    }) # end quickTP
+    })
 
-    # reactive for dynamic updates
-    quickGeneric <- reactive({
+############## end: predetermined (quick) breakpoint analysis ##################
+
+############## start: predetermined (quick) ews analysis #######################
+
+    quickGeneric <- eventReactive(input$quick_runButton, {
       # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      if(is.na(input$quick_Nmax)){
-        return()
-      }
-      if(is.na(input$quick_winsize)){
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
-        return()
-      }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
-        return()
-      }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      if(is.null(input$quick_runButton)){
         return()
       }
 
@@ -2761,9 +2746,9 @@ shinyServer(
       }) # withProgress
     })
 
-    ### end: predetermined (quick) breakpoint and ews analyses ###
+################ end: predetermined (quick) ews analysis #######################
 
-    ### start: (quick) breakpoint analysis output ###
+########### start: breakpoint analysis output for 'quick analysis' panel #######
 
     # display "Number of breakpoints detected:" text and value
     output$quick_numBreakpoints <- renderText({
@@ -2772,19 +2757,19 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
@@ -2801,19 +2786,19 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
@@ -2830,19 +2815,19 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
@@ -2863,19 +2848,19 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
@@ -2886,9 +2871,9 @@ shinyServer(
       }
     })
 
-    ### end: (quick) breakpoint analysis output ###
+######## end: breakpoint analysis output for 'quick analysis' panel ############
 
-    ### start: (quick) ews analysis output ###
+######## start: ews analysis output for 'quick analysis' panel #################
 
     # display ews radio buttons
     output$quick_ewsRadioButtonSlot <- renderUI({
@@ -2897,28 +2882,30 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
       if(length(quickTP()) >= 1){
-        radioButtons("quick_ewsRadioButtons", "View Early Warning Signal Analysis:",
-                     c("None", "Standard Deviation", "Skewness", "Kurtosis",
-                       "Coefficient of Variation", "Return Rate", "Density Ratio",
-                       "Autocorrelation at First Lag",
-                       "Autoregressive Coefficient"), selected=NULL, inline=FALSE)
+        radioButtons("quick_ewsRadioButtons",
+                      "View Early Warning Signal Analysis:",
+                      c("None", "Standard Deviation", "Skewness", "Kurtosis",
+                        "Coefficient of Variation", "Return Rate",
+                        "Density Ratio", "Autocorrelation at First Lag",
+                        "Autoregressive Coefficient"), selected=NULL,
+                      inline=FALSE)
       }
     })
 
@@ -2929,19 +2916,19 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
@@ -2964,11 +2951,23 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
-      if(is.null(input$quick_ewsRadioButtons)){
+      else if(is.null(input$quick_frequency)
+        || !is.numeric(input$quick_frequency)){
+
+        return()
+      }
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
+        return()
+      }
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
+        return()
+      }
+      else if(is.null(input$quick_ewsRadioButtons)){
         return()
       }
       else if(input$quick_ewsRadioButtons == "None"){
@@ -3021,11 +3020,15 @@ shinyServer(
       return(table)
     }, options=list(pageLength=10))
 
-    ### end: (quick) ews analysis output ###
+########## end: ews analysis output for 'quick analysis' panel #################
 
 ################################################################################
+################################################################################
+################################################################################
 
+################################################################################
 #################### Advanced Tipping Point Analysis ###########################
+################################################################################
 
     ### start: run (advanced) tipping point analysis based on user-input ###
 
