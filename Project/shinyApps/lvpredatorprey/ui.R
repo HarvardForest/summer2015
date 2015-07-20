@@ -120,11 +120,14 @@ shinyUI(fluidPage(
 
                 tabPanel(title="Advanced Analysis",
                   fluidRow(
-                    column(12, align="center",
+                    column(4, align="left",
+                      br(),
                       br(),
                       selectInput("dataType", "Choose Data for Analysis:",
                         choices=c(" ", "Prey", "Predator")
-                      )
+                      ),
+                      uiOutput("frequencySlot"),
+                      uiOutput("decomposeOptionsSlot")
                     ) # column
                   ), # fluidRow
                   fluidRow(
@@ -154,7 +157,7 @@ shinyUI(fluidPage(
                           "with Negative Binomial Distribution",
                           "with Zero-Inflated Negative Binomial Distribution")
                       ),
-                      numericInput("Nmax", "Maximum number of breakpoints:", value=5),
+                      numericInput("Nmax", "Maximum number of breakpoints:", value=10),
                       selectInput("distributionType", "Distribution to simulate break-point locations:",
                         choices=c("Four Parameter Beta Distribution",
                           "Truncated Normal Distribution")

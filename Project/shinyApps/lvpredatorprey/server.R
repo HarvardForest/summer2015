@@ -2480,8 +2480,7 @@ shinyServer(
 
       numericInput("quick_frequency",
                    "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:",
-                    value=2)
+                      Decomposition analysis:", value=2)
     })
 
     output$quick_NmaxSlot <- renderUI({
@@ -3027,101 +3026,131 @@ shinyServer(
 ################################################################################
 
 ################################################################################
+############### Build Advanced Analysis Dynamic User-input #####################
+################################################################################
+
+    output$frequencySlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      numericInput("frequency",
+                   "The number of observations per unit of time (frequency) for
+                      Decomposition analysis:", value=2)
+    })
+
+    output$decomposeOptionsSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      selectInput("decomposeOptions", "Select a component for analysis:",
+                    choices=c(" ", "Observed (Simulated Data)", "Trend",
+                              "Seasonal (Periodicity)", "Random (Residuals)"))
+    })
+
+################################################################################
+################################################################################
+################################################################################
+
+################################################################################
 #################### Advanced Tipping Point Analysis ###########################
 ################################################################################
 
-    ### start: run (advanced) tipping point analysis based on user-input ###
-
-    TPanalysis <- reactive({
-      # loading bar
-      withProgress(message="Determining Breakpoints", value=0, {
-        withProgress(message="...", detail="Please Wait", value=0, {
-
-          # for prey
-          if(input$dataType == "Prey"){
-            if(input$breakpointType == "with Negative Binomial Distribution"){
-              if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(lvPredPrey()[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-                  b=input$b)
-              }
-              else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(lvPredPrey()[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-                  b=input$b)
-              }
-            }
-            else if(input$breakpointType == "for Continuous Data"){
-              if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(lvPredPrey()[1], distyp=1, parallel=FALSE,
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                  h=input$h, a=input$a, b=input$b)
-              }
-              else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(lvPredPrey()[1], distyp=2, parallel=FALSE,
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                  h=input$h, a=input$a, b=input$b)
-              }
-            }
-            else if(input$breakpointType ==
-              "with Zero-Inflated Negative Binomial Distribution"){
-                if(input$distributionType == "Four Parameter Beta Distribution"){
-                  CE.ZINB(lvPredPrey()[1], distyp=1, parallel=FALSE,
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                    h=input$h, a=input$a, b=input$b)
-                }
-                else if(input$distributionType == "Truncated Normal Distribution"){
-                  CE.ZINB(lvPredPrey()[1], distyp=2, parallel=FALSE,
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                    h=input$h, a=input$a, b=input$b)
-                }
-            }
-          }
-
-          # for predator
-          else if(input$dataType == "Predator"){
-            if(input$breakpointType == "with Negative Binomial Distribution"){
-              if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.NB(lvPredPrey()[2], distyp=1, parallel=FALSE, Nmax=input$Nmax,
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-                  b=input$b)
-              }
-              else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.NB(lvPredPrey()[2], distyp=2, parallel=FALSE, Nmax=input$Nmax,
-                  eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-                  b=input$b)
-              }
-            }
-            else if(input$breakpointType == "for Continuous Data"){
-              if(input$distributionType == "Four Parameter Beta Distribution"){
-                CE.Normal(lvPredPrey()[2], distyp=1, parallel=FALSE,
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                  h=input$h, a=input$a, b=input$b)
-              }
-              else if(input$distributionType == "Truncated Normal Distribution"){
-                CE.Normal(lvPredPrey()[2], distyp=2, parallel=FALSE,
-                  Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                  h=input$h, a=input$a, b=input$b)
-              }
-            }
-            else if(input$breakpointType ==
-              "with Zero-Inflated Negative Binomial Distribution"){
-                if(input$distributionType == "Four Parameter Beta Distribution"){
-                  CE.ZINB(lvPredPrey()[2], distyp=1, parallel=FALSE,
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                    h=input$h, a=input$a, b=input$b)
-                }
-                else if(input$distributionType == "Truncated Normal Distribution"){
-                  CE.ZINB(lvPredPrey()[2], distyp=2, parallel=FALSE,
-                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-                    h=input$h, a=input$a, b=input$b)
-                }
-            }
-          }
-
-        }) # withProgress
-      }) # withProgress
-    })
+###### start: run (advanced) tipping point analysis based on user-input ########
+#
+#     TPanalysis <- reactive({
+#       # loading bar
+#       withProgress(message="Determining Breakpoints", value=0, {
+#         withProgress(message="...", detail="Please Wait", value=0, {
+#
+#           # for prey
+#           if(input$dataType == "Prey"){
+#             if(input$breakpointType == "with Negative Binomial Distribution"){
+#               if(input$distributionType == "Four Parameter Beta Distribution"){
+#                 CE.NB(lvPredPrey()[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+#                   b=input$b)
+#               }
+#               else if(input$distributionType == "Truncated Normal Distribution"){
+#                 CE.NB(lvPredPrey()[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+#                   b=input$b)
+#               }
+#             }
+#             else if(input$breakpointType == "for Continuous Data"){
+#               if(input$distributionType == "Four Parameter Beta Distribution"){
+#                 CE.Normal(lvPredPrey()[1], distyp=1, parallel=FALSE,
+#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                   h=input$h, a=input$a, b=input$b)
+#               }
+#               else if(input$distributionType == "Truncated Normal Distribution"){
+#                 CE.Normal(lvPredPrey()[1], distyp=2, parallel=FALSE,
+#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                   h=input$h, a=input$a, b=input$b)
+#               }
+#             }
+#             else if(input$breakpointType ==
+#               "with Zero-Inflated Negative Binomial Distribution"){
+#                 if(input$distributionType == "Four Parameter Beta Distribution"){
+#                   CE.ZINB(lvPredPrey()[1], distyp=1, parallel=FALSE,
+#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                     h=input$h, a=input$a, b=input$b)
+#                 }
+#                 else if(input$distributionType == "Truncated Normal Distribution"){
+#                   CE.ZINB(lvPredPrey()[1], distyp=2, parallel=FALSE,
+#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                     h=input$h, a=input$a, b=input$b)
+#                 }
+#             }
+#           }
+#
+#           # for predator
+#           else if(input$dataType == "Predator"){
+#             if(input$breakpointType == "with Negative Binomial Distribution"){
+#               if(input$distributionType == "Four Parameter Beta Distribution"){
+#                 CE.NB(lvPredPrey()[2], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+#                   b=input$b)
+#               }
+#               else if(input$distributionType == "Truncated Normal Distribution"){
+#                 CE.NB(lvPredPrey()[2], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+#                   b=input$b)
+#               }
+#             }
+#             else if(input$breakpointType == "for Continuous Data"){
+#               if(input$distributionType == "Four Parameter Beta Distribution"){
+#                 CE.Normal(lvPredPrey()[2], distyp=1, parallel=FALSE,
+#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                   h=input$h, a=input$a, b=input$b)
+#               }
+#               else if(input$distributionType == "Truncated Normal Distribution"){
+#                 CE.Normal(lvPredPrey()[2], distyp=2, parallel=FALSE,
+#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                   h=input$h, a=input$a, b=input$b)
+#               }
+#             }
+#             else if(input$breakpointType ==
+#               "with Zero-Inflated Negative Binomial Distribution"){
+#                 if(input$distributionType == "Four Parameter Beta Distribution"){
+#                   CE.ZINB(lvPredPrey()[2], distyp=1, parallel=FALSE,
+#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                     h=input$h, a=input$a, b=input$b)
+#                 }
+#                 else if(input$distributionType == "Truncated Normal Distribution"){
+#                   CE.ZINB(lvPredPrey()[2], distyp=2, parallel=FALSE,
+#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+#                     h=input$h, a=input$a, b=input$b)
+#                 }
+#             }
+#           }
+#
+#         }) # withProgress
+#       }) # withProgress
+#     })
 
     ### end: run (advanced) tipping point analysis based on user-input ###
 
@@ -3191,33 +3220,33 @@ shinyServer(
 
     ### start: run (advanced) ews analysis based on user-input ###
 
-    # reactive for dynamic updates
-    advancedGeneric <- reactive({
-
-      # loading bar
-      withProgress(message="Performing EWS Analysis", value=0,{
-        withProgress(message="...", detail="Please Wait", value=0, {
-
-          if(input$dataType == "Prey"){
-            generic_ews(timeseries=subset(lvPredPrey(), select="prey"),
-                        winsize=input$winsize, bandwidth=input$bandwidth,
-                        detrending=input$detrending, span=input$span,
-                        degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
-          }
-          else if(input$dataType == "Predator"){
-            generic_ews(timeseries=subset(lvPredPrey(), select="predator"),
-                        winsize=input$winsize, bandwidth=input$bandwidth,
-                        detrending=input$detrending, span=input$span,
-                        degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
-          }
-
-        }) # withProgress
-      }) # withProgress
-    })
+#     # reactive for dynamic updates
+#     advancedGeneric <- reactive({
+#
+#       # loading bar
+#       withProgress(message="Performing EWS Analysis", value=0,{
+#         withProgress(message="...", detail="Please Wait", value=0, {
+#
+#           if(input$dataType == "Prey"){
+#             generic_ews(timeseries=subset(lvPredPrey(), select="prey"),
+#                         winsize=input$winsize, bandwidth=input$bandwidth,
+#                         detrending=input$detrending, span=input$span,
+#                         degree=input$degree, logtransform=input$logtransform,
+#                         interpolate=input$interpolate, AR_n=input$AR_n,
+#                         powerspectrum=input$powerspectrum)
+#           }
+#           else if(input$dataType == "Predator"){
+#             generic_ews(timeseries=subset(lvPredPrey(), select="predator"),
+#                         winsize=input$winsize, bandwidth=input$bandwidth,
+#                         detrending=input$detrending, span=input$span,
+#                         degree=input$degree, logtransform=input$logtransform,
+#                         interpolate=input$interpolate, AR_n=input$AR_n,
+#                         powerspectrum=input$powerspectrum)
+#           }
+#
+#         }) # withProgress
+#       }) # withProgress
+#     })
 
     ### end: run (advanced) ews analysis based on user-input ###
 
