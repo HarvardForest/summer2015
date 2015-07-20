@@ -103,13 +103,9 @@ shinyUI(fluidPage(
                       uiOutput("quick_breakpointsCheckboxSlot"),
                       uiOutput("quick_ewsRadioButtonSlot"),
                       uiOutput("quick_downloadTable"),
-                      uiOutput("quick_decomposePlotSlot")
-                    ) # column
-                  ), # fluidRow
-                  fluidRow(
-                    column(12,
                       br(),
-                      dataTableOutput("quick_ewsTable")
+                      dataTableOutput("quick_ewsTable"),
+                      uiOutput("quick_decomposePlotSlot")
                     ) # column
                   ) # fluidRow
                 ), # tabPanel - Quick Analysis
@@ -120,14 +116,20 @@ shinyUI(fluidPage(
 
                 tabPanel(title="Advanced Analysis",
                   fluidRow(
+                    column(12, align="left",
+                      br(),
+                      helpText("Check that all input-boxes have valid values."),
+                      br()
+                    ) # column
+                  ), # fluidRow
+                  fluidRow(
                     column(4, align="left",
-                      br(),
-                      br(),
                       selectInput("dataType", "Choose Data for Analysis:",
                         choices=c(" ", "Prey", "Predator")
                       ),
                       uiOutput("frequencySlot"),
-                      uiOutput("decomposeOptionsSlot")
+                      uiOutput("decomposeOptionsSlot"),
+                      uiOutput("runButtonSlot")
                     ) # column
                   ), # fluidRow
                   fluidRow(

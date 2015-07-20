@@ -2932,7 +2932,7 @@ shinyServer(
       }
 
       if(length(quickTP()) >= 1){
-        downloadButton('downloadQuickTable', 'Download Data')
+        downloadButton('downloadQuickTable', 'Download Early Warning Statistics')
       }
     })
 
@@ -3049,6 +3049,38 @@ shinyServer(
       selectInput("decomposeOptions", "Select a component for analysis:",
                     choices=c(" ", "Observed (Simulated Data)", "Trend",
                               "Seasonal (Periodicity)", "Random (Residuals)"))
+    })
+
+    output$runButtonSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
+        return()
+      }
+
+      actionButton("runButton", "Run Analysis")
     })
 
 ################################################################################
