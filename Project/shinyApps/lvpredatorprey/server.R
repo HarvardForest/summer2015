@@ -189,11 +189,11 @@ shinyServer(
 
 ##### end: draw breakpoint lines on main plot for 'quick analysis' panel #######
 
-##### start: update plot and legend with ews line (quick-analysis) #############
+##### start: update plot and legend with ews line (quick analysis) #############
 
           # draw ews line based on radio button selection
 
-          # for 'observed'
+######### start: draw ews line for 'observed' (quick analysis) #################
 
           # display default plot attributes if there are no ews lines selected
           if(is.null(input$quick_ewsRadioButtons)
@@ -714,7 +714,9 @@ shinyServer(
           }
         }
 
-        # for 'trend'
+################ end: draw ews line for 'observed' (quick analysis) ############
+
+########### start: draw ews line for 'trend' (quick analysis) ##################
 
         else if(input$quick_decomposeOptions == "Trend"){
           # draw new instance of basic plot based on state variable selection
@@ -1273,7 +1275,9 @@ shinyServer(
           }
         }
 
-        # for 'seasonal'
+############# end: draw ews line for 'trend' (quick analysis) ##################
+
+########### start: draw ews line for 'seasonal' (quick analysis) ###############
 
         else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
           # draw new instance of basic plot based on state variable selection
@@ -1832,7 +1836,9 @@ shinyServer(
           }
         }
 
-        # for 'random'
+############# end: draw ews line for 'seasonal' (quick analysis) ###############
+
+############# start: draw ews line for 'random' (quick analysis) ###############
 
         else if(input$quick_decomposeOptions == "Random (Residuals)"){
           # draw new instance of basic plot based on state variable selection
@@ -2391,7 +2397,12 @@ shinyServer(
           }
         }
 
+############### end: draw ews line for 'random' (quick analysis) ###############
+
       } # end tabset_quickAnalysis
+
+####### end: update plot and legend with ews line (quick analysis) #############
+
 #
 #             # display default plot attributes if there are no ews lines selected
 #             if(is.null(input$quick_ewsRadioButtons)){
