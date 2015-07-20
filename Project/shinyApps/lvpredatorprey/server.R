@@ -3088,110 +3088,437 @@ shinyServer(
 ################################################################################
 
 ################################################################################
-#################### Advanced Tipping Point Analysis ###########################
+################ Advanced Breakpoint Analysis ##################################
 ################################################################################
 
 ###### start: run (advanced) tipping point analysis based on user-input ########
-#
-#     TPanalysis <- reactive({
-#       # loading bar
-#       withProgress(message="Determining Breakpoints", value=0, {
-#         withProgress(message="...", detail="Please Wait", value=0, {
-#
-#           # for prey
-#           if(input$dataType == "Prey"){
-#             if(input$breakpointType == "with Negative Binomial Distribution"){
-#               if(input$distributionType == "Four Parameter Beta Distribution"){
-#                 CE.NB(lvPredPrey()[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
-#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-#                   b=input$b)
-#               }
-#               else if(input$distributionType == "Truncated Normal Distribution"){
-#                 CE.NB(lvPredPrey()[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
-#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-#                   b=input$b)
-#               }
-#             }
-#             else if(input$breakpointType == "for Continuous Data"){
-#               if(input$distributionType == "Four Parameter Beta Distribution"){
-#                 CE.Normal(lvPredPrey()[1], distyp=1, parallel=FALSE,
-#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                   h=input$h, a=input$a, b=input$b)
-#               }
-#               else if(input$distributionType == "Truncated Normal Distribution"){
-#                 CE.Normal(lvPredPrey()[1], distyp=2, parallel=FALSE,
-#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                   h=input$h, a=input$a, b=input$b)
-#               }
-#             }
-#             else if(input$breakpointType ==
-#               "with Zero-Inflated Negative Binomial Distribution"){
-#                 if(input$distributionType == "Four Parameter Beta Distribution"){
-#                   CE.ZINB(lvPredPrey()[1], distyp=1, parallel=FALSE,
-#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                     h=input$h, a=input$a, b=input$b)
-#                 }
-#                 else if(input$distributionType == "Truncated Normal Distribution"){
-#                   CE.ZINB(lvPredPrey()[1], distyp=2, parallel=FALSE,
-#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                     h=input$h, a=input$a, b=input$b)
-#                 }
-#             }
-#           }
-#
-#           # for predator
-#           else if(input$dataType == "Predator"){
-#             if(input$breakpointType == "with Negative Binomial Distribution"){
-#               if(input$distributionType == "Four Parameter Beta Distribution"){
-#                 CE.NB(lvPredPrey()[2], distyp=1, parallel=FALSE, Nmax=input$Nmax,
-#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-#                   b=input$b)
-#               }
-#               else if(input$distributionType == "Truncated Normal Distribution"){
-#                 CE.NB(lvPredPrey()[2], distyp=2, parallel=FALSE, Nmax=input$Nmax,
-#                   eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
-#                   b=input$b)
-#               }
-#             }
-#             else if(input$breakpointType == "for Continuous Data"){
-#               if(input$distributionType == "Four Parameter Beta Distribution"){
-#                 CE.Normal(lvPredPrey()[2], distyp=1, parallel=FALSE,
-#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                   h=input$h, a=input$a, b=input$b)
-#               }
-#               else if(input$distributionType == "Truncated Normal Distribution"){
-#                 CE.Normal(lvPredPrey()[2], distyp=2, parallel=FALSE,
-#                   Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                   h=input$h, a=input$a, b=input$b)
-#               }
-#             }
-#             else if(input$breakpointType ==
-#               "with Zero-Inflated Negative Binomial Distribution"){
-#                 if(input$distributionType == "Four Parameter Beta Distribution"){
-#                   CE.ZINB(lvPredPrey()[2], distyp=1, parallel=FALSE,
-#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                     h=input$h, a=input$a, b=input$b)
-#                 }
-#                 else if(input$distributionType == "Truncated Normal Distribution"){
-#                   CE.ZINB(lvPredPrey()[2], distyp=2, parallel=FALSE,
-#                     Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
-#                     h=input$h, a=input$a, b=input$b)
-#                 }
-#             }
-#           }
-#
-#         }) # withProgress
-#       }) # withProgress
-#     })
 
-    ### end: run (advanced) tipping point analysis based on user-input ###
+    TPanalysis <- eventReactive(input$runButton, {
+      # loading bar
+      withProgress(message="Determining Breakpoints", value=0, {
+        withProgress(message="...", detail="Please Wait", value=0, {
 
-    ### start: (advanced) tipping point analysis output ###
+          # for prey
+          if(input$dataType == "Prey"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[1],
+                                       frequency=input$frequency))
+
+            # run breakpoint analysis on desired component
+
+            # for 'observed'
+            if(input$decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'trend'
+            else if(input$decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'seasonal'
+            else if(input$decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'random'
+            else if(input$decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+          }
+
+          # for predator
+          else if(input$dataType == "Predator"){
+            # decompose simulated data
+            decomposed <- decompose(ts(lvPredPrey()[2],
+                                       frequency=input$frequency))
+
+            # run breakpoint analysis on desired component
+
+            # for 'observed'
+            if(input$decomposeOptions == "Observed (Simulated Data)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$x)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'trend'
+            else if(input$decomposeOptions == "Trend"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$trend)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'seasonal'
+            else if(input$decomposeOptions == "Seasonal (Periodicity)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$seasonal)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+
+            # for 'random'
+            else if(input$decomposeOptions == "Random (Residuals)"){
+              # wrap appropriate component into a data-frame for breakpoint method
+              component <- data.frame(decomposed$random)
+
+              # run breakpoint method based on user-input
+              if(input$breakpointType == "with Negative Binomial Distribution"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.NB(component[1], distyp=1, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.NB(component[1], distyp=2, parallel=FALSE, Nmax=input$Nmax,
+                    eps=input$eps, rho=input$rho, M=input$M, h=input$h, a=input$a,
+                    b=input$b))
+                }
+              }
+              else if(input$breakpointType == "for Continuous Data"){
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.Normal(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.Normal(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+              else if(input$breakpointType ==
+                "with Zero-Inflated Negative Binomial Distribution"){
+
+                if(input$distributionType == "Four Parameter Beta Distribution"){
+                  return(CE.ZINB(component[1], distyp=1, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+                else if(input$distributionType == "Truncated Normal Distribution"){
+                  return(CE.ZINB(component[1], distyp=2, parallel=FALSE,
+                    Nmax=input$Nmax, eps=input$eps, rho=input$rho, M=input$M,
+                    h=input$h, a=input$a, b=input$b))
+                }
+              }
+            }
+          }
+
+        }) # withProgress
+      }) # withProgress
+    })
+
+######## end: run (advanced) tipping point analysis based on user-input ########
+
+############ start: (advanced) tipping point analysis output ###################
 
     # display "Number of breakpoints detected:" text and value
     output$numBreakpoints <- renderText({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
@@ -3207,6 +3534,29 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
+        return()
+      }
 
       # display text only if breakpoints are detected
       if(length(TPanalysis()) > 1){
@@ -3218,6 +3568,29 @@ shinyServer(
     output$tpOutput <- renderText({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
@@ -3232,8 +3605,31 @@ shinyServer(
     })
 
     output$breakpointsCheckboxSlot <- renderUI({
-            # check required information
+      # check required information
       if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
         return()
       }
 
@@ -3244,7 +3640,7 @@ shinyServer(
       }
     })
 
-    ### end: (advanced) tipping point analysis output ###
+############## end: (advanced) tipping point analysis output ###################
 
 ################################################################################
 
