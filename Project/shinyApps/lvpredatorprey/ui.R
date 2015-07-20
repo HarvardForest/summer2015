@@ -254,10 +254,10 @@ shinyUI(fluidPage(
 
                 ### end: customize graph panel ###
 
-              ) # tabsetPanel
+              ) # tabsetPanel - "tabset_analyses"
             ) # column
           ) # fluidRow
-        ), # tabPanel - Graph
+        ), # tabPanel - Simulation
 
         ### end: simulation panel ###
 

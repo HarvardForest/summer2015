@@ -3759,6 +3759,9 @@ shinyServer(
     # display ews radio buttons
     output$ewsRadioButtonSlot <- renderUI({
       # check required information
+      if(is.null(advancedGeneric())){
+        return()
+      }
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
@@ -3795,6 +3798,9 @@ shinyServer(
 
     output$downloadEWStableSlot <- renderUI({
       # check required information
+      if(is.null(input$ewsRadioButtons) || input$ewsRadioButtons == "None"){
+        return()
+      }
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
@@ -3836,6 +3842,9 @@ shinyServer(
     # fill ews breakdown table with appropriate data based on radio buttons
     output$ewsTable <- renderDataTable({
       # check required information
+      if(is.null(input$ewsRadioButtons) || input$ewsRadioButtons == "None"){
+        return()
+      }
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
