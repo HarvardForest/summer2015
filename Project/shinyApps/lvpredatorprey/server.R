@@ -2445,7 +2445,7 @@ shinyServer(
 
     # download main table feature (with button)
     output$downloadMainTable <- downloadHandler(
-      filename = function() { paste("PredatorPreySim", '.csv', sep='') },
+      filename = function() { paste("PredPreySimulatedData", '.csv', sep='') },
       content = function(file) {
         write.csv(lvPredPrey(), file)
       }
@@ -2459,7 +2459,7 @@ shinyServer(
 ######################### Quick Analysis #######################################
 ################################################################################
 
-    ### start: build responsive user-input widgets ###
+############ start: build responsive user-input widgets ########################
 
     output$quick_decomposeOptionsSlot <- renderUI({
       # check required information
@@ -2490,11 +2490,13 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
 
@@ -2509,11 +2511,13 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
 
@@ -2529,19 +2533,23 @@ shinyServer(
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
+        || input$quick_decomposeOptions == " "){
+
         return()
       }
       else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
+        || !is.numeric(input$quick_frequency)){
+
         return()
       }
       else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
+        || !is.numeric(input$quick_Nmax)){
+
         return()
       }
       else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
+        || !is.numeric(input$quick_winsize)){
+
         return()
       }
 
@@ -2570,33 +2578,12 @@ shinyServer(
       }
     })
 
-    ### end: display decomposition plot (quick-analysis) ###
+############## end: build responsive user-input widgets ########################
 
-    ### start: predetermined (quick) breakpoint and ews analyses ###
+########## start: predetermined (quick) breakpoint and ews analyses ############
 
     # reactive for dynamic updates
     quickTP <- eventReactive( input$quick_runButton, {
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_decomposeOptions)
-              || input$quick_decomposeOptions == " "){
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-              || is.numeric(input$quick_frequency) == FALSE){
-        return()
-      }
-      else if(is.null(input$quick_Nmax)
-              || is.numeric(input$quick_Nmax) == FALSE){
-        return()
-      }
-      else if(is.null(input$quick_winsize)
-              || is.numeric(input$quick_winsize) == FALSE){
-        return()
-      }
-
       # loading bar
       withProgress(message="Determining Breakpoints", value=0, {
         withProgress(message="...", detail="Please Wait", value=0, {
@@ -2685,7 +2672,7 @@ shinyServer(
 
         }) # withProgress
       }) # withProgress
-    })
+    }) # end quickTP
 
     # reactive for dynamic updates
     quickGeneric <- reactive({
