@@ -4900,6 +4900,28 @@ shinyServer(
 
 ############# end: display decomposition plot (quick analysis) #################
 
+############# start: display decomposition plot (advanced analysis) ############
+
+    output$decomposePlotSlot <- renderUI({
+      # check required information
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+
+      plotOutput("decomposePlot")
+    })
+
+    output$decomposePlot <- renderPlot({
+      if(input$dataType == "Prey"){
+        plot(decompose(ts(lvPredPrey()[[1]], frequency=input$frequency)))
+      }
+      else if(input$dataType == "Predator"){
+        plot(decompose(ts(lvPredPrey()[[2]], frequency=input$frequency)))
+      }
+    })
+
+############# end: display decomposition plot (advanced analysis) ##############
+
 ########## start: predetermined (quick) breakpoint analysis ####################
 
     quickTP <- eventReactive(input$quick_runButton, {
@@ -6159,6 +6181,9 @@ shinyServer(
 
     output$downloadEWStableSlot <- renderUI({
       # check required information
+      if(is.null(advancedGeneric())){
+        return()
+      }
       if(is.null(input$ewsRadioButtons)){
         return()
       }
