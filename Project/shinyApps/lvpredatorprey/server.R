@@ -5269,6 +5269,37 @@ shinyServer(
       }
     )
 
+    output$quick_ewsTableCheckboxSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+        || !is.numeric(input$quick_frequency)){
+
+        return()
+      }
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
+        return()
+      }
+      else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
+        return()
+      }
+      else if(is.null(input$quick_ewsRadioButtons)){
+        return()
+      }
+      else if(input$quick_ewsRadioButtons == "None"){
+        return()
+      }
+
+      checkboxInput("quick_ewsTableCheckbox", "Show Statistic Table", value=FALSE)
+    })
+
     # fill ews breakdown table with appropriate data based on radio buttons
     output$quick_ewsTable <- renderDataTable({
       # check required information
@@ -5295,6 +5326,11 @@ shinyServer(
         return()
       }
       else if(input$quick_ewsRadioButtons == "None"){
+        return()
+      }
+      if(is.null(input$quick_ewsTableCheckbox)
+        || input$quick_ewsTableCheckbox == FALSE){
+
         return()
       }
 
@@ -6123,7 +6159,7 @@ shinyServer(
 
     output$downloadEWStableSlot <- renderUI({
       # check required information
-      if(is.null(input$ewsRadioButtons) || input$ewsRadioButtons == "None"){
+      if(is.null(input$ewsRadioButtons)){
         return()
       }
       if(is.null(input$dataType) || input$dataType == " "){
@@ -6164,6 +6200,41 @@ shinyServer(
       }
     )
 
+    output$ewsTableCheckboxSlot <- renderUI({
+      # check required information
+      if(is.null(input$ewsRadioButtons) || input$ewsRadioButtons == "None"){
+        return()
+      }
+      if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      else if(is.null(input$decomposeOptions)
+        || input$decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$frequency)
+        || !is.numeric(input$frequency)){
+
+        return()
+      }
+      # check for all valid tipping point arguments
+      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
+        || !is.numeric(input$rho) || !is.numeric(input$M)
+        || !is.numeric(input$h) || !is.numeric(input$a)
+        || !is.numeric(input$b)){
+
+        return()
+      }
+      # check for all valid ews arguments
+      else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
+        || !is.numeric(input$span) || !is.numeric(input$degree)){
+        return()
+      }
+
+      checkboxInput("ewsTableCheckbox", "Show Statistic Table", value=FALSE)
+    })
+
     # fill ews breakdown table with appropriate data based on radio buttons
     output$ewsTable <- renderDataTable({
       # check required information
@@ -6194,6 +6265,9 @@ shinyServer(
       # check for all valid ews arguments
       else if(!is.numeric(input$winsize) || !is.numeric(input$bandwidth)
         || !is.numeric(input$span) || !is.numeric(input$degree)){
+        return()
+      }
+      if(is.null(input$ewsTableCheckbox) || input$ewsTableCheckbox == FALSE){
         return()
       }
 

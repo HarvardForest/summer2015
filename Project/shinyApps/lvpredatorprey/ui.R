@@ -103,7 +103,7 @@ shinyUI(fluidPage(
                       uiOutput("quick_breakpointsCheckboxSlot"),
                       uiOutput("quick_ewsRadioButtonSlot"),
                       uiOutput("quick_downloadTable"),
-                      br(),
+                      uiOutput("quick_ewsTableCheckboxSlot"),
                       dataTableOutput("quick_ewsTable"),
                       uiOutput("quick_decomposePlotSlot")
                     ) # column
@@ -137,7 +137,8 @@ shinyUI(fluidPage(
                       h5(textOutput("tpOutput")),
                       uiOutput("breakpointsCheckboxSlot"),
                       uiOutput("ewsRadioButtonSlot"),
-                      uiOutput("downloadEWStableSlot")
+                      uiOutput("downloadEWStableSlot"),
+                      uiOutput("ewsTableCheckboxSlot")
                     ) # column
                   ), # fluidRow
                   fluidRow(
