@@ -2403,6 +2403,2329 @@ shinyServer(
 
 ####### end: update plot and legend with ews line (quick analysis) #############
 
+#### start: draw breakpoint lines on main plot for 'advanced analysis' panel ###
+
+      # run only if the "Advanced Analysis" tab is active
+      if(input$tabset_analyses == "Advanced Analysis"){
+        if(is.null(input$decomposeOptions)
+          || input$decomposeOptions == "Observed (Simulated Data)"
+          || input$decomposeOptions == " "){
+
+          # draw new instance of basic plot based on state variable selection
+          if(input$dataType == "Prey"){
+            matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, lty=1, col="black")
+            title(main=input$preyLabel)
+            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+          }
+          else if(input$dataType == "Predator"){
+            matplot(lvPredPrey()[2], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, lty=1, col="red")
+            title(main=input$predatorLabel)
+            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+          }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$dataType) || input$dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$breakpointsCheckbox)
+                  && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Prey"){
+              legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Predator"){
+              legend("topleft", c(input$predatorLabel, "Breakpoints"),
+                     lty=c(1, 1), col=c("red", "blue"), bty="n")
+            }
+          }
+
+#### end: draw breakpoint lines on main plot for 'advanced analysis' panel #####
+
+##### start: update plot and legend with ews line (advanced analysis) ##########
+
+          # draw ews line based on radio button selection
+
+######### start: draw ews line for 'observed' (advanced analysis) ##############
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          else if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          else if(input$ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          else if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          else if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          else if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          else if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[9]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(lvPredPrey()[[1]]), lvPredPrey()[[1]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main=input$preyLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(lvPredPrey()[[2]]), lvPredPrey()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main=input$predatorLabel)
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+################ end: draw ews line for 'observed' (advanced analysis) #########
+
+########### start: draw ews line for 'trend' (advanced analysis) ###############
+
+        else if(input$decomposeOptions == "Trend"){
+          # draw new instance of basic plot based on state variable selection
+
+          # for 'prey'
+          if(input$dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$frequency))
+            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+            title(main="Prey: Trend")
+            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+          }
+          else if(input$dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$frequency))
+            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            title(main="Predator: Trend")
+            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+          }
+
+          # check if breakpoint lines (only) can be drawn
+          if(!is.null(input$breakpointsCheckbox)
+            && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Prey"){
+              legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                      col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Predator"){
+              legend("topleft", c(input$predatorLabel, "Breakpoints"),
+                     lty=c(1, 1), col=c("red", "blue"), bty="n")
+            }
+          }
+
+          # draw ews line based on radio button selection
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          else if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          else if(input$ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          else if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          else if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          else if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          else if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[9]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$quick_ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+############# end: draw ews line for 'trend' (advanced analysis) ###############
+
+########### start: draw ews line for 'seasonal' (advanced analysis) ############
+
+        else if(input$decomposeOptions == "Seasonal (Periodicity)"){
+          # draw new instance of basic plot based on state variable selection
+
+          # for 'prey'
+          if(input$dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$frequency))
+            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+            title(main="Prey: Seasonal (Periodicity)")
+            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+          }
+          else if(input$dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$frequency))
+            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            title(main="Predator: Seasonal (Periodicity)")
+            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+          }
+
+          # check if breakpoint lines (only) can be drawn
+          if(!is.null(input$breakpointsCheckbox)
+            && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Prey"){
+              legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                      col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Predator"){
+              legend("topleft", c(input$predatorLabel, "Breakpoints"),
+                     lty=c(1, 1), col=c("red", "blue"), bty="n")
+            }
+          }
+
+          # draw ews line based on radio button selection
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          else if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          else if(input$ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          else if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          else if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          else if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          else if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'standard deviation'
+          else if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+############# end: draw ews line for 'seasonal' (advanced analysis) ############
+
+############# start: draw ews line for 'random' (advanced analysis) ############
+
+        else if(input$decomposeOptions == "Random (Residuals)"){
+          # draw new instance of basic plot based on state variable selection
+
+          # for 'prey'
+          if(input$dataType == "Prey"){
+            decomposed = decompose(ts(lvPredPrey()[[1]],
+                                      frequency=input$frequency))
+            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+            title(main="Prey: Random (Residuals)")
+            legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
+          }
+          else if(input$dataType == "Predator"){
+            decomposed = decompose(ts(lvPredPrey()[[2]],
+                                      frequency=input$frequency))
+            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            title(main="Predator: Random (Residuals)")
+            legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
+          }
+
+          # check if breakpoint lines (only) can be drawn
+          if(!is.null(input$breakpointsCheckbox)
+            && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Prey"){
+              legend("topleft", c(input$preyLabel, "Breakpoints"), lty=c(1, 1),
+                      col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Predator"){
+              legend("topleft", c(input$predatorLabel, "Breakpoints"),
+                     lty=c(1, 1), col=c("red", "blue"), bty="n")
+            }
+          }
+
+          # draw ews line based on radio button selection
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          else if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          else if(input$ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          else if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          else if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          else if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          else if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[9]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            # adjust starting point to accomodate rolling window size
+            for(i in 1:(input$time * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for 'prey'
+            if(input$dataType == "Prey"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Prey: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$preyLabel, "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$preyLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for 'predator'
+            if(input$dataType == "Predator"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="red")
+              title(main="Predator: Random (Residuals)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c(input$predatorLabel, "Breakpoints",
+                                   input$ewsRadioButtons),
+                       lty=c(1, 1, 1), col=c("red", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c(input$predatorLabel, input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("red", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+############### end: draw ews line for 'random' (advanced analysis) ############
+
+      } # end tabset_advancedAnalysis
+
+####### end: update plot and legend with ews line (advanced analysis) ##########
+
     }) # end render_plot (main)
 
 ################################################################################
@@ -2416,17 +4739,19 @@ shinyServer(
     # display plot selection options
     output$plotOptionsSlot <- renderUI({
       # one copy of radio buttons for each panel
-      if(input$quick_dataType == " "){
-        if(input$tabset_analyses == "Quick Analysis"){
+      if(input$tabset_analyses == "Quick Analysis"){
+        if(input$quick_dataType == " "){
           radioButtons("quickPlotOptions", "Display:",
                         choices=c("Prey", "Predator", "Both"),
                         selected="Both", inline=TRUE)
         }
       }
       else if(input$tabset_analyses == "Advanced Analysis"){
-        radioButtons("advancedPlotOptions", "Display:",
-                      choices=c("Prey", "Predator", "Both"),
-                      selected="Both", inline=TRUE)
+        if(input$dataType == " "){
+          radioButtons("advancedPlotOptions", "Display:",
+                        choices=c("Prey", "Predator", "Both"),
+                        selected="Both", inline=TRUE)
+        }
       }
     })
 
