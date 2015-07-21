@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 20July2015 ##################################
+##################### Last edited: 21July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -6393,6 +6393,7 @@ library(deSolve)
 library(breakpoint)
 library(ggplot2)
 library(earlywarnings)
+
 ##### Lotka-Volterra Predator Prey Model #####
 lvPredPreyModel <- function(time, initState, params){
   ## function for ordinary differential equations (ODE)
@@ -6409,6 +6410,7 @@ lvPredPreyModel <- function(time, initState, params){
                             parms=params)[,-1])
   return(output)
 }
+
 ## Test-values ##
 ## alpha = the growth rate of prey
 ## beta = the rate at which predators kill prey
@@ -6417,34 +6419,63 @@ lvPredPreyModel <- function(time, initState, params){
 time <- seq(1, 100, by=1)
 initState <- c(prey=500, predator=10)
 params <- c(alpha=1.5, beta=0.02, delta=0.4, gamma=0.01)
+
 ## Function-call ##
 data <- lvPredPreyModel(time, initState, params)
+
+##### Decompose timeseries data #####
+
+## argument 'frequency' is the number of observations per time step
+
+decomposedData <- decompose(ts(data[[1]], frequency=2))
+
+## decompose breaks the timeseries data into 4 components
+  # 1) 'decomposedData$x' = original timeseries
+  # 2) 'decomposedData$trend' = trend taken from original timeseries
+  # 3) 'decomposedData$seasonal' = periodicity taken from original timeseries
+  # 4) 'decomposedData$random' = residuals taken from original timeseries
+
 ##### Breakpoint Analysis ('breakpoint' Package) ######
+
 ## data[1] = 'Prey' and data[2] = 'Predator'
 ## argument 'distyp=1' is four parameter beta distribution
 ## argument 'distyp=2' is truncated normal distribution
 ## argument 'Nmax' is the maximum number of breakpoints
+
 ## run breakpoint analysis for Continuous Data
   ## used in this application's 'Quick Analysis'
-cont_BP <- CE.Normal(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
-                      a=0.8, b=0.8, distyp=1, parallel=FALSE)
+
+cont_BP <- CE.Normal(data=data.frame(decomposedData$x), Nmax=10, eps=0.01,
+                     rho=0.05, M=200, h=5, a=0.8, b=0.8, distyp=1,
+                     parallel=FALSE)
+
 ## run breakpoint analysis with Negative Binomial Distribution
-#nb_BP <- CE.NB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5, a=0.8,
-#                b=0.8, distyp=1, parallel=FALSE)
+
+#nb_BP <- CE.NB(data=data.frame(decomposedData$x), Nmax=10, eps=0.01, rho=0.05,
+#                               M=200, h=5, a=0.8, b=0.8, distyp=1,
+#                               parallel=FALSE)
+
 ## run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
-#zinb_BP <- CE.ZINB(data=data[1], Nmax=10, eps=0.01, rho=0.05, M=200, h=5,
-#                    a=0.8, b=0.8, distyp=1, parallel=FALSE)
-##### Early Warning Signals Analysis ('earlywarnings' Package)
+
+#zinb_BP <- CE.ZINB(data=data.frame(decomposedData$x), Nmax=10, eps=0.01,
+#                                   rho=0.05, M=200, h=5, a=0.8, b=0.8, distyp=1,
+#                                   parallel=FALSE)
+
+##### Early Warning Signals Analysis ('earlywarnings' Package) #####
+
 ## generic early warning signals
   ## used in this application's 'Quick Analysis'
-gen_EWS <- generic_ews(timeseries=subset(lvPredPrey(), select='prey'),
+
+gen_EWS <- generic_ews(timeseries=decomposedData$x,
                         winsize=50, detrending = c('no', 'gaussian', 'loess',
                                                     'linear', 'first-diff'),
                         bandwidth = NULL, span = NULL, degree = NULL,
                         logtransform = FALSE, interpolate = FALSE, AR_n = FALSE,
                         powerspectrum = FALSE))
+
 ## quick detection analysis for generic early warning signals
-#quick_EWS <- qda_ews(timeseries=subset(lvPredPrey(), select='prey'),
+
+#quick_EWS <- qda_ews(timeseries=sdecomposedData$x,
 #                      param = NULL, winsize = 50, detrending = c('no',
 #                      'gaussian', 'linear', 'first-diff'), bandwidth = NULL,
 #                      boots = 100, s_level = 0.05, cutoff = 0.05,
