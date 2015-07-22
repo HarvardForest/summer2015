@@ -18,6 +18,6 @@ web applications, where each app simulates a different ecological model
 
 2. [Download Git](https://git-scm.com/downloads)
 
-3. Clone this repository via 'git clone https://github.com/HarvardForest/summer2015.git'
+3. Clone this repository via `git clone https://github.com/HarvardForest/summer2015.git`
 
 4. Open and execute the script "RunMe.R"
