@@ -1,7 +1,9 @@
-# summer2015
+# Harvard Forest Summer Research Program in Ecology
 
-- REU Student Nathan Justice
-- Goal: general tipping point model simulation framework
-- Dates: May 26 - Aug 7
-- Supplies: Computer, Whiteboard, Dry Erase Markers
-- See Milestones
+### REU Student: Nathan Justice
+
+### Goal: development of a computational tool used to investigate                    breakpoints and early warning signals in various ecosystem                 dynamics
+
+### Method: implementation of multiple [Shiny](http://shiny.rstudio.com/) web applications, where each app simulates a different ecological model
+
+### Dates: May 26, 2015 - August 7, 2015
