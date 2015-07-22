@@ -1,137 +1,158 @@
 #### Pitcher plant O2 simulation - stack algorithm
-### By: Nathan Justice
+### Nathan Justice
+## Last edited: 07July2015
+
+# load dependencies
+library(shiny)
+library(shinyapps)
+library(shinythemes)
+library(shinyAce)
+library(deSolve)
+library(breakpoint)
+library(ggplot2)
+library(earlywarnings)
+
+## Functions ##
+
+# transform the values of x so that the range of x is equal to the range of y
+rescale <- function(x,y){
+    x.range <- range(x)
+    y.range <- range(y)
+    x <- ((x - x.range[1])* (diff(y.range))) / diff(x.range) + y.range[1]
+    if (any(range(x) != range(y))){
+        warning('Ranges do not match.')
+    }else{
+        return(x)
+    }
+}
+
+#### Pitcher plant O2 simulation - stack algorithm
+### Nathan Justice and MKLau
+## Last edited: 22July2015
 
 # 6:00 sunrise = 360
 # 12:00 noon = 720
 # 18:00 sunset = 1080
 
-pitcherPlantSim <- function(days, feedingTime, foodWeight, beta, k, Bscaler,
-                            aMax, aMin, s, d, c){
+## Functions ##
 
-  ## Variables ##
+PAR <- function(days=3,start=0,amp=100){
+    amp * sin(2 * pi * rep((1:1440 + 1080 + start),days) * (1/1440))
+}
 
-  # user-input #
-  #days <- 3 # total number of days
-  #feedingTime <- 720 # time at which food is added
-  #foodWeight <- 5 # weight of food
-  #beta <- 0.0005 # constant
-  #k <- 1 # carrying capacity
-  #Bscaler <- 10 # scales biological oxygen demand values
-  #aMax <- 10 # maximum value of augmentation
-  #aMin <- 1 # minimum value of augmentation
-  #s <- 10 # constant
-  #d <- 0.5 # constant
-  #c <- 100 # constant
+photo <- function(days=3,Amax=4,Aqe=0.3,LCP=0,start=0,amp=50){
+    out <- Amax * (1 - exp(-Aqe * (PAR(days,start,amp) - LCP)))
+    out[out < LCP] <- 0
+    return(out)
+}
 
-  # constants #
-  food <- FALSE # presence of food
-  minute <- vector(mode="numeric") # t/time variable
-  x <- vector(mode="numeric") # amount of o2
-  a <- vector(mode="numeric") # augmentation function
-  P <- vector(mode="numeric") # photosynthesis
-  B <- vector(mode="numeric") # biological o2 demand
-  n <- vector(mode="numeric") # amount of nutrients
-  w <- vector(mode="numeric") # amount of food
+pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.001, k=1, Bscaler=10,
+                            aMax=10, aMin=1, s=10, d=1, c=100) {
 
-  ## Functions ##
+minute <- vector(mode="numeric") # t/time variable
+x <- vector(mode="numeric") # amount of o2
+a <- vector(mode="numeric") # augmentation function
+P <- vector(mode="numeric") # photosynthesis
+B <- vector(mode="numeric") # biological o2 demand
+n <- vector(mode="numeric") # amount of nutrients
+w <- vector(mode="numeric") # amount of food
 
-  light <- function(days){
-    out <- sin(2*pi*(1:720)/1440)
-    out[out < 0] <- 0
-    out <- c(rep(0,720/2), out, rep(0,720/2))
-    rep(out, days)
-  }
+if (length(foodWeight) < days){
+    foodWeight <- rep(foodWeight,days)[1:days]
+}
 
-  PAR <- function(days, rise=6, set=18){
-    out <- rep(0, 1440)
-    out[(rise*60):(set*60)] <- 1
-    rep(out, days)
-  }
+## Initialization ##
 
-  ## Initialization ##
+# simulate photosynthesis as fixed values
+P <- photo(days)
 
-  # simulate photosynthesis as fixed values
-  P <- light(days)*PAR(days=days)
+# initial nutrient value
+n <- 0
 
-  # initial nutrient value
-  n <- 0
+# initial augmentation value
+a <- ((aMax-aMin)/(1+exp((-s*n)-d)))+aMin
 
-  # initial augmentation value
-  a <- ((aMax-aMin)/(1+exp((-s*n)-d)))+aMin
+# initial biological o2 demand
+B <- 0/(k+0)
 
-  # initial biological o2 demand
-  B <- 0/(k+0)
+# o2 at minute=0, P=0 b/c unable to index at minute=0
+x <- (a*0)-B
 
-  # o2 at minute=0, P=0 b/c unable to index at minute=0
-  x <- (a*0)-B
+# simulate until food is first added
+# loop runs until feedingTime-2 b/c food is added AT the minute
+for(i in 1:(feedingTime-2)){
+  # augmentation function - default value
+  a <- c(a, ((aMax-aMin)/(1+exp((-s*n[i])-d)))+aMin)
 
-  # simulate until food is first added (feedingTime=720)
-  # loop runs until feedingTime-2 b/c food is added AT minute=720
-  for(i in 1:(feedingTime-2)){
-    # augmentation function - default value
-    a <- c(a, ((aMax-aMin)/(1+exp((-s*n[i])-d)))+aMin)
+  # biological oxygen demand - default value (no food = no microbes)
+  B <- c(B, 0/(k+0))
 
-    # biological oxygen demand - default value (no food = no microbes)
-    B <- c(B, 0/(k+0))
+  # calculate o2 amount - product of photosynthesis alone (no food)
+  x <- c(x, (a[i]*P[i])-B[i])
 
-    # calculate o2 amount - product of photosynthesis alone (no food)
-    x <- c(x, (a[i]*P[i])-B[i])
+  # amount of food - no food
+  w <- c(w, 0)
 
-    # amount of food - no food
-    w <- c(w, 0)
-
-    # amount of nutrients - no nutrients
-    n <- c(n, 0)
-
-    # adjust minute
-    minute <- c(minute, i)
-  }
+  # amount of nutrients - no nutrients
+  n <- c(n, 0)
 
   # adjust minute
-  minute <- c(minute, length(minute)+1)
+  minute <- c(minute, i)
+}
 
-  # adjust amount of food
-  w <- c(w, w[length(w)])
+# adjust minute
+minute <- c(minute, length(minute)+1)
 
-  for(z in 1:days){
-    # add food
-    food <- TRUE
-    w <- c(w, foodWeight)
+# adjust amount of food
+w <- c(w, w[length(w)])
 
-    # run simulation for a full day
-    for(j in 1:1440){
-      # adjust minute
-      minute <- c(minute, length(minute)+1)
+for(z in 1:days){
+  # add food
+  w <- c(w, w[length(w)]+foodWeight[z])
 
-      # adjust biological o2 demand
-      B <- c(B, (w[length(minute)]/(k+w[length(minute)]))*Bscaler)
+  # run simulation for a full day
+  for(j in 1:1440){
+    # adjust minute
+    minute <- c(minute, length(minute)+1)
 
-      # adjust amount of nutrients
-      n <- c(n, (w[length(minute)]*x[length(minute)-1])/c)
+    # adjust biological o2 demand
+    B <- c(B, (w[length(minute)]/(k+w[length(minute)]))*Bscaler)
 
-      # adjust augmentation value
-      a <- c(a, ((aMax-aMin)/(1+exp((-s*n[length(minute)])-d)))+aMin)
+    # adjust amount of nutrients
+    n <- c(n, (w[length(minute)]*x[length(minute)-1])/c)
 
-      # adjust o2 amount
-      x <- c(x, (a[length(minute)]*P[length(minute)])-B[length(minute)])
+    # adjust augmentation value
+    a <- c(a, ((aMax-aMin)/(1+exp((-s*n[length(minute)])-d)))+aMin)
 
-      if(j < 1440){
-        # adjust amount of food
-        w <- c(w, w[length(minute)]*exp(-beta*(length(minute)+1)))
-      }
+    # adjust o2 amount
+    tempO2 <- (a[length(minute)]*P[length(minute)])-B[length(minute)]
+    if(is.na(tempO2) == FALSE && tempO2 > 0){
+      x <- c(x, tempO2)
+    }
+    else{
+      x <- c(x, 0)
+    }
+
+    if(j < 1440){
+        ## adjust amount of food
+        w <- c(w, w[length(w)]*exp(-beta*(1)))
     }
   }
-
-  # trim objects to appropriate time
-    # omitted values aren't relevant
-  minute <- minute[1:length(P)]
-  B <- B[1:length(P)]
-  n <- n[1:length(P)]
-  a <- a[1:length(P)]
-  x <- x[1:length(P)]
-  w <- w[1:length(P)]
-
-  data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
-
-  return(data)
 }
+
+# trim objects to appropriate time
+  # omitted values aren't relevant
+minute <- minute[1:length(P)]
+B <- B[1:length(P)]
+n <- n[1:length(P)]
+a <- a[1:length(P)]
+x <- x[1:length(P)]
+w <- w[1:length(P)]
+
+data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
+colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
+                    "Biological Oxygen Demand", "Nutrients",
+                    "Augmentation Value", "Food Amount")
+return(data)
+}
+

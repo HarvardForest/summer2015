@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ~~~ Package: 'breakpoint' ~~~
+=======
+~~~ Package: 'breakoint' ~~~
+>>>>>>> pitcherplant
 
 *** "Implements the cross-entropy (CE) method, which is a model based stochastic optimization
 technique to estimate both the number and their corresponding locations of breakpoints
