@@ -1,6 +1,6 @@
 #### Pitcher plant O2 simulation - stack algorithm
-### Nathan Justice
-## Last edited: 30June2015
+### Nathan Justice and MKLau
+## Last edited: 22July2015
 
 # 6:00 sunrise = 360
 # 12:00 noon = 720
@@ -8,30 +8,15 @@
 
 ## Functions ##
 
-light <- function(days){
-  out <- sin(2*pi*(1:720)/1440)
-  out[out < 0] <- 0
-  out <- c(rep(0,720/2), out, rep(0,720/2))
-  rep(out, days)
+PAR <- function(days=3,start=0,amp=100){
+    amp * sin(2 * pi * rep((1:1440 + 1080 + start),days) * (1/1440))
 }
 
-PAR <- function(days, rise=6, set=18){
-  out <- rep(0, 1440)
-  out[(rise*60):(set*60)] <- 1
-  rep(out, days)
-}
-
-plot(PAR()*light()*4)
-plot(sin(2*pi*(1/1440)*1:1440))
-
-photo <- function(maxA=4,qeA=0.3,LCP=20,days=3){
-    out <- maxA * (exp(qeA * (light() * PAR())))
-#    out[light() * PAR() < LCP] <- 0
+photo <- function(days=3,Amax=4,Aqe=0.3,LCP=0,start=0,amp=50){
+    out <- Amax * (1 - exp(-Aqe * (PAR(days,start,amp) - LCP)))
+    out[out < LCP] <- 0
     return(out)
 }
-
-plot(photo(LCP=20),type='l')
-abline(v=720)
 
 pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.001, k=1, Bscaler=10,
                             aMax=10, aMin=1, s=10, d=1, c=100) {
@@ -51,7 +36,7 @@ if (length(foodWeight) < days){
 ## Initialization ##
 
 # simulate photosynthesis as fixed values
-P <- light(days)*PAR(days=days)
+P <- photo(days)
 
 # initial nutrient value
 n <- 0
@@ -142,3 +127,4 @@ colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Augmentation Value", "Food Amount")
 return(data)
 }
+
