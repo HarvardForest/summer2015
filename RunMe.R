@@ -13,4 +13,4 @@ install.packages("breakpoint")
 install.packages("earlywarnings")
 install.packages("plotrix")
 
-runApp("lvpredprey")
+shiny::runApp("lvpredprey")
