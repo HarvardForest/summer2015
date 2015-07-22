@@ -21,6 +21,17 @@ PAR <- function(days, rise=6, set=18){
   rep(out, days)
 }
 
+plot(PAR()*light()*4)
+plot(sin(2*pi*(1/1440)*1:1440))
+
+photo <- function(maxA=4,qeA=0.3,LCP=20,days=3){
+    out <- maxA * (exp(qeA * (light() * PAR())))
+#    out[light() * PAR() < LCP] <- 0
+    return(out)
+}
+
+plot(photo(LCP=20),type='l')
+abline(v=720)
 
 pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.001, k=1, Bscaler=10,
                             aMax=10, aMin=1, s=10, d=1, c=100) {
