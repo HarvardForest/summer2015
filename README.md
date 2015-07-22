@@ -2,9 +2,8 @@
 
 ### REU Student: Nathan Justice
 
-### Goal: 
-**development of a computational tool used to investigate                    breakpoints and early warning signals in various ecosystem                 dynamics**
+#### Dates: May 26, 2015 - August 7, 2015
 
-### Method: implementation of multiple [Shiny](http://shiny.rstudio.com/) web applications, where each app simulates a different ecological model
+#### Goal: development of a computational tool used to investigate                    breakpoints and early warning signals in various ecosystem                 dynamics
 
-### Dates: May 26, 2015 - August 7, 2015
+#### Method: implementation of multiple [Shiny](http://shiny.rstudio.com/) web applications, where each app simulates a different ecological model
