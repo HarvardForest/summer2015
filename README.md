@@ -16,6 +16,10 @@
 
 2. [Download Git](https://git-scm.com/downloads)
 
-3. Clone this repository via the command line: `git clone https://github.com/HarvardForest/summer2015.git`
+3. Clone this repository using the terminal command line:
+`git clone https://github.com/HarvardForest/summer2015.git`
 
-4. Open and execute the script "RunMe.R"
+4. Switch to the appropriate branch using the terminal command line:
+`git checkout lvpredprey`
+
+5. Open and execute the script "RunMe.R"
