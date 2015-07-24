@@ -5,4 +5,4 @@
 #     Last edited: 23July2015
 ################################################################################
 
-shiny::runApp("lvpredprey")
+shiny::runApp("~/Desktop/summer2015/lvpredprey")

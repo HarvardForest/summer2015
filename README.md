@@ -16,7 +16,8 @@
 
 2. [Download Git](https://git-scm.com/downloads)
 
-3. Clone this repository using the terminal command:
+3. Clone this repository to your desktop using the terminal commands:
+`cd ~/Desktop`
 `git clone https://github.com/HarvardForest/summer2015.git`
 
 4. Switch to the appropriate branch using the terminal command:
