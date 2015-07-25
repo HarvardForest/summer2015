@@ -128,3 +128,67 @@ colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Augmentation Value", "Food Amount")
 return(data)
 }
+
+#########################################################################
+
+sim1 <- pitcherPlantSim(foodWeight=0)
+
+plot(sim1$Oxygen, type="l")
+
+sim2 <- pitcherPlantSim(foodWeight=10)
+
+plot(sim2$Oxygen, type="l")
+
+sim3 <- pitcherPlantSim(foodWeight=c(3, 5, 10))
+
+plot(sim3$Oxygen, type="l")
+
+ts_sim1 <- ts(sim1$Oxygen, frequency=2)
+
+plot(ts_sim1, type="l")
+
+decomp_sim1 <- decompose(ts_sim1)
+
+plot(decomp_sim1)
+
+diff_sim <- sim2$Oxygen - sim1$Oxygen
+
+plot(diff_sim, type="l")
+
+bp1 <- cpt.meanvar(diff_sim, penalty="None", method="SegNeigh", Q=9)
+
+abline(v=bp1@cpts, col="blue")
+
+plot(diff_sim, type="l")
+
+bp2 <- cpt.meanvar(diff_sim, penalty="None", method="BinSeg", Q=10)
+
+abline(v=bp2@cpts, col="blue")
+
+bp3 <- cpt.meanvar(diff_sim, penalty="None", method="AMOC", Q=10)
+
+plot(diff_sim, type="l")
+
+abline(v=bp3@cpts, col="blue")
+
+ts_sim2 <- ts(sim2$Oxygen, frequency=2)
+
+decomp_sim2 <- decompose(ts_sim2)
+
+plot(decomp_sim2)
+
+bp3 <- cpt.meanvar(decomp_sim2$random[3:4319], penalty="None", method="BinSeg")
+
+plot(decomp_sim2$random)
+
+plot(decomp_sim2$x)
+
+plot(sim2$Oxygen, type="l")
+
+abline(v=bp3@cpts, col="blue")
+
+bp4 <- cpt.meanvar(decomp_sim2$random[3:2000], penalty="None", method="AMOC")
+
+plot(decomp_sim2$random)
+
+abline(v=bp4@cpts, col="blue")
