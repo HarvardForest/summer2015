@@ -1,32 +1,4 @@
 #### Pitcher plant O2 simulation - stack algorithm
-### Nathan Justice
-## Last edited: 07July2015
-
-# load dependencies
-library(shiny)
-library(shinyapps)
-library(shinythemes)
-library(shinyAce)
-library(deSolve)
-library(breakpoint)
-library(ggplot2)
-library(earlywarnings)
-
-## Functions ##
-
-# transform the values of x so that the range of x is equal to the range of y
-rescale <- function(x,y){
-    x.range <- range(x)
-    y.range <- range(y)
-    x <- ((x - x.range[1])* (diff(y.range))) / diff(x.range) + y.range[1]
-    if (any(range(x) != range(y))){
-        warning('Ranges do not match.')
-    }else{
-        return(x)
-    }
-}
-
-#### Pitcher plant O2 simulation - stack algorithm
 ### Nathan Justice and MKLau
 ## Last edited: 22July2015
 
