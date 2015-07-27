@@ -4805,7 +4805,9 @@ shinyServer(
 
       numericInput("quick_frequency",
                    "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:", value=2)
+                      Decomposition analysis (one could use a value of 7 when
+                      the data are sampled daily, and the natural time period is
+                      a week):", value=2)
     })
 
     output$quick_NmaxSlot <- renderUI({
@@ -4825,7 +4827,7 @@ shinyServer(
       }
 
       numericInput("quick_Nmax",
-                    "Maximum number of breakpoints for Tipping Point analysis:",
+                    "Maximum number of changepoints for Tipping Point analysis:",
                     value=10)
     })
 
