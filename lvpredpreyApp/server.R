@@ -5995,7 +5995,7 @@ return(output)
     aceScript <- reactive({
 "# load dependencies
 library(deSolve)
-library(breakpoint)
+library(cpm)
 library(ggplot2)
 library(earlywarnings)
 
@@ -6040,31 +6040,20 @@ decomposedData <- decompose(ts(data[[1]], frequency=2))
   # 3) 'decomposedData$seasonal' = periodicity taken from original timeseries
   # 4) 'decomposedData$random' = residuals taken from original timeseries
 
-##### Breakpoint Analysis ('breakpoint' Package) ######
+##### Breakpoint Analysis ('cpm' Package) ######
 
 ## data[1] = 'Prey' and data[2] = 'Predator'
-## argument 'distyp=1' is four parameter beta distribution
-## argument 'distyp=2' is truncated normal distribution
-## argument 'Nmax' is the maximum number of breakpoints
 
-## run breakpoint analysis for Continuous Data
-  ## used in this application's 'Quick Analysis'
+## GLR: Generalized Likelihood Ratio test statistic.
+  ## Use to detect both mean and variance changes in a Gaussian sequence.
 
-cont_BP <- CE.Normal(data=data.frame(decomposedData$x), Nmax=10, eps=0.01,
-                     rho=0.05, M=200, h=5, a=0.8, b=0.8, distyp=1,
-                     parallel=FALSE)
+bp1 <- processStream(data[[1]], cpmType='GLR')
 
-## run breakpoint analysis with Negative Binomial Distribution
+## Exponential: Generalized Likelihood Ratio test statistic for Exponential
+  ## distribution, as in [Ross, 2013]. Used to detect changes in the parameter
+    ## of an Exponentially distributed sequence.
 
-#nb_BP <- CE.NB(data=data.frame(decomposedData$x), Nmax=10, eps=0.01, rho=0.05,
-#                               M=200, h=5, a=0.8, b=0.8, distyp=1,
-#                               parallel=FALSE)
-
-## run breakpoint analysis with Zero-Inflated Negative Binomial Distribution
-
-#zinb_BP <- CE.ZINB(data=data.frame(decomposedData$x), Nmax=10, eps=0.01,
-#                                   rho=0.05, M=200, h=5, a=0.8, b=0.8, distyp=1,
-#                                   parallel=FALSE)
+bp2 <- processStream(data[[1]], cpmType='Exponential')
 
 ##### Early Warning Signals Analysis ('earlywarnings' Package) #####
 
