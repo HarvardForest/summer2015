@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 27July2015 ##################################
+##################### Last edited: 28July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -4807,49 +4807,6 @@ shinyServer(
                    "The number of observations per unit of time (frequency) for
                       Decomposition analysis (e.g., use 7 for data sampled daily
                       and a week long time period):", value=2)
-    })
-
-    output$quick_changepointMethodSlot <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_decomposeOptions)
-        || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
-
-      selectInput("quick_changepointMethod", "Detect changepoints using:",
-                  choices=c("Change in Mean and Variance",
-                            "Change in Mean", "Change in Variance"))
-    })
-
-    output$quick_changepointAlgorithmSlot <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_decomposeOptions)
-        || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
-
-      selectInput("quick_changepointMethod", "Changepoint Algorithm:",
-                  choices=c("Binary Segmentation", "Segment Neighborhoods",
-                            "Pruned Exact Linear Time",
-                            "At Most One Changepoint"))
     })
 
     output$quick_NmaxSlot <- renderUI({

@@ -91,8 +91,6 @@ shinyUI(fluidPage(
                       ),
                       uiOutput("quick_frequencySlot"),
                       uiOutput("quick_decomposeOptionsSlot"),
-                      uiOutput("quick_changepointMethodSlot"),
-                      uiOutput("quick_changepointAlgorithmSlot"),
                       uiOutput("quick_NmaxSlot"),
                       uiOutput("quick_winsizeSlot"),
                       uiOutput("quick_runButtonSlot"),
