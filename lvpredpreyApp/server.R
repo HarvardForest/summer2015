@@ -70,10 +70,11 @@ shinyServer(
       ### start: show only a default plot for 'customize graph' panel ###
 
       if(input$tabset_analyses == "Customize Graph"){
-        matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis)
+        matplot(lvPredPrey(), type="l", xlab=input$xaxis, ylab=input$yaxis,
+                lty=c(1, 1), col=c("black", "red"))
           title(main=input$plotTitle)
           legend("topleft", c(input$preyLabel, input$predatorLabel),
-                 lty=c(1, 2), col=c("black", "red"), bty="n")
+                 lty=c(1, 1), col=c("black", "red"), bty="n")
       }
 
       ### end: show only a default plot for 'customize graph' panel ###
@@ -4861,6 +4862,9 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
+      if(!is.numeric(input$quick_frequency)){
+        return()
+      }
 
       plotOutput("quick_decomposePlot")
     })
@@ -4881,6 +4885,9 @@ shinyServer(
     output$decomposePlotSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
+        return()
+      }
+      if(!is.numeric(input$frequency)){
         return()
       }
 
