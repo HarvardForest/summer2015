@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 28July2015 ##################################
+##################### Last edited: 22July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -4805,8 +4805,28 @@ shinyServer(
 
       numericInput("quick_frequency",
                    "The number of observations per unit of time (frequency) for
-                      Decomposition analysis (e.g., use 7 for data sampled daily
-                      and a week long time period):", value=2)
+                      Decomposition analysis:", value=2)
+    })
+
+    output$quick_NmaxSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
+
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+        || !is.numeric(input$quick_frequency)){
+
+        return()
+      }
+
+      numericInput("quick_Nmax",
+                    "Maximum number of breakpoints for Tipping Point analysis:",
+                    value=10)
     })
 
     output$quick_winsizeSlot <- renderUI({
@@ -4844,6 +4864,9 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
+        return()
+      }
+      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){

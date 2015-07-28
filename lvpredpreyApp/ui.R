@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 28July2015 ##################################
+##################### Last edited: 22July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -91,9 +91,9 @@ shinyUI(fluidPage(
                       ),
                       uiOutput("quick_frequencySlot"),
                       uiOutput("quick_decomposeOptionsSlot"),
+                      uiOutput("quick_NmaxSlot"),
                       uiOutput("quick_winsizeSlot"),
-                      uiOutput("quick_runButtonSlot"),
-                      br()
+                      uiOutput("quick_runButtonSlot")
                     ), # column
                     column(8,
                       br(),
@@ -333,9 +333,10 @@ shinyUI(fluidPage(
           h3("'shinyAce' Package:"),
           p("Trestle Technology and LLC. (2013). shinyAce: Ace editor bindings for Shiny. R package version 0.1.0.
             http://CRAN.R-project.org/package=shinyAce"),
-          h3("'cpm' Package:"),
-          p("Gordon J. Ross (2015). Parametric and Nonparametric Sequential Change Detection in R: The cpm Package.
-            Journal of Statistical Software."),
+          h3("'breakpoint' Package:"),
+          p("Priyadarshana W.J.R.M. and Georgy Sofronov (2014). breakpoint: Multiple
+              Break-Point Detection via the Cross-Entropy Method. R package version 1.1.
+              http://CRAN.R-project.org/package=breakpoint"),
           h3("'earlywarnings' Package:"),
           p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
               in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
