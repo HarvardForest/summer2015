@@ -5660,12 +5660,12 @@ shinyServer(
           # for prey
           if(input$dataType == "Prey"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[1],
+            decomposed <- decompose(ts(lvPredPrey()[[1]],
                                        frequency=input$frequency))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=decomposed$x[1:input$time],
+              generic_ews(timeseries=lvPredPrey()[[1]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5673,8 +5673,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Trend"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5682,7 +5682,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
-              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5690,8 +5691,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$random[3:input$time-1],
+              x <- decomposed$random[!is.na(decomposed$random)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5703,12 +5704,12 @@ shinyServer(
           # for predator
           else if(input$dataType == "Predator"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[2],
+            decomposed <- decompose(ts(lvPredPrey()[[2]],
                                        frequency=input$frequency))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=decomposed$x[1:input$time],
+              generic_ews(timeseries=lvPredPrey()[[2]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5716,8 +5717,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Trend"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$trend[3:input$time-1],
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5725,7 +5726,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
-              generic_ews(timeseries=decomposed$seasonal[1:input$time],
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5733,8 +5735,8 @@ shinyServer(
                         powerspectrum=input$powerspectrum)
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$random[3:input$time-1],
+              x <- decomposed$random[!is.na(decomposed$random)]
+              generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
@@ -5771,11 +5773,7 @@ shinyServer(
         return()
       }
       # check for all valid tipping point arguments
-      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
-        || !is.numeric(input$rho) || !is.numeric(input$M)
-        || !is.numeric(input$h) || !is.numeric(input$a)
-        || !is.numeric(input$b)){
-
+      else if(!is.numeric(input$startup)){
         return()
       }
       # check for all valid ews arguments
@@ -5813,11 +5811,7 @@ shinyServer(
         return()
       }
       # check for all valid tipping point arguments
-      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
-        || !is.numeric(input$rho) || !is.numeric(input$M)
-        || !is.numeric(input$h) || !is.numeric(input$a)
-        || !is.numeric(input$b)){
-
+      else if(!is.numeric(input$startup)){
         return()
       }
       # check for all valid ews arguments
@@ -5856,11 +5850,7 @@ shinyServer(
         return()
       }
       # check for all valid tipping point arguments
-      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
-        || !is.numeric(input$rho) || !is.numeric(input$M)
-        || !is.numeric(input$h) || !is.numeric(input$a)
-        || !is.numeric(input$b)){
-
+      else if(!is.numeric(input$startup)){
         return()
       }
       # check for all valid ews arguments
@@ -5892,11 +5882,7 @@ shinyServer(
         return()
       }
       # check for all valid tipping point arguments
-      else if(!is.numeric(input$Nmax) || !is.numeric(input$eps)
-        || !is.numeric(input$rho) || !is.numeric(input$M)
-        || !is.numeric(input$h) || !is.numeric(input$a)
-        || !is.numeric(input$b)){
-
+      else if(!is.numeric(input$startup)){
         return()
       }
       # check for all valid ews arguments
