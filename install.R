@@ -11,7 +11,7 @@ install.packages("shinyapps")
 install.packages("shinythemes")
 install.packages("shinyAce")
 install.packages("deSolve")
-install.packages("breakpoint")
+install.packages("cpm")
 install.packages("earlywarnings")
 install.packages("plotrix")
 
