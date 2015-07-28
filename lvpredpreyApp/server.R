@@ -4806,7 +4806,7 @@ shinyServer(
 
       numericInput("quick_frequency",
                    "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:", value=2)
+                      Decomposition analysis:", value=20)
     })
 
     output$quick_winsizeSlot <- renderUI({
@@ -5342,7 +5342,7 @@ shinyServer(
 
       numericInput("frequency",
                    "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:", value=2)
+                      Decomposition analysis:", value=20)
     })
 
     output$decomposeOptionsSlot <- renderUI({
