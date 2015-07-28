@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 27July2015 ##################################
+##################### Last edited: 28July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -336,9 +336,9 @@ shinyUI(fluidPage(
           h3("'shinyAce' Package:"),
           p("Trestle Technology and LLC. (2013). shinyAce: Ace editor bindings for Shiny. R package version 0.1.0.
             http://CRAN.R-project.org/package=shinyAce"),
-          h3("'changepoint' Package:"),
-          p("Rebecca Killick, Idris A. Eckley (2014). changepoint: An R Package for Changepoint Analysis.
-            Journal of Statistical Software, 58(3), 1-19. URL http://www.jstatsoft.org/v58/i03/."),
+          h3("'cpm' Package:"),
+          p("Gordon J. Ross (2015). Parametric and Nonparametric Sequential Change Detection in R: The cpm Package.
+            Journal of Statistical Software."),
           h3("'earlywarnings' Package:"),
           p("Vasilis Dakos et al. Methods for detecting early warnings of critical transitions
               in time series illustrated using simulated ecological dataPLoS One 7(7):e41010, 2012. See
