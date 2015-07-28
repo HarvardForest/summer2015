@@ -4809,27 +4809,6 @@ shinyServer(
                       and a week long time period):", value=2)
     })
 
-    output$quick_NmaxSlot <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_decomposeOptions)
-        || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
-
-      numericInput("quick_Nmax",
-                    "Maximum number of changepoints for Tipping Point analysis:",
-                    value=10)
-    })
-
     output$quick_winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
@@ -4865,9 +4844,6 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
-        return()
-      }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
