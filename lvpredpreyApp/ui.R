@@ -13,7 +13,7 @@
 
 shinyUI(fluidPage(
   theme=shinytheme("flatly"),
-  headerPanel(title="Lotka-Volterra Predator-Prey model",
+  headerPanel(title="EcoApps: Lotka-Volterra Predator-Prey model",
               windowTitle="Predator-Prey model"),
 
   sidebarLayout(position="left",
