@@ -4808,39 +4808,18 @@ shinyServer(
                       Decomposition analysis:", value=2)
     })
 
-    output$quick_NmaxSlot <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_decomposeOptions)
-        || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
-
-      numericInput("quick_Nmax",
-                    "Maximum number of breakpoints for Tipping Point analysis:",
-                    value=10)
-    })
-
     output$quick_winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      else if(is.null(input$quick_decomposeOptions)
-        || input$quick_decomposeOptions == " "){
+      else if(is.null(input$quick_frequency)
+        || !is.numeric(input$quick_frequency)){
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
 
         return()
       }
@@ -4864,9 +4843,6 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
-        return()
-      }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
@@ -5003,54 +4979,56 @@ shinyServer(
           # for prey
           if(input$quick_dataType == "Prey"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[1],
+            decomposed <- decompose(ts(lvPredPrey()[[1]],
                                        frequency=input$quick_frequency))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=decomposed$x[1:input$time],
+              generic_ews(timeseries=lvPredPrey()[[1]],
                           detrending="gaussian", winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Trend"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$trend[3:input$time-1],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-              generic_ews(timeseries=decomposed$seasonal[1:input$time],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$random[3:input$time-1],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$random[!is.na(decomposed$random)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
           }
 
           # for predator
           else if(input$quick_dataType == "Predator"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[2],
+            decomposed <- decompose(ts(lvPredPrey()[[2]],
                                        frequency=input$quick_frequency))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=decomposed$x[1:input$time],
+              generic_ews(timeseries=lvPredPrey()[[2]],
                           detrending="gaussian", winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Trend"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$trend[3:input$time-1],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-              generic_ews(timeseries=decomposed$seasonal[1:input$time],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-              # range is offset because head and tail values are NA
-              generic_ews(timeseries=decomposed$random[3:input$time-1],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              x <- decomposed$random[!is.na(decomposed$random)]
+              generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize)
             }
           }
 
@@ -5082,10 +5060,7 @@ shinyServer(
         return()
       }
 
-      # display text only if breakpoints are detected
-      if(length(quickTP()) > 1){
-        c("Number of breakpoints detected:", length(quickTP()[[2]]))
-      }
+      c("Number of breakpoints detected:", length(quickTP()[[2]]))
     })
 
     # display "Location:" text
@@ -5109,7 +5084,7 @@ shinyServer(
       }
 
       # display text only if breakpoints are detected
-      if(length(quickTP()) > 1){
+      if(length(quickTP()[[2]]) > 0){
         "Location(s):"
       }
     })
@@ -5130,20 +5105,13 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
       # display this if breakpoints are detected
-      if(length(quickTP()) > 1){
+      if(length(quickTP()[[2]]) > 0){
         paste(quickTP()[[2]], collapse=", ")
-      }
-      # if no breakpoints are detected, use default output
-      else{
-        quickTP()
       }
     })
 
@@ -5163,15 +5131,12 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
       # display only if breakpoints are detected
-      if(length(quickTP()) > 1){
+      if(length(quickTP()[[2]]) > 0){
         checkboxInput("quick_breakpointsCheckbox", "Draw Breakpoint Lines",
                       value=FALSE)
       }
@@ -5197,13 +5162,11 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
+      # this check simulated execution of the 'quick_runButton'
       if(length(quickTP()) >= 1){
         radioButtons("quick_ewsRadioButtons",
                       "View Early Warning Signal Analysis:",
@@ -5231,13 +5194,11 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
+      # this check simulated execution of the 'quick_runButton'
       if(length(quickTP()) >= 1){
         downloadButton('downloadQuickTable', 'Download Early Warning Statistics')
       }
@@ -5264,9 +5225,6 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
-        return()
-      }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
@@ -5296,9 +5254,6 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
-        return()
-      }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
