@@ -4937,82 +4937,48 @@ shinyServer(
           # for prey
           if(input$quick_dataType == "Prey"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[1],
+            decomposed <- decompose(ts(lvPredPrey()[[1]],
                                        frequency=input$quick_frequency))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$x)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              processStream(lvPredPrey()[[1]], cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Trend"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$trend)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              processStream(x, cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$seasonal)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              processStream(x, cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$random)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$random[!is.na(decomposed$random)]
+              processStream(x, cpmType="Exponential")
             }
           }
 
           # for predator
           else if(input$quick_dataType == "Predator"){
             # decompose simulated data
-            decomposed <- decompose(ts(lvPredPrey()[2],
+            decomposed <- decompose(ts(lvPredPrey()[[2]],
                                        frequency=input$quick_frequency))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$x)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              processStream(lvPredPrey()[[2]], cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Trend"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$trend)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$trend[!is.na(decomposed$trend)]
+              processStream(x, cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$seasonal)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
+              processStream(x, cpmType="Exponential")
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
-              # wrap appropriate component into a data-frame for breakpoint method
-              component <- data.frame(decomposed$random)
-              # run breakpoint method on component
-              CE.Normal(component[1], distyp=1, parallel=FALSE,
-                        Nmax=input$quick_Nmax, eps=0.01, rho=0.05, M=200, h=5,
-                        a=0.8, b=0.8)
+              x <- decomposed$random[!is.na(decomposed$random)]
+              processStream(x, cpmType="Exponential")
             }
           }
 
@@ -5112,16 +5078,13 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
 
       # display text only if breakpoints are detected
       if(length(quickTP()) > 1){
-        c("Number of breakpoints detected:", quickTP()[[1]])
+        c("Number of breakpoints detected:", length(quickTP()[[2]]))
       }
     })
 
@@ -5139,9 +5102,6 @@ shinyServer(
       else if(is.null(input$quick_frequency)
         || !is.numeric(input$quick_frequency)){
 
-        return()
-      }
-      else if(is.null(input$quick_Nmax) || !is.numeric(input$quick_Nmax)){
         return()
       }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
