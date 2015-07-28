@@ -150,41 +150,14 @@ shinyUI(fluidPage(
                   fluidRow(
                     column(6, align="left",
                       h3("Tipping Point parameters"),
-                      selectInput("breakpointType", "Analysis Type:",
-                        choices=c("for Continuous Data",
-                          "with Negative Binomial Distribution",
-                          "with Zero-Inflated Negative Binomial Distribution")
-                      ),
-                      numericInput("Nmax", "Maximum number of breakpoints:", value=10),
-                      selectInput("distributionType", "Distribution to simulate break-point locations:",
-                        choices=c("Four Parameter Beta Distribution",
-                          "Truncated Normal Distribution")
-                      ),
-                      numericInput("eps",
-                        "the cut-off value for the stopping criterion in the CE method:",
-                        value=0.01
-                      ),
-                      numericInput("rho",
-                        "The fraction which is used to obtain the best performing set of sample solutions (i.e., elite sample):",
-                        value=0.05
-                      ),
-                      numericInput("M",
-                        "Sample size to be used in simulating the locations of break-points:",
-                        value=200
-                      ),
-                      numericInput("h", "Minimum aberration width:", value=5),
-                      numericInput("a",
-                        "Used in the four parameter beta distribution to smooth both shape parameters.
-                          When simulating from the truncated normal distribution,
-                          this value is used to smooth the estimates of the mean values:",
-                        value=0.8
-                      ),
-                      numericInput("b", "A smoothing parameter value. It is used in the truncated
-                        normal distribution to smooth the estimates of the standard deviation:",
-                        value=0.8
-                      ),
-                      helpText(a("Click here to view the R 'breakpoint' Package documentation.",
-                        href="http://cran.r-project.org/web/packages/breakpoint/breakpoint.pdf",
+                      selectInput("cpmType", "Change point model type:",
+                                  choices=c("Exponential distribution", "Gaussian sequence")),
+                      numericInput("startup", "The number of observations after which monitoring begins.
+                                   No breakpoints will be flagged during this period.
+                                   (the value should be at least 20):",
+                                   value=20),
+                      helpText(a("Click here to view the R 'cpm' Package documentation.",
+                        href="https://cran.r-project.org/web/packages/cpm/cpm.pdf",
                         target="_blank")
                       )
                     ), # column
