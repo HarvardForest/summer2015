@@ -1,8 +1,8 @@
 ################################################################################
-#     Run this script to launch the Lotka-Volterra Predator-Prey Shiny App
+#     Run this script to launch the Pitcher Plant Shiny App
 #
 #     By: Nathan Justice
-#     Last edited: 23July2015
+#     Last edited: 29July2015
 ################################################################################
 
 shiny::runApp("~/Desktop/summer2015/pitcherplantApp")

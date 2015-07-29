@@ -1,6 +1,6 @@
 ################################################################################
-#     Run this script to download the dependcies the Lotka-Volterra
-#       Predator-Prey Shiny App requires
+#     Run this script to download the dependcies required by the
+#     Pitcher Plant Shiny App
 #
 #     By: Nathan Justice
 #     Last edited: 23July2015
