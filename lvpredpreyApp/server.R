@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 22July2015 ##################################
+##################### Last edited: 29July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -155,6 +155,7 @@ shinyServer(
 
           # draw new instance of basic plot based on state variable selection
           if(input$quick_dataType == "Prey"){
+            #dev.off()
             matplot(lvPredPrey()[1], type="l", xlab=input$xaxis,
                     ylab=input$yaxis, lty=1, col="black")
             title(main=input$preyLabel)
@@ -203,7 +204,7 @@ shinyServer(
           }
 
           # for 'standard deviation'
-          else if(input$quick_ewsRadioButtons == "Standard Deviation"){
+          if(input$quick_ewsRadioButtons == "Standard Deviation"){
             # re-scale ews statistic
             ewsLine <- quickGeneric()[3]
             # adjust starting point to accomodate rolling window size
@@ -5676,8 +5677,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
@@ -5685,8 +5685,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
@@ -5694,8 +5693,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
@@ -5703,8 +5701,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
           }
 
@@ -5720,8 +5717,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
@@ -5729,8 +5725,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
@@ -5738,8 +5733,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
@@ -5747,8 +5741,7 @@ shinyServer(
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate, AR_n=input$AR_n,
-                        powerspectrum=input$powerspectrum)
+                        interpolate=input$interpolate)
             }
           }
 

@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 22July2015 ##################################
+##################### Last edited: 29July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -190,14 +190,6 @@ shinyUI(fluidPage(
                       selectInput("interpolate",
                         "If TRUE linear interpolation is applied to produce a timeseries of
                           equal length as the original. (FALSE assumes there are no gaps in the timeseries):",
-                        choices=c(FALSE, TRUE)
-                      ),
-                      selectInput("AR_n",
-                        "If TRUE the best fitted AR(n) model is fitted to the data:",
-                        choices=c(FALSE, TRUE)
-                      ),
-                      selectInput("powerspectrum",
-                        "If TRUE the power spectrum within each rolling window is plotted:",
                         choices=c(FALSE, TRUE)
                       ),
                       helpText(a("Click here to view the R 'earlywarnings' Package documentation.",
