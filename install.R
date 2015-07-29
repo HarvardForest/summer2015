@@ -15,4 +15,4 @@ install.packages("cpm")
 install.packages("moments")
 install.packages("plotrix")
 
-shiny::runApp("~/Desktop/summer2015/lvpredpreyApp")
+shiny::runApp("~/Desktop/summer2015/pitcherplantApp")

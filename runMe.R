@@ -5,4 +5,4 @@
 #     Last edited: 23July2015
 ################################################################################
 
-shiny::runApp("~/Desktop/summer2015/lvpredpreyApp")
+shiny::runApp("~/Desktop/summer2015/pitcherplantApp")
