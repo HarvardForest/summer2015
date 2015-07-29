@@ -10,12 +10,12 @@
 
 # load dependencies
 library(shiny)
-library(shinyapps)
 library(shinythemes)
 library(shinyAce)
 library(deSolve)
 library(cpm)
 #library(earlywarnings)
+library(moments)
 library(plotrix)
 
 lvPredPreyModel <- function(time, initState, params){
