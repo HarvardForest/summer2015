@@ -76,7 +76,6 @@ shinyServer(
           legend("topleft", c(input$preyLabel, input$predatorLabel),
                  lty=c(1, 1), col=c("black", "red"), bty="n")
       }
-
       ### end: show only a default plot for 'customize graph' panel ###
 
       ### start: show default plot for 'quick analysis' panel ###
