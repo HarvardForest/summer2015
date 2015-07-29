@@ -1,7 +1,7 @@
-Title: Pitcher Plant Model
-Author: Harvard Forest - Nathan Justice
+Title: Lotka-Volterra Predator Prey Model
+Author: Harvard Forest - Nathan Justice (REU, summer2015)
 AuthorUrl: https://github.com/HarvardForest
 License: GPL-3
 DisplayMode: Normal
-Tags: Harvard, Forest, Pitcher Plant
+Tags: Harvard, Forest, Lotka-Volterra, Predator, Prey
 Type: Shiny
