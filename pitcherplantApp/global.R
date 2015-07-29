@@ -1,16 +1,22 @@
-#### Pitcher plant O2 simulation - stack algorithm
-### Nathan Justice
-## Last edited: 07July2015
+################################################################################
+################################################################################
+###################### Pitcher Plant Simulation ################################
+################## By: Nathan Justice and Matt Lau #############################
+##################### Last edited: 29July2015 ##################################
+################################################################################
+################################################################################
+
+###### Global dependencies and function(s) ######
 
 # load dependencies
 library(shiny)
-library(shinyapps)
 library(shinythemes)
 library(shinyAce)
 library(deSolve)
-library(breakpoint)
-library(ggplot2)
-library(earlywarnings)
+library(cpm)
+#library(earlywarnings)
+library(moments)
+library(plotrix)
 
 ## Functions ##
 
@@ -26,15 +32,9 @@ rescale <- function(x,y){
     }
 }
 
-#### Pitcher plant O2 simulation - stack algorithm
-### Nathan Justice and MKLau
-## Last edited: 22July2015
-
 # 6:00 sunrise = 360
 # 12:00 noon = 720
 # 18:00 sunset = 1080
-
-## Functions ##
 
 PAR <- function(days=3,start=0,amp=100){
     amp * sin(2 * pi * rep((1:1440 + 1080 + start),days) * (1/1440))
