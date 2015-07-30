@@ -34,8 +34,13 @@ shinyServer(
       ### start: show only a default plot for 'customize graph' panel ###
 
       if(input$tabset_analyses == "Customize Graph"){
-        # display plot based on user input
-        if(input$graphPlotOptions == "Oxygen"){
+        # this check removes a transient error
+        if(is.null(input$graphPlotOptions)){
+          return()
+        }
+
+        # display plot based on user input from "graphPlotOptions" radio buttons
+        else if(input$graphPlotOptions == "Oxygen"){
           matplot(x=ppSim()[1], y=ppSim()[2], type="l", xlab=input$xaxis,
                   ylab=input$yaxis, pch=1)
           title("Oxygen")
@@ -47,10 +52,35 @@ shinyServer(
           title("Photosynthesis")
           legend("topleft", "Photosynthesis", lty=c(1), col="black", bty="n")
         }
+        else if(input$graphPlotOptions == "Biological Oxygen Demand"){
+          matplot(x=ppSim()[1], y=ppSim()[4], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Biological Oxygen Demand")
+          legend("topleft", "Biological Oxygen Demand", lty=c(1), col="black",
+                 bty="n")
+        }
+        else if(input$graphPlotOptions == "Nutrients"){
+          matplot(x=ppSim()[1], y=ppSim()[5], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Nutrients")
+          legend("topleft", "Nutrients", lty=c(1), col="black", bty="n")
+        }
+        else if(input$graphPlotOptions == "Augmentation Value"){
+          matplot(x=ppSim()[1], y=ppSim()[6], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Augmentation Value")
+          legend("topleft", "Augmentation Value", lty=c(1), col="black",
+                 bty="n")
+        }
+        else if(input$graphPlotOptions == "Food Amount"){
+          matplot(x=ppSim()[1], y=ppSim()[7], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Food Amount")
+          legend("topleft", "Food Amount", lty=c(1), col="black", bty="n")
+        }
       }
 
-      if(input$tabset_analyses == "Quick Analysis" ||
-         input$tabset_analyses == "Customize Graph"){
+      if(input$tabset_analyses == "Quick Analysis"){
           # displays Oxygen plot as default
           if(input$quick_dataType == "Oxygen" || input$quick_dataType == " "){
             matplot(x=ppSim()[1], y=ppSim()[2], type="l",
