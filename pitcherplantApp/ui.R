@@ -103,7 +103,6 @@ shinyUI(fluidPage(
                   ), # fluidRow
                   fluidRow(
                     column(4, align="left",
-                      br(),
                       selectInput("dataType", "Choose Data:",
                         choices=c(" ", "Oxygen", "Photosynthesis",
                                   "Biological Oxygen Demand", "Nutrients",
@@ -193,12 +192,8 @@ shinyUI(fluidPage(
                 tabPanel(title="Customize Graph",
                   br(),
                   br(),
-                  textInput("plotTitle", "Plot Titile",
-                            value="Predator-Prey Model"),
-                  textInput("yaxis", "y-axis", value="Population"),
-                  textInput("xaxis", "x-axis", value="Time"),
-                  textInput("preyLabel", "Prey", value="Prey"),
-                  textInput("predatorLabel", "Predator", value="Predator")
+                  textInput("yaxis", "y-axis", value="Value"),
+                  textInput("xaxis", "x-axis", value="Time")
                 ) # tabPanel - Customize graph
 
                  ### end: customize graph panel ###

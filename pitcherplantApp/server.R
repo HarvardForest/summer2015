@@ -27,9 +27,28 @@ shinyServer(
 ########### Display dynamic plot (main) of the simulation ######################
 ################################################################################
 
-    ### start: show simulation plot based on selector ###
-
     output$mainPlot <- renderPlot({
+
+############ start: display default simulation plots  ##########################
+
+      ### start: show only a default plot for 'customize graph' panel ###
+
+      if(input$tabset_analyses == "Customize Graph"){
+        # display plot based on user input
+        if(input$graphPlotOptions == "Oxygen"){
+          matplot(x=ppSim()[1], y=ppSim()[2], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Oxygen")
+          legend("topleft", "Oxygen", lty=c(1), col="black", bty="n")
+        }
+        else if(input$graphPlotOptions == "Photosynthesis"){
+          matplot(x=ppSim()[1], y=ppSim()[3], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Photosynthesis")
+          legend("topleft", "Photosynthesis", lty=c(1), col="black", bty="n")
+        }
+      }
+
       if(input$tabset_analyses == "Quick Analysis" ||
          input$tabset_analyses == "Customize Graph"){
           # displays Oxygen plot as default
@@ -599,6 +618,13 @@ shinyServer(
                           "Augmentation Value", "Food Amount"),
                         selected="Oxygen", inline=TRUE)
         }
+      }
+      else if(input$tabset_analyses == "Customize Graph"){
+        radioButtons("graphPlotOptions", "Display:",
+                     choices=c("Oxygen", "Photosynthesis",
+                          "Biological Oxygen Demand", "Nutrients",
+                          "Augmentation Value", "Food Amount"),
+                        selected="Oxygen", inline=TRUE)
       }
     })
 
