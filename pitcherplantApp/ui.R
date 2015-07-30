@@ -20,40 +20,17 @@ shinyUI(fluidPage(
     ### start: sidebar ###
 
     sidebarPanel(
-      sliderInput("days", label=h4("Number of Days:"), value=2, min=1, max=50, step=1
-      ),
-      uiOutput("days2"),
-      sliderInput("feedingTime", label=h4("Feeding Time (in minutes):"),
-                  value=720, min=1, max=1440, step=1
-      ),
-      uiOutput("feedingTime2"),
-      sliderInput("foodWeight", label=h4("Food Weight:"), value=5, min=1, max=100
-      ),
-      uiOutput("foodWeight2"),
-      sliderInput("beta", label=h4("Beta Value:"),
-                  value=0.0005, min=0.00001, max=0.1
-      ),
-      uiOutput("beta2"),
-      sliderInput("aMax", label=h4("Maximum Value of Augmentation:"),
-                  value=10, min=1, max=50
-      ),
-      uiOutput("aMax2"),
-      sliderInput("aMin", label=h4("Minimum Value of Augmentation:"),
-                  value=1, min=0, max=50
-      ),
-      uiOutput("aMin2"),
-      sliderInput("Bscaler", label=h4("Scale Biological Oxygen Demand Value by:"),
-                  value=1, min=1, max=100
-      ),
-      uiOutput("Bscaler2"),
-      sliderInput("k", label=h4("k Value:"), value=1, min=1, max=10),
-      uiOutput("k2"),
-      sliderInput("s", label=h4("s Value:"), value=10, min=1, max=50),
-      uiOutput("s2"),
-      sliderInput("d", label=h4("d Value:"), value=0.5, min=0, max=5),
-      uiOutput("d2"),
-      sliderInput("c", label=h4("c Value:"), value=100, min=1, max=1000),
-      uiOutput("c2")
+      numericInput("days", label=h4("Number of Days:"), value=3),
+      numericInput("feedingTime", label=h4("Feeding Time (in minutes):"), value=720),
+      numericInput("foodWeight", label=h4("Food Weight:"), value=5),
+      numericInput("beta", label=h4("Beta Value:"), value=0.001),
+      numericInput("aMax", label=h4("Maximum Value of Augmentation:"), value=10),
+      numericInput("aMin", label=h4("Minimum Value of Augmentation:"), value=1),
+      numericInput("Bscaler", label=h4("Scale Biological Oxygen Demand Value by:"), value=1),
+      numericInput("k", label=h4("k Value:"), value=1),
+      numericInput("s", label=h4("s Value:"), value=10),
+      numericInput("d", label=h4("d Value:"), value=1),
+      numericInput("c", label=h4("c Value:"), value=100)
     ), # sidebarPanel
 
     ### end: sidebar ###
