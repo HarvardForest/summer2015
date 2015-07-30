@@ -72,7 +72,7 @@ shinyUI(fluidPage(
             ) # column
           ), # fluidRow
           fluidRow(
-            column(12, offset=8,
+            column(12, align="left",
               uiOutput("plotOptionsSlot")
             ) # column
           ), # fluidRow
