@@ -80,544 +80,119 @@ shinyServer(
         }
       }
 
-      if(input$tabset_analyses == "Quick Analysis"){
-          # displays Oxygen plot as default
-          if(input$quick_dataType == "Oxygen" || input$quick_dataType == " "){
-            matplot(x=ppSim()[1], y=ppSim()[2], type="l",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title("Oxygen")
-            legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
-          }
-          else if(input$quick_dataType == "Photosynthesis"){
-            matplot(x=ppSim()[1], y=ppSim()[3], type="p",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title(main=input$quick_dataType)
-            legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
-          }
-          else if(input$quick_dataType == "Biological Oxygen Demand"){
-            matplot(x=ppSim()[1], y=ppSim()[4], type="p",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title(main=input$quick_dataType)
-            legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
-          }
-          else if(input$quick_dataType == "Nutrients"){
-            matplot(x=ppSim()[1], y=ppSim()[5], type="p",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title(main=input$quick_dataType)
-            legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
-          }
-          else if(input$quick_dataType == "Augmentation Value"){
-            matplot(x=ppSim()[1], y=ppSim()[6], type="p",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title(main=input$quick_dataType)
-            legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
-          }
-          else if(input$quick_dataType == "Food Amount"){
-            matplot(x=ppSim()[1], y=ppSim()[7], type="p",
-                    xlab=input$xaxis, ylab=input$yaxis, pch=1)
-            title(main=input$quick_dataType)
-            legend("topleft", input$quick_dataType, lty=c(1, 2), col=(1), bty="n")
-          }
+      ### end: show only a default plot for 'customize graph' panel ###
+
+      ### start: show default plot for 'quick analysis' panel ###
+
+      else if(input$tabset_analyses == "Quick Analysis"){
+        # this check removes a transient error
+        if(is.null(input$quickPlotOptions)){
+          return()
         }
 
-      if(input$tabset_analyses == "Advanced Analysis"){
-        # displays Oxygen plot as default
-        if(input$dataType == "Oxygen" || input$dataType == " "){
-          matplot(x=ppSim()[1], y=ppSim()[2], type="l",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
+        # generate default plot based on radio-selection
+        if(input$quickPlotOptions == "Oxygen"){
+          matplot(x=ppSim()[1], y=ppSim()[2], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
           title("Oxygen")
-          legend("topleft", "Oxygen", lty=c(1, 2), col=(1), bty="n")
+          legend("topleft", "Oxygen", lty=c(1), col="black", bty="n")
         }
-        else if(input$dataType == "Photosynthesis"){
-          matplot(x=ppSim()[1], y=ppSim()[3], type="p",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
-          title(main=input$dataType)
-          legend("topleft", input$dataType, lty=c(1, 2), col=(1), bty="n")
+        else if(input$quickPlotOptions == "Photosynthesis"){
+          matplot(x=ppSim()[1], y=ppSim()[3], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Photosynthesis")
+          legend("topleft", "Photosynthesis", lty=c(1), col="black", bty="n")
         }
-        else if(input$dataType == "Biological Oxygen Demand"){
-          matplot(x=ppSim()[1], y=ppSim()[4], type="p",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
-          title(main=input$dataType)
-          legend("topleft", input$dataType, lty=c(1, 2), col=(1), bty="n")
+        else if(input$quickPlotOptions == "Biological Oxygen Demand"){
+          matplot(x=ppSim()[1], y=ppSim()[4], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Biological Oxygen Demand")
+          legend("topleft", "Biological Oxygen Demand", lty=c(1), col="black",
+                 bty="n")
         }
-        else if(input$dataType == "Nutrients"){
-          matplot(x=ppSim()[1], y=ppSim()[5], type="p",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
-          title(main=input$dataType)
-          legend("topleft", input$dataType, lty=c(1, 2), col=(1), bty="n")
+        else if(input$quickPlotOptions == "Nutrients"){
+          matplot(x=ppSim()[1], y=ppSim()[5], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Nutrients")
+          legend("topleft", "Nutrients", lty=c(1), col="black", bty="n")
         }
-        else if(input$dataType == "Augmentation Value"){
-          matplot(x=ppSim()[1], y=ppSim()[6], type="p",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
-          title(main=input$dataType)
-          legend("topleft", input$dataType, lty=c(1, 2), col=(1), bty="n")
+        else if(input$quickPlotOptions == "Augmentation Value"){
+          matplot(x=ppSim()[1], y=ppSim()[6], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Augmentation Value")
+          legend("topleft", "Augmentation Value", lty=c(1), col="black",
+                 bty="n")
         }
-        else if(input$dataType == "Food Amount"){
-          matplot(x=ppSim()[1], y=ppSim()[7], type="p",
-                  xlab=input$xaxis, ylab=input$yaxis, pch=1)
-          title(main=input$dataType)
-          legend("topleft", input$dataType, lty=c(1, 2), col=(1), bty="n")
-        }
-      }
-
-      ### end: show simulation plot based on selector ###
-
-      ### start: draw breakpoint lines on main plot ###
-
-      # run only if the "Quick Analysis" tab is active
-      if(input$tabset_analyses == "Quick Analysis"){
-        # check if breakpoint lines and ews lines can be drawn
-        if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-          return()
-        }
-        else if(is.null(input$quick_breakpointsCheckbox)){
-         return()
-        }
-        else if(is.null(input$quick_ewsRadioButtons)){
-         return()
-        }
-        # indicates breakpoint lines can be drawn
-        else if(input$quick_breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=quickTP()[[2]], col="blue")
-          # update plot legend
-          legend("topleft", c(input$quick_dataType, "Breakpoints"), lty=c(1, 2),
-                 col=c(1, "blue"), bty="n")
-        }
-
-        ### end: draw breakpoint lines on main plot ###
-
-        ### start: update plot and legend with ews line ###
-
-        # variable used to adjust ews-line start value
-        ewsLineTime <- input$days * 1440
-
-        # display default plot attributes if there are no ews lines selected
-        if(input$quick_ewsRadioButtons == "None"){
-          return()
-        }
-        # draw ews line based on radio button selection
-        else if(input$quick_ewsRadioButtons == "Standard Deviation"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[3]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Skewness"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[4]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Kurtosis"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[5]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[6]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Return Rate"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[7]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Density Ratio"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[8]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[9]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- quickGeneric()[2]
-          for(i in 1:(ewsLineTime * (input$quick_winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$quick_breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=quickTP()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$quick_dataType, "Breakpoints",
-                               input$quick_ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$quick_dataType, input$quick_ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
+        else if(input$quickPlotOptions == "Food Amount"){
+          matplot(x=ppSim()[1], y=ppSim()[7], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Food Amount")
+          legend("topleft", "Food Amount", lty=c(1), col="black", bty="n")
         }
       }
 
-      # run only if the "Advanced  Analysis" tab is active
-      if(input$tabset_analyses == "Advanced Analysis"){
-        # check if breakpoint lines and ews lines can be drawn
-        if(is.null(input$dataType) || input$dataType == " "){
+      ### end: show default plot for 'quick analysis' panel ###
+
+      ### start: show default for 'advanced analysis' panel ###
+
+      else if(input$tabset_analyses == "Advanced Analysis"){
+        # this check removes a transient error
+        if(is.null(input$advancedPlotOptions)){
           return()
         }
-        else if(is.null(input$breakpointsCheckbox)){
-         return()
+
+        # generate default plot based on radio-selection
+        if(input$advancedPlotOptions == "Oxygen"){
+          matplot(x=ppSim()[1], y=ppSim()[2], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Oxygen")
+          legend("topleft", "Oxygen", lty=c(1), col="black", bty="n")
         }
-        else if(is.null(input$ewsRadioButtons)){
-         return()
+        else if(input$advancedPlotOptions == "Photosynthesis"){
+          matplot(x=ppSim()[1], y=ppSim()[3], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Photosynthesis")
+          legend("topleft", "Photosynthesis", lty=c(1), col="black", bty="n")
         }
-        # indicates breakpoint lines can be drawn
-        else if(input$breakpointsCheckbox == TRUE) {
-          # include breakpoint lines
-          abline(v=TPanalysis()[[2]], col="blue")
-          # update plot legend
-          legend("topleft", c(input$dataType, "Breakpoints"), lty=c(1, 2),
-                 col=c(1, "blue"), bty="n")
+        else if(input$advancedPlotOptions == "Biological Oxygen Demand"){
+          matplot(x=ppSim()[1], y=ppSim()[4], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Biological Oxygen Demand")
+          legend("topleft", "Biological Oxygen Demand", lty=c(1), col="black",
+                 bty="n")
         }
-
-        ### end: draw breakpoint lines on main plot ###
-
-        ### start: update plot and legend with ews line ###
-
-        # variable used to adjust ews-line start value
-        ewsLineTime <- input$days * 1440
-
-        # display default plot attributes if there are no ews lines selected
-        if(input$ewsRadioButtons == "None"){
-          return()
+        else if(input$advancedPlotOptions == "Nutrients"){
+          matplot(x=ppSim()[1], y=ppSim()[5], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Nutrients")
+          legend("topleft", "Nutrients", lty=c(1), col="black", bty="n")
         }
-        # draw ews line based on radio button selection
-        else if(input$ewsRadioButtons == "Standard Deviation"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[3]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
+        else if(input$advancedPlotOptions == "Augmentation Value"){
+          matplot(x=ppSim()[1], y=ppSim()[6], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Augmentation Value")
+          legend("topleft", "Augmentation Value", lty=c(1), col="black",
+                 bty="n")
         }
-
-        else if(input$ewsRadioButtons == "Skewness"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[4]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Kurtosis"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[5]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Coefficient of Variation"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[6]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Return Rate"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[7]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Density Ratio"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[8]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[9]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
-        }
-
-        else if(input$ewsRadioButtons == "Autoregressive Coefficient"){
-          # adjust starting point to accomodate rolling window size (10%)
-          ewsLine <- advancedGeneric()[2]
-          for(i in 1:(ewsLineTime * (input$winsize * 0.01))){
-            ewsLine <- rbind(NA, ewsLine)
-          }
-          # draw ews line
-          matlines(ewsLine, type='l', col="green")
-
-          if(input$breakpointsCheckbox == TRUE) {
-            # include breakpoint lines
-            abline(v=TPanalysis()[[2]], col="blue")
-            # update plot legend with ews and breakpoint lines
-            legend("topleft",c(input$dataType, "Breakpoints",
-                               input$ewsRadioButtons),
-                   lty=c(1, 2), col=c(1, "blue", "green"), bty="n")
-          }
-          else{
-            # update plot legend with only ews line
-            legend("topleft", c(input$dataType, input$ewsRadioButtons),
-                    lty=c(1, 2), col=c(1, "green"), bty="n")
-          }
+        else if(input$advancedPlotOptions == "Food Amount"){
+          matplot(x=ppSim()[1], y=ppSim()[7], type="l", xlab=input$xaxis,
+                  ylab=input$yaxis, pch=1)
+          title("Food Amount")
+          legend("topleft", "Food Amount", lty=c(1), col="black", bty="n")
         }
       }
 
+      ### end: show default for 'advanced analysis' panel ###
 
-        ### end: update plot and legend with ews line ###
+############# end: display default simulation plots  ###########################
+
+#### start: draw breakpoint lines on main plot for 'quick analysis' panel ######
+
+
+
+
+
+
     }) # end render_plot (main)
 
 ################################################################################
