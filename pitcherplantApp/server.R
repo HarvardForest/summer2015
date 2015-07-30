@@ -1767,7 +1767,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1793,7 +1793,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1819,7 +1819,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1846,7 +1846,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1872,7 +1872,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1898,7 +1898,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1938,7 +1938,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1964,7 +1964,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -1990,7 +1990,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2017,7 +2017,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2043,7 +2043,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2069,7 +2069,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2109,7 +2109,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2135,7 +2135,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2161,7 +2161,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2188,7 +2188,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2214,7 +2214,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2240,7 +2240,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2280,7 +2280,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2306,7 +2306,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2332,7 +2332,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2359,7 +2359,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2385,7 +2385,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2411,7 +2411,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2451,7 +2451,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2477,7 +2477,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2503,7 +2503,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2530,7 +2530,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2556,7 +2556,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2582,7 +2582,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2622,7 +2622,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2648,7 +2648,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2674,7 +2674,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2701,7 +2701,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2727,7 +2727,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2753,7 +2753,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2793,7 +2793,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2819,7 +2819,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2845,7 +2845,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2872,7 +2872,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2898,7 +2898,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2924,7 +2924,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2964,7 +2964,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Oxygen")
+              title(main="Oxygen: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -2990,7 +2990,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Photosynthesis")
+              title(main="Photosynthesis: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -3016,7 +3016,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Biological Oxygen Demand")
+              title(main="Biological Oxygen Demand: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -3043,7 +3043,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Nutrients")
+              title(main="Nutrients: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -3069,7 +3069,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Augmentation Value")
+              title(main="Augmentation Value: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -3095,7 +3095,7 @@ shinyServer(
                           1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
                           rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
                           lty=1, lcol="black")
-              title(main="Food Amount")
+              title(main="Food Amount: Trend")
               mtext(input$quick_ewsRadioButtons, side=4, col="green4")
               if(!is.null(input$quick_breakpointsCheckbox)
                  && input$quick_breakpointsCheckbox == TRUE) {
@@ -3121,7 +3121,3106 @@ shinyServer(
 
 ########### start: draw ews line for 'seasonal' (quick analysis) ###############
 
-      } # end: quick_analysis
+        else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
+
+        # draw new instance of basic plot based on state variable selection
+        if(input$quick_dataType == "Oxygen"){
+          decomposed = decompose(ts(ppSim()[[2]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Oxygen: Seasonal")
+          legend("topleft", "Oxygen", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Photosynthesis"){
+          decomposed = decompose(ts(ppSim()[[3]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Photosynthesis: Seasonal")
+          legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Biological Oxygen Demand"){
+          decomposed = decompose(ts(ppSim()[[4]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Biological Oxygen Demand: Seasonal")
+          legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
+                 bty="n")
+        }
+        else if(input$quick_dataType == "Nutrients"){
+          decomposed = decompose(ts(ppSim()[[5]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Nutrients: Seasonal")
+          legend("topleft", "Nutrients", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Augmentation Value"){
+          decomposed = decompose(ts(ppSim()[[6]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Augmentation Value: Seasonal")
+          legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Food Amount"){
+          decomposed = decompose(ts(ppSim()[[7]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Food Amount: Seasonal")
+          legend("topleft", "Food Amount", lty=1, col="black", bty="n")
+        }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$quick_breakpointsCheckbox)
+                  && input$quick_breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend
+            if(input$quick_dataType == "Oxygen"){
+              legend("topleft", c("Oxygen", "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Photosynthesis"){
+              legend("topleft", c("Photosynthesis", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Biological Oxygen Demand"){
+              legend("topleft", c("Biological Oxygen Demand", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Nutrients"){
+              legend("topleft", c("Nutrients", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Augmentation Value"){
+              legend("topleft", c("Augmentation", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Food Amount"){
+              legend("topleft", c("Food Amount", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+          }
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$quick_ewsRadioButtons)
+             || input$quick_ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          if(input$quick_ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[3]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          if(input$quick_ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[4]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          if(input$quick_ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[5]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[6]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          if(input$quick_ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[7]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          if(input$quick_ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[8]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[9]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[2]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+############# end: draw ews line for 'seasonal' (quick analysis) ###############
+
+############# start: draw ews line for 'random' (quick analysis) ###############
+
+        else if(input$quick_decomposeOptions == "Random (Residuals)"){
+
+        # draw new instance of basic plot based on state variable selection
+        if(input$quick_dataType == "Oxygen"){
+          decomposed = decompose(ts(ppSim()[[2]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Oxygen: Random (Residuals)")
+          legend("topleft", "Oxygen", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Photosynthesis"){
+          decomposed = decompose(ts(ppSim()[[3]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Photosynthesis: Random (Residuals)")
+          legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Biological Oxygen Demand"){
+          decomposed = decompose(ts(ppSim()[[4]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Biological Oxygen Demand: Random (Residuals)")
+          legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
+                 bty="n")
+        }
+        else if(input$quick_dataType == "Nutrients"){
+          decomposed = decompose(ts(ppSim()[[5]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Nutrients: Random (Residuals)")
+          legend("topleft", "Nutrients", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Augmentation Value"){
+          decomposed = decompose(ts(ppSim()[[6]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Augmentation Value: Random (Residuals)")
+          legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
+        }
+        else if(input$quick_dataType == "Food Amount"){
+          decomposed = decompose(ts(ppSim()[[7]],
+                                      frequency=input$quick_frequency))
+          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Food Amount: Random (Residuals)")
+          legend("topleft", "Food Amount", lty=1, col="black", bty="n")
+        }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$quick_breakpointsCheckbox)
+                  && input$quick_breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=quickTP()[[2]], col="blue")
+            # update plot legend
+            if(input$quick_dataType == "Oxygen"){
+              legend("topleft", c("Oxygen", "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Photosynthesis"){
+              legend("topleft", c("Photosynthesis", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Biological Oxygen Demand"){
+              legend("topleft", c("Biological Oxygen Demand", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Nutrients"){
+              legend("topleft", c("Nutrients", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Augmentation Value"){
+              legend("topleft", c("Augmentation", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$quick_dataType == "Food Amount"){
+              legend("topleft", c("Food Amount", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+          }
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$quick_ewsRadioButtons)
+             || input$quick_ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          if(input$quick_ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[3]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          if(input$quick_ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[4]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxyge: Random (Residuals)n")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          if(input$quick_ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[5]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          if(input$quick_ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[6]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          if(input$quick_ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[7]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          if(input$quick_ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[8]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          if(input$quick_ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[8]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          if(input$quick_ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[9]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+           # for 'autoregressive coefficient'
+          if(input$quick_ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- quickGeneric()[2]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$quick_winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$quick_dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$quick_dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$quick_dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand",
+                         input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$quick_dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$quick_ewsRadioButtons), lty=c(1, 1),
+                       col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$quick_dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$quick_dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$random), decomposed$random,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Random (Residuals)")
+              mtext(input$quick_ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$quick_breakpointsCheckbox)
+                 && input$quick_breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=quickTP()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$quick_ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$quick_ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+############### end: draw ews line for 'random' (quick analysis) ###############
+
+      } # end tabset_quickAnalysis
+
+####### end: update plot and legend with ews line (quick analysis) #############
+
+
     }) # end: render_plot (main)
 
 ################################################################################
