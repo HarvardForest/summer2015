@@ -6220,7 +6220,3025 @@ shinyServer(
 
 ####### end: update plot and legend with ews line (quick analysis) #############
 
+#### start: draw breakpoint lines on main plot for 'advanced analysis' panel ###
 
+      # run only if the "Advanced Analysis" tab is active
+      if(input$tabset_analyses == "Advanced Analysis"){
+        if(is.null(input$decomposeOptions)
+          || input$decomposeOptions == "Observed (Simulated Data)"
+          || input$decomposeOptions == " "){
+
+          # draw new instance of basic plot based on state variable selection
+          if(input$dataType == "Oxygen"){
+            matplot(x=ppSim()[1], y=ppSim()[2], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Oxygen")
+            legend("topleft", "Oxygen", lty=c(1), col="black", bty="n")
+          }
+          else if(input$dataType == "Photosynthesis"){
+            matplot(x=ppSim()[1], y=ppSim()[3], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Photosynthesis")
+            legend("topleft", "Photosynthesis", lty=c(1), col="black", bty="n")
+          }
+          else if(input$dataType == "Biological Oxygen Demand"){
+            matplot(x=ppSim()[1], y=ppSim()[4], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Biological Oxygen Demand")
+            legend("topleft", "Biological Oxygen Demand", lty=c(1), col="black",
+                   bty="n")
+          }
+          else if(input$dataType == "Nutrients"){
+            matplot(x=ppSim()[1], y=ppSim()[5], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Nutrients")
+            legend("topleft", "Nutrients", lty=c(1), col="black", bty="n")
+          }
+          else if(input$dataType == "Augmentation Value"){
+            matplot(x=ppSim()[1], y=ppSim()[6], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Augmentation Value")
+            legend("topleft", "Augmentation Value", lty=c(1), col="black",
+                   bty="n")
+          }
+          else if(input$dataType == "Food Amount"){
+            matplot(x=ppSim()[1], y=ppSim()[7], type="l", xlab=input$xaxis,
+                    ylab=input$yaxis, pch=1)
+            title("Food Amount")
+            legend("topleft", "Food Amount", lty=c(1), col="black", bty="n")
+          }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$dataType) || input$dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$breakpointsCheckbox)
+                  && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Oxygen"){
+              legend("topleft", c("Oxygen", "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Photosynthesis"){
+              legend("topleft", c("Photosynthesis", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Biological Oxygen Demand"){
+              legend("topleft", c("Biological Oxygen Demand", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Nutrients"){
+              legend("topleft", c("Nutrients", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Augmentation Value"){
+              legend("topleft", c("Augmentation", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Food Amount"){
+              legend("topleft", c("Food Amount", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+          }
+
+#### end: draw breakpoint lines on main plot for 'advanced analysis' panel #####
+
+##### start: update plot and legend with ews line (advanced analysis) ##########
+
+          # draw ews line based on radio button selection
+
+######### start: draw ews line for 'observed' (advanced analysis) ##############
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'skewness'
+          if(input$ewsRadioButtons == "Skewness"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[8]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[9]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(ppSim()[[2]]), ppSim()[[2]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(ppSim()[[3]]), ppSim()[[3]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(ppSim()[[4]]), ppSim()[[4]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(ppSim()[[5]]), ppSim()[[5]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(ppSim()[[6]]), ppSim()[[6]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(ppSim()[[7]]), ppSim()[[7]],
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+#### end: draw ews line for 'observed' (advanced analysis) #####################
+
+######### start: draw ews line for 'trend' (advanced analysis) #################
+
+        else if(input$decomposeOptions == "Trend"){
+        # draw new instance of basic plot based on state variable selection
+        if(input$dataType == "Oxygen"){
+          decomposed = decompose(ts(ppSim()[[2]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Oxygen: Trend")
+          legend("topleft", "Oxygen", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Photosynthesis"){
+          decomposed = decompose(ts(ppSim()[[3]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Photosynthesis: Trend")
+          legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Biological Oxygen Demand"){
+          decomposed = decompose(ts(ppSim()[[4]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Biological Oxygen Demand: Trend")
+          legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
+                 bty="n")
+        }
+        else if(input$dataType == "Nutrients"){
+          decomposed = decompose(ts(ppSim()[[5]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Nutrients: Trend")
+          legend("topleft", "Nutrients", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Augmentation Value"){
+          decomposed = decompose(ts(ppSim()[[6]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Augmentation Value: Trend")
+          legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Food Amount"){
+          decomposed = decompose(ts(ppSim()[[7]],
+                                      frequency=input$frequency))
+          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Food Amount: Trend")
+          legend("topleft", "Food Amount", lty=1, col="black", bty="n")
+        }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$dataType) || input$dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$breakpointsCheckbox)
+                  && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Oxygen"){
+              legend("topleft", c("Oxygen", "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Photosynthesis"){
+              legend("topleft", c("Photosynthesis", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Biological Oxygen Demand"){
+              legend("topleft", c("Biological Oxygen Demand", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Nutrients"){
+              legend("topleft", c("Nutrients", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Augmentation Value"){
+              legend("topleft", c("Augmentation", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Food Amount"){
+              legend("topleft", c("Food Amount", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+          }
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'kurtosis'
+          if(input$ewsRadioButtons == "Kurtosis"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[4]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'coefficient of variation'
+          if(input$ewsRadioButtons == "Coefficient of Variation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[5]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'return rate'
+          if(input$ewsRadioButtons == "Return Rate"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[6]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'density ratio'
+          if(input$ewsRadioButtons == "Density Ratio"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[7]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autocorrelation at first lag'
+          if(input$ewsRadioButtons == "Autocorrelation at First Lag"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[9]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+          # for 'autoregressive coefficient'
+          if(input$ewsRadioButtons == "Autoregressive Coefficient"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[2]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$trend), decomposed$trend,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Trend")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+        }
+
+################ end: draw ews line for 'trend' (advanced analysis) ############
+
+########### start: draw ews line for 'seasonal' (advanced analysis) ############
+
+        else if(input$decomposeOptions == "Seasonal"){
+        # draw new instance of basic plot based on state variable selection
+        if(input$dataType == "Oxygen"){
+          decomposed = decompose(ts(ppSim()[[2]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Oxygen: Seasonal (Periodicity)")
+          legend("topleft", "Oxygen", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Photosynthesis"){
+          decomposed = decompose(ts(ppSim()[[3]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Photosynthesis: Seasonal (Periodicity)")
+          legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Biological Oxygen Demand"){
+          decomposed = decompose(ts(ppSim()[[4]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Biological Oxygen Demand: Seasonal (Periodicity)")
+          legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
+                 bty="n")
+        }
+        else if(input$dataType == "Nutrients"){
+          decomposed = decompose(ts(ppSim()[[5]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Nutrients: Seasonal (Periodicity)")
+          legend("topleft", "Nutrients", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Augmentation Value"){
+          decomposed = decompose(ts(ppSim()[[6]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Augmentation Value: Seasonal (Periodicity)")
+          legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
+        }
+        else if(input$dataType == "Food Amount"){
+          decomposed = decompose(ts(ppSim()[[7]],
+                                      frequency=input$frequency))
+          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          title(main="Food Amount: Seasonal (Periodicity)")
+          legend("topleft", "Food Amount", lty=1, col="black", bty="n")
+        }
+
+          # check if breakpoint lines and ews lines can be drawn
+          if(is.null(input$dataType) || input$dataType == " "){
+            return()
+          }
+          # indicates breakpoint lines (only) can be drawn
+          else if(!is.null(input$breakpointsCheckbox)
+                  && input$breakpointsCheckbox == TRUE) {
+
+            # include breakpoint lines
+            abline(v=TPanalysis()[[2]], col="blue")
+            # update plot legend
+            if(input$dataType == "Oxygen"){
+              legend("topleft", c("Oxygen", "Breakpoints"), lty=c(1, 1),
+                     col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Photosynthesis"){
+              legend("topleft", c("Photosynthesis", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Biological Oxygen Demand"){
+              legend("topleft", c("Biological Oxygen Demand", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Nutrients"){
+              legend("topleft", c("Nutrients", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Augmentation Value"){
+              legend("topleft", c("Augmentation", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+            else if(input$dataType == "Food Amount"){
+              legend("topleft", c("Food Amount", "Breakpoints"),
+                     lty=c(1, 1), col=c("black", "blue"), bty="n")
+            }
+          }
+
+          # display default plot attributes if there are no ews lines selected
+          if(is.null(input$ewsRadioButtons)
+             || input$ewsRadioButtons == "None"){
+            return()
+          }
+
+          # for 'standard deviation'
+          if(input$ewsRadioButtons == "Standard Deviation"){
+            # re-scale ews statistic
+            ewsLine <- advancedGeneric()[3]
+            totalMinutes <- 3 * 1440
+
+            # adjust starting point to accomodate rolling window size
+            for(i in 2:(totalMinutes * (input$winsize * 0.01))){
+              ewsLine <- rbind(NA, ewsLine)
+            }
+
+            # draw rescaled ews line, axis, and label (from 'plotrix')
+
+            # for oxygen
+            if(input$dataType == "Oxygen"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Oxygen: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Oxygen", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Oxygen", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for photosynthesis
+            if(input$dataType == "Photosynthesis"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Photosynthesis: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Photosynthesis", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Photosynthesis", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for biological oxygen demand
+            if(input$dataType == "Biological Oxygen Demand"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Biological Oxygen Demand: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Biological Oxygen Demand", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Biological Oxygen Demand", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for nutrients
+            if(input$dataType == "Nutrients"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Nutrients: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Nutrients", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Nutrients", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for augmentation value
+            if(input$dataType == "Augmentation Value"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Augmentation Value: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Augmentation Value", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Augmentation Value", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+
+            # for food amount
+            if(input$dataType == "Food Amount"){
+              twoord.plot(1:length(decomposed$seasonal), decomposed$seasonal,
+                          1:length(ewsLine[[1]]), ewsLine[[1]], type="l",
+                          rcol="green4", xlab=input$xaxis, ylab=input$yaxis,
+                          lty=1, lcol="black")
+              title(main="Food Amount: Seasonal (Periodicity)")
+              mtext(input$ewsRadioButtons, side=4, col="green4")
+              if(!is.null(input$breakpointsCheckbox)
+                 && input$breakpointsCheckbox == TRUE) {
+
+                # include breakpoint lines
+                abline(v=TPanalysis()[[2]], col="blue")
+                # update plot legend with ews and breakpoint lines
+                legend("topleft",c("Food Amount", "Breakpoints",
+                                   input$ewsRadioButtons), lty=c(1, 1, 1),
+                       col=c("black", "blue", "green4"), bty="n")
+              }
+              else{
+                # update plot legend with only ews line
+                legend("topleft",
+                       c("Food Amount", input$ewsRadioButtons),
+                       lty=c(1, 1), col=c("black", "green4"), bty="n")
+              }
+            }
+          }
+
+
+
+
+        }
+
+
+################ end: draw ews line for 'seasonal' (advanced analysis) #########
+
+########### start: draw ews line for 'random' (advanced analysis) ##############
+
+################ end: draw ews line for 'random' (advanced analysis) ###########
+      }
     }) # end: render_plot (main)
 
 ################################################################################
@@ -7618,35 +10636,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[2]],
+              return(generic_ews(timeseries=ppSim()[[2]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -7658,35 +10676,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[3]],
+              return(generic_ews(timeseries=ppSim()[[3]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -7698,35 +10716,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[4]],
+              return(generic_ews(timeseries=ppSim()[[4]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -7738,35 +10756,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[5]],
+              return(generic_ews(timeseries=ppSim()[[5]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -7778,35 +10796,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[6]],
+              return(generic_ews(timeseries=ppSim()[[6]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -7818,35 +10836,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=ppSim()[[7]],
+              return(generic_ews(timeseries=ppSim()[[7]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
