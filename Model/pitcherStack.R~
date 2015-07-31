@@ -8,34 +8,22 @@
 
 ## Functions ##
 
-# transform the values of x so that the range of x is equal to the range of y
-rescale <- function(x,y){
-    x.range <- range(x)
-    y.range <- range(y)
-    x <- ((x - x.range[1])* (diff(y.range))) / diff(x.range) + y.range[1]
-    if (any(range(x) != range(y))){
-        warning('Ranges do not match.')
-    }else{
-        return(x)
-    }
+light <- function(days){
+  out <- sin(2*pi*(1:720)/1440)
+  out[out < 0] <- 0
+  out <- c(rep(0,720/2), out, rep(0,720/2))
+  rep(out, days)
 }
 
-# 6:00 sunrise = 360
-# 12:00 noon = 720
-# 18:00 sunset = 1080
-
-PAR <- function(days=3,start=0,amp=100){
-    amp * sin(2 * pi * rep((1:1440 + 1080 + start),days) * (1/1440))
+PAR <- function(days, rise=6, set=18){
+  out <- rep(0, 1440)
+  out[(rise*60):(set*60)] <- 1
+  rep(out, days)
 }
 
-photo <- function(days=3,Amax=4,Aqe=0.3,LCP=0,start=0,amp=50){
-    out <- Amax * (1 - exp(-Aqe * (PAR(days,start,amp) - LCP)))
-    out[out < LCP] <- 0
-    return(out)
-}
 
-pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.001, k=1, Bscaler=10,
-                            aMax=10, aMin=1, s=10, d=1, c=100) {
+pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.005, k=1, Bscaler=1,
+                            aMax=10, aMin=1, s=10, d=0.5, c=100) {
 
 minute <- vector(mode="numeric") # t/time variable
 x <- vector(mode="numeric") # amount of o2
@@ -45,14 +33,11 @@ B <- vector(mode="numeric") # biological o2 demand
 n <- vector(mode="numeric") # amount of nutrients
 w <- vector(mode="numeric") # amount of food
 
-if (length(foodWeight) < days){
-    foodWeight <- rep(foodWeight,days)[1:days]
-}
 
 ## Initialization ##
 
 # simulate photosynthesis as fixed values
-P <- photo(days)
+P <- light(days)*PAR(days=days)
 
 # initial nutrient value
 n <- 0
@@ -96,7 +81,7 @@ w <- c(w, w[length(w)])
 
 for(z in 1:days){
   # add food
-  w <- c(w, w[length(w)]+foodWeight[z])
+  w <- c(w, w[length(w)]+foodWeight)
 
   # run simulation for a full day
   for(j in 1:1440){
@@ -143,3 +128,23 @@ colnames(data) <- c("Minute", "Oxygen", "Photosynthesis",
                     "Augmentation Value", "Food Amount")
 return(data)
 }
+
+#########################################################################
+
+m1 <- pitcherPlantSim()
+
+plot(m1$Oxygen)
+
+ews <- generic_ews(timeseries=m1$Oxygen)
+
+lines(ews$sd)
+
+ewsLine <- ews[3]
+# adjust starting point to accomodate rolling window size
+totalMinutes <- 3 * 1440
+for(i in 1:(totalMinutes * (50 * 0.01))){
+  ewsLine <- rbind(NA, ewsLine)
+}
+lines(ewsLine)
+
+print(length(ewsLine[[1]]))
