@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 29July2015 ##################################
+##################### Last edited: 31July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -22,42 +22,6 @@ shinyServer(
         c(alpha=input$alpha, beta=input$beta, delta=input$delta,
           gamma=input$gamma))
     })
-
-################################################################################
-################# Side Panel ###################################################
-################################################################################
-
-    ### start: load user input-boxes (parameters) ###
-
-    output$alpha2 <- renderUI({
-      numericInput("alpha2", label=NULL, value=input$alpha)
-    })
-
-    output$beta2 <- renderUI({
-      numericInput("beta2", label=NULL, value=input$beta)
-    })
-
-    output$delta2 <- renderUI({
-      numericInput("delta2", label=NULL, value=input$delta)
-    })
-
-    output$gamma2 <- renderUI({
-      numericInput("gamma2", label=NULL, value=input$gamma)
-    })
-
-    ### end: load user input-boxes (parameters) ###
-
-    # link user input-box values with respective slider values (parameters)
-    observe({
-      updateSliderInput(session, "alpha", value=input$alpha2)
-      updateSliderInput(session, "beta", value=input$beta2)
-      updateSliderInput(session, "delta", value=input$delta2)
-      updateSliderInput(session, "gamma", value=input$gamma2)
-    })
-
-################################################################################
-################################################################################
-################################################################################
 
 ################################################################################
 ########### Display dynamic plot (main) of the simulation ######################
