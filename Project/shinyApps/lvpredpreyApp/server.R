@@ -4773,6 +4773,26 @@ shinyServer(
                       Decomposition analysis:", value=20)
     })
 
+    output$quick_cpmTypeSlot <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_frequency)
+        || !is.numeric(input$quick_frequency)){
+
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
+
+        return()
+      }
+
+      selectInput("quick_cpmType", "Change point model type:",
+                  choices=c("Gaussian sequence", "Exponential distribution"))
+    })
+
     output$quick_winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
@@ -4889,19 +4909,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(lvPredPrey()[[1]], cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(lvPredPrey()[[1]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(lvPredPrey()[[1]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -4913,19 +4953,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(lvPredPrey()[[2]], cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(lvPredPrey()[[2]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(lvPredPrey()[[2]]), cpmType="GLR")
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -4955,23 +5015,23 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=lvPredPrey()[[1]],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              return(generic_ews(timeseries=lvPredPrey()[[1]],
+                          detrending="gaussian", winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
           }
 
@@ -4983,23 +5043,23 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=lvPredPrey()[[2]],
-                          detrending="gaussian", winsize=input$quick_winsize)
+              return(generic_ews(timeseries=lvPredPrey()[[2]],
+                          detrending="gaussian", winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x, detrending="gaussian",
-                          winsize=input$quick_winsize)
+              return(generic_ews(timeseries=x, detrending="gaussian",
+                          winsize=input$quick_winsize))
             }
           }
 
@@ -5377,45 +5437,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(lvPredPrey()[[1]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(lvPredPrey()[[1]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(lvPredPrey()[[1]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(lvPredPrey()[[1]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -5430,45 +5490,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(lvPredPrey()[[2]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(lvPredPrey()[[2]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(lvPredPrey()[[2]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(lvPredPrey()[[2]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -5636,35 +5696,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=lvPredPrey()[[1]],
+              return(generic_ews(timeseries=lvPredPrey()[[1]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 
@@ -5676,35 +5736,35 @@ shinyServer(
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
-              generic_ews(timeseries=lvPredPrey()[[2]],
+              return(generic_ews(timeseries=lvPredPrey()[[2]],
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              generic_ews(timeseries=x,
+              return(generic_ews(timeseries=x,
                         winsize=input$winsize, bandwidth=input$bandwidth,
                         detrending=input$detrending, span=input$span,
                         degree=input$degree, logtransform=input$logtransform,
-                        interpolate=input$interpolate)
+                        interpolate=input$interpolate))
             }
           }
 

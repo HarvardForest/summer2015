@@ -68,6 +68,7 @@ shinyUI(fluidPage(
                       ),
                       uiOutput("quick_frequencySlot"),
                       uiOutput("quick_decomposeOptionsSlot"),
+                      uiOutput("quick_cpmTypeSlot"),
                       uiOutput("quick_winsizeSlot"),
                       uiOutput("quick_runButtonSlot")
                     ), # column
@@ -128,7 +129,7 @@ shinyUI(fluidPage(
                     column(6, align="left",
                       h3("Tipping Point parameters"),
                       selectInput("cpmType", "Change point model type:",
-                                  choices=c("Exponential distribution", "Gaussian sequence")),
+                                  choices=c("Gaussian sequence", "Exponential distribution")),
                       numericInput("startup", "The number of observations after which monitoring begins.
                                    No breakpoints will be flagged during this period.
                                    (the value should be at least 20):",
