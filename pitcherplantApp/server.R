@@ -1664,21 +1664,24 @@ shinyServer(
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Trend")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Trend")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Trend")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -1686,21 +1689,24 @@ shinyServer(
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Trend")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Trend")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Trend")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -3127,21 +3133,24 @@ shinyServer(
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Seasonal")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Seasonal")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Seasonal")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -3149,21 +3158,24 @@ shinyServer(
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Seasonal")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Seasonal")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Seasonal")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -4590,21 +4602,24 @@ shinyServer(
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Random (Residuals)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Random (Residuals)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Random (Residuals)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -4612,21 +4627,24 @@ shinyServer(
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Random (Residuals)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Random (Residuals)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Random (Residuals)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -7689,21 +7707,24 @@ shinyServer(
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Trend")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Trend")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Trend")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -7711,21 +7732,24 @@ shinyServer(
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Trend")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Trend")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$trend, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Trend")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -8973,21 +8997,24 @@ shinyServer(
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Seasonal (Periodicity)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Seasonal (Periodicity)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Seasonal (Periodicity)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -8995,21 +9022,24 @@ shinyServer(
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Seasonal (Periodicity)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Seasonal (Periodicity)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$seasonal, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Seasonal (Periodicity)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -10427,21 +10457,24 @@ shinyServer(
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Random (Residuals)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Random (Residuals)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Random (Residuals)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
                  bty="n")
@@ -10449,21 +10482,24 @@ shinyServer(
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Random (Residuals)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Random (Residuals)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
                                       frequency=1440))
-          plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+          plot(y=decomposed$random, x=seq(1, input$days*1440, 1), type="l",
+                xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Random (Residuals)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
         }
@@ -11960,6 +11996,21 @@ shinyServer(
                               "Seasonal (Periodicity)", "Random (Residuals)"))
     })
 
+    output$quick_cpmType <- renderUI({
+      # check required information
+      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
+        return()
+      }
+      else if(is.null(input$quick_decomposeOptions)
+        || input$quick_decomposeOptions == " "){
+
+        return()
+      }
+
+      selectInput("quick_cpmType", "Change point model type:",
+          choices=c("Gaussian sequence", "Exponential distribution"))
+    })
+
     output$quick_winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
@@ -12084,19 +12135,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[2]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[2]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[2]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -12108,19 +12179,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[3]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[3]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[3]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -12132,19 +12223,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[4]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[4]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[4]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -12156,19 +12267,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[5]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[5]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[5]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -12180,19 +12311,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[6]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[6]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[6]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -12204,19 +12355,39 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              return(processStream(ppSim()[[7]], cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(ppSim()[[7]], cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(ppSim()[[7]], cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              return(processStream(x, cpmType="Exponential"))
+              if(input$quick_cpmType == "Exponential distribution"){
+                return(processStream(x, cpmType="Exponential"))
+              }
+              else if(input$quick_cpmType == "Gaussian sequence"){
+                return(processStream(x, cpmType="GLR"))
+              }
             }
           }
 
@@ -13608,7 +13779,191 @@ shinyServer(
 
     # render script text
     aceScript <- reactive({
-"PASS
+"# load dependencies
+library(moments)
+library(cpm)
+library(ggplot2)
+library(earlywarnings)
+
+## Functions ##
+
+# transform the values of x so that the range of x is equal to the range of y
+rescale <- function(x,y){
+    x.range <- range(x)
+    y.range <- range(y)
+    x <- ((x - x.range[1])* (diff(y.range))) / diff(x.range) + y.range[1]
+    if (any(range(x) != range(y))){
+        warning('Ranges do not match.')
+    }else{
+        return(x)
+    }
+}
+
+# 6:00 sunrise = 360
+# 12:00 noon = 720
+# 18:00 sunset = 1080
+
+PAR <- function(days=3,start=0,amp=100){
+    amp * sin(2 * pi * rep((1:1440 + 1080 + start),days) * (1/1440))
+}
+
+photo <- function(days=3,Amax=4,Aqe=0.3,LCP=0,start=0,amp=50){
+    out <- Amax * (1 - exp(-Aqe * (PAR(days,start,amp) - LCP)))
+    out[out < LCP] <- 0
+    return(out)
+}
+
+pitcherPlantSim <- function(days=3, feedingTime=720, foodWeight=5, beta=0.001, k=1, Bscaler=10,
+                            aMax=10, aMin=1, s=10, d=1, c=100) {
+
+minute <- vector(mode='numeric') # t/time variable
+x <- vector(mode='numeric') # amount of o2
+a <- vector(mode='numeric') # augmentation function
+P <- vector(mode='numeric') # photosynthesis
+B <- vector(mode='numeric') # biological o2 demand
+n <- vector(mode='numeric') # amount of nutrients
+w <- vector(mode='numeric') # amount of food
+
+if (length(foodWeight) < days){
+    foodWeight <- rep(foodWeight,days)[1:days]
+}
+
+## Initialization ##
+
+# simulate photosynthesis as fixed values
+P <- photo(days)
+
+# initial nutrient value
+n <- 0
+
+# initial augmentation value
+a <- ((aMax-aMin)/(1+exp((-s*n)-d)))+aMin
+
+# initial biological o2 demand
+B <- 0/(k+0)
+
+# o2 at minute=0, P=0 b/c unable to index at minute=0
+x <- (a*0)-B
+
+# simulate until food is first added
+# loop runs until feedingTime-2 b/c food is added AT the minute
+for(i in 1:(feedingTime-2)){
+  # augmentation function - default value
+  a <- c(a, ((aMax-aMin)/(1+exp((-s*n[i])-d)))+aMin)
+
+  # biological oxygen demand - default value (no food = no microbes)
+  B <- c(B, 0/(k+0))
+
+  # calculate o2 amount - product of photosynthesis alone (no food)
+  x <- c(x, (a[i]*P[i])-B[i])
+
+  # amount of food - no food
+  w <- c(w, 0)
+
+  # amount of nutrients - no nutrients
+  n <- c(n, 0)
+
+  # adjust minute
+  minute <- c(minute, i)
+}
+
+# adjust minute
+minute <- c(minute, length(minute)+1)
+
+# adjust amount of food
+w <- c(w, w[length(w)])
+
+for(z in 1:days){
+  # add food
+  w <- c(w, w[length(w)]+foodWeight[z])
+
+  # run simulation for a full day
+  for(j in 1:1440){
+    # adjust minute
+    minute <- c(minute, length(minute)+1)
+
+    # adjust biological o2 demand
+    B <- c(B, (w[length(minute)]/(k+w[length(minute)]))*Bscaler)
+
+    # adjust amount of nutrients
+    n <- c(n, (w[length(minute)]*x[length(minute)-1])/c)
+
+    # adjust augmentation value
+    a <- c(a, ((aMax-aMin)/(1+exp((-s*n[length(minute)])-d)))+aMin)
+
+    # adjust o2 amount
+    tempO2 <- (a[length(minute)]*P[length(minute)])-B[length(minute)]
+    if(is.na(tempO2) == FALSE && tempO2 > 0){
+      x <- c(x, tempO2)
+    }
+    else{
+      x <- c(x, 0)
+    }
+
+    if(j < 1440){
+        ## adjust amount of food
+        w <- c(w, w[length(w)]*exp(-beta*(1)))
+    }
+  }
+}
+
+# trim objects to appropriate time
+  # omitted values aren't relevant
+minute <- minute[1:length(P)]
+B <- B[1:length(P)]
+n <- n[1:length(P)]
+a <- a[1:length(P)]
+x <- x[1:length(P)]
+w <- w[1:length(P)]
+
+data <- data.frame(minute, x, P[1:length(x)], B, n, a, w)
+colnames(data) <- c('Minute', 'Oxygen', 'Photosynthesis',
+                    'Biological Oxygen Demand', 'Nutrients',
+                    'Augmentation Value', 'Food Amount')
+return(data)
+}
+
+## Function-call ##
+data <- pitcherPlantSim()
+
+##### Decompose timeseries data #####
+## argument 'frequency' is the number of observations per time step
+
+decomposedData <- decompose(ts(data[[2]], frequency=1440))
+## decompose breaks the timeseries data into 4 components
+  # 1) 'decomposedData$x' = original timeseries
+  # 2) 'decomposedData$trend' = trend taken from original timeseries
+  # 3) 'decomposedData$seasonal' = periodicity taken from original timeseries
+  # 4) 'decomposedData$random' = residuals taken from original timeseries
+
+##### Breakpoint Analysis ('cpm' Package) ######
+
+## GLR: Generalized Likelihood Ratio test statistic.
+  ## Use to detect both mean and variance changes in a Gaussian sequence.
+bp1 <- processStream(data[[2]], cpmType='GLR')
+
+## Exponential: Generalized Likelihood Ratio test statistic for Exponential
+  ## distribution, Used to detect changes in the parameter
+    ## of an Exponentially distributed sequence.
+bp2 <- processStream(data[[2]], cpmType='Exponential')
+
+##### Early Warning Signals Analysis ('earlywarnings' Package) #####
+## generic early warning signals
+  ## used in this application's 'Quick Analysis'
+gen_EWS <- generic_ews(timeseries=data[[2]],
+                        winsize=50, detrending = c('no', 'gaussian', 'loess',
+                                                    'linear', 'first-diff'),
+                        bandwidth = NULL, span = NULL, degree = NULL,
+                        logtransform = FALSE, interpolate = FALSE, AR_n = FALSE,
+                        powerspectrum = FALSE))
+
+## quick detection analysis for generic early warning signals
+#quick_EWS <- qda_ews(timeseries=data[[2]],
+#                      param = NULL, winsize = 50, detrending = c('no',
+#                      'gaussian', 'linear', 'first-diff'), bandwidth = NULL,
+#                      boots = 100, s_level = 0.05, cutoff = 0.05,
+#                      detection.threshold = 0.002, grid.size = 50,
+#                      logtransform = FALSE, interpolate = FALSE)
 "
     })
 
