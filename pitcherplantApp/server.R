@@ -2,7 +2,7 @@
 ################################################################################
 ################## Pitcher Plant Simulation ####################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 30July2015 ##################################
+##################### Last edited: 31July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -12084,19 +12084,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[2]], cpmType="Exponential")
+              return(processStream(ppSim()[[2]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12108,19 +12108,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[3]], cpmType="Exponential")
+              return(processStream(ppSim()[[3]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12132,19 +12132,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[4]], cpmType="Exponential")
+              return(processStream(ppSim()[[4]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12156,19 +12156,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[5]], cpmType="Exponential")
+              return(processStream(ppSim()[[5]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12180,19 +12180,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[6]], cpmType="Exponential")
+              return(processStream(ppSim()[[6]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12204,19 +12204,19 @@ shinyServer(
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
-              processStream(ppSim()[[7]], cpmType="Exponential")
+              return(processStream(ppSim()[[7]], cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
             else if(input$quick_decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
-              processStream(x, cpmType="Exponential")
+              return(processStream(x, cpmType="Exponential"))
             }
           }
 
@@ -12725,45 +12725,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[2]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[2]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[2]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[2]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -12778,45 +12778,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[3]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[3]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[3]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[3]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -12830,45 +12830,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[4]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[4]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[4]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[4]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -12882,45 +12882,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[5]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[5]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[5]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[5]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -12934,45 +12934,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[6]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[6]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[6]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[6]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
@@ -12986,45 +12986,45 @@ shinyServer(
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
               if(input$cpmType == "Exponential distribution"){
-                processStream(ppSim()[[7]], cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(ppSim()[[7]], cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(ppSim()[[7]], cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(ppSim()[[7]], cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Trend"){
               x <- decomposed$trend[!is.na(decomposed$trend)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Seasonal (Periodicity)"){
               x <- decomposed$seasonal[!is.na(decomposed$seasonal)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
             else if(input$decomposeOptions == "Random (Residuals)"){
               x <- decomposed$random[!is.na(decomposed$random)]
               if(input$cpmType == "Exponential distribution"){
-                processStream(x, cpmType="Exponential",
-                              startup=input$startup)
+                return(processStream(x, cpmType="Exponential",
+                              startup=input$startup))
               }
               else if(input$cpmType == "Gaussian sequence"){
-                processStream(x, cpmType="GLR",
-                              startup=input$startup)
+                return(processStream(x, cpmType="GLR",
+                              startup=input$startup))
               }
             }
           }
