@@ -69,7 +69,6 @@ shinyUI(fluidPage(
                           "Biological Oxygen Demand", "Nutrients",
                           "Augmentation Value", "Food Amount")
                       ),
-                      uiOutput("quick_frequencySlot"),
                       uiOutput("quick_decomposeOptionsSlot"),
                       uiOutput("quick_winsizeSlot"),
                       uiOutput("quick_runButtonSlot")
@@ -108,7 +107,6 @@ shinyUI(fluidPage(
                                   "Biological Oxygen Demand", "Nutrients",
                                   "Augmentation Value", "Food Amount")
                       ),
-                      uiOutput("frequencySlot"),
                       uiOutput("decomposeOptionsSlot"),
                       uiOutput("runButtonSlot")
                     ), # column

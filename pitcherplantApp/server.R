@@ -1663,21 +1663,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Trend")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Trend")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Trend")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -1685,21 +1685,21 @@ shinyServer(
         }
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Trend")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Trend")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Trend")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -3126,21 +3126,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Seasonal")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Seasonal")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Seasonal")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -3148,21 +3148,21 @@ shinyServer(
         }
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Seasonal")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Seasonal")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Seasonal")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -4589,21 +4589,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$quick_dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Random (Residuals)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Random (Residuals)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Random (Residuals)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -4611,21 +4611,21 @@ shinyServer(
         }
         else if(input$quick_dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Random (Residuals)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Random (Residuals)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$quick_dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$quick_frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Random (Residuals)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -7688,21 +7688,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Trend")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Trend")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Trend")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -7710,21 +7710,21 @@ shinyServer(
         }
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Trend")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Trend")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Trend")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -8972,21 +8972,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Seasonal (Periodicity)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Seasonal (Periodicity)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Seasonal (Periodicity)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -8994,21 +8994,21 @@ shinyServer(
         }
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Seasonal (Periodicity)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Seasonal (Periodicity)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Seasonal (Periodicity)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -10426,21 +10426,21 @@ shinyServer(
         # draw new instance of basic plot based on state variable selection
         if(input$dataType == "Oxygen"){
           decomposed = decompose(ts(ppSim()[[2]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Oxygen: Random (Residuals)")
           legend("topleft", "Oxygen", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Photosynthesis"){
           decomposed = decompose(ts(ppSim()[[3]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Photosynthesis: Random (Residuals)")
           legend("topleft", "Photosynthesis", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Biological Oxygen Demand"){
           decomposed = decompose(ts(ppSim()[[4]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Biological Oxygen Demand: Random (Residuals)")
           legend("topleft", "Biological Oxygen Demand", lty=1, col="black",
@@ -10448,21 +10448,21 @@ shinyServer(
         }
         else if(input$dataType == "Nutrients"){
           decomposed = decompose(ts(ppSim()[[5]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Nutrients: Random (Residuals)")
           legend("topleft", "Nutrients", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Augmentation Value"){
           decomposed = decompose(ts(ppSim()[[6]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Augmentation Value: Random (Residuals)")
           legend("topleft", "Augmentation Value", lty=1, col="black", bty="n")
         }
         else if(input$dataType == "Food Amount"){
           decomposed = decompose(ts(ppSim()[[7]],
-                                      frequency=input$frequency))
+                                      frequency=1440))
           plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
           title(main="Food Amount: Random (Residuals)")
           legend("topleft", "Food Amount", lty=1, col="black", bty="n")
@@ -11960,25 +11960,9 @@ shinyServer(
                               "Seasonal (Periodicity)", "Random (Residuals)"))
     })
 
-    output$quick_frequencySlot <- renderUI({
-      # check required information
-      if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-
-      numericInput("quick_frequency",
-                   "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:", value=1440)
-    })
-
     output$quick_winsizeSlot <- renderUI({
       # check required information
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
         return()
       }
       else if(is.null(input$quick_decomposeOptions)
@@ -12003,11 +11987,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
@@ -12024,31 +12003,28 @@ shinyServer(
       if(is.null(input$quick_dataType) || input$quick_dataType == " "){
         return()
       }
-      if(!is.numeric(input$quick_frequency)){
-        return()
-      }
 
       plotOutput("quick_decomposePlot")
     })
 
     output$quick_decomposePlot <- renderPlot({
       if(input$quick_dataType == "Oxygen"){
-        plot(decompose(ts(ppSim()[[2]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[2]], frequency=1440)))
       }
       else if(input$quick_dataType == "Photosynthesis"){
-        plot(decompose(ts(ppSim()[[3]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[3]], frequency=1440)))
       }
       else if(input$quick_dataType == "Biological Oxygen Demand"){
-        plot(decompose(ts(ppSim()[[4]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[4]], frequency=1440)))
       }
       else if(input$quick_dataType == "Nutrients"){
-        plot(decompose(ts(ppSim()[[5]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[5]], frequency=1440)))
       }
       else if(input$quick_dataType == "Augmentation Value"){
-        plot(decompose(ts(ppSim()[[6]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[6]], frequency=1440)))
       }
       else if(input$quick_dataType == "Food Amount"){
-        plot(decompose(ts(ppSim()[[7]], frequency=input$quick_frequency)))
+        plot(decompose(ts(ppSim()[[7]], frequency=1440)))
       }
     })
 
@@ -12061,31 +12037,28 @@ shinyServer(
       if(is.null(input$dataType) || input$dataType == " "){
         return()
       }
-      if(!is.numeric(input$frequency)){
-        return()
-      }
 
       plotOutput("decomposePlot")
     })
 
     output$decomposePlot <- renderPlot({
       if(input$dataType == "Oxygen"){
-        plot(decompose(ts(ppSim()[[2]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[2]], frequency=1440)))
       }
       else if(input$dataType == "Photosynthesis"){
-        plot(decompose(ts(ppSim()[[3]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[3]], frequency=1440)))
       }
       else if(input$dataType == "Biological Oxygen Demand"){
-        plot(decompose(ts(ppSim()[[4]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[4]], frequency=1440)))
       }
       else if(input$dataType == "Nutrients"){
-        plot(decompose(ts(ppSim()[[5]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[5]], frequency=1440)))
       }
       else if(input$dataType == "Augmentation Value"){
-        plot(decompose(ts(ppSim()[[6]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[6]], frequency=1440)))
       }
       else if(input$dataType == "Food Amount"){
-        plot(decompose(ts(ppSim()[[7]], frequency=input$frequency)))
+        plot(decompose(ts(ppSim()[[7]], frequency=1440)))
       }
     })
 
@@ -12107,7 +12080,7 @@ shinyServer(
           if(input$quick_dataType == "Oxygen"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[2]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12131,7 +12104,7 @@ shinyServer(
           else if(input$quick_dataType == "Photosynthesis"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[3]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12155,7 +12128,7 @@ shinyServer(
           else if(input$quick_dataType == "Biological Oxygen Demand"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[4]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12179,7 +12152,7 @@ shinyServer(
           else if(input$quick_dataType == "Nutrients"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[5]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12203,7 +12176,7 @@ shinyServer(
           else if(input$quick_dataType == "Augmentation Value"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[6]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12227,7 +12200,7 @@ shinyServer(
           else if(input$quick_dataType == "Food Amount"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[7]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12256,7 +12229,7 @@ shinyServer(
 ############## start: predetermined (quick) ews analysis #######################
 
     # reactive for dynamic updates
-    quickGeneric <- reactive({
+    quickGeneric <- eventReactive(input$quick_runButton, {
       # check required information
       if(is.null(input$quick_runButton)){
         return()
@@ -12270,7 +12243,7 @@ shinyServer(
           if(input$quick_dataType == "Oxygen"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[2]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12298,7 +12271,7 @@ shinyServer(
           else if(input$quick_dataType == "Photosynthesis"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[3]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12326,7 +12299,7 @@ shinyServer(
           if(input$quick_dataType == "Biological Oxygen Demand"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[4]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12354,7 +12327,7 @@ shinyServer(
           else if(input$quick_dataType == "Nutrients"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[5]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12382,7 +12355,7 @@ shinyServer(
           else if(input$quick_dataType == "Augmentation Value"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[6]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12410,7 +12383,7 @@ shinyServer(
           else if(input$quick_dataType == "Food Amount"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[7]],
-                                       frequency=input$quick_frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$quick_decomposeOptions == "Observed (Simulated Data)"){
@@ -12453,11 +12426,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
@@ -12473,11 +12441,6 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
         || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
 
         return()
       }
@@ -12502,11 +12465,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
@@ -12525,11 +12483,6 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
         || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
 
         return()
       }
@@ -12559,11 +12512,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
@@ -12588,11 +12536,6 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
         || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
 
         return()
       }
@@ -12624,11 +12567,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
-
-        return()
-      }
       else if(is.null(input$quick_winsize) || !is.numeric(input$quick_winsize)){
         return()
       }
@@ -12650,11 +12588,6 @@ shinyServer(
       }
       else if(is.null(input$quick_decomposeOptions)
         || input$quick_decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$quick_frequency)
-        || !is.numeric(input$quick_frequency)){
 
         return()
       }
@@ -12729,17 +12662,6 @@ shinyServer(
 ############### Build Advanced Analysis Dynamic User-input #####################
 ################################################################################
 
-    output$frequencySlot <- renderUI({
-      # check required information
-      if(is.null(input$dataType) || input$dataType == " "){
-        return()
-      }
-
-      numericInput("frequency",
-                   "The number of observations per unit of time (frequency) for
-                      Decomposition analysis:", value=20)
-    })
-
     output$decomposeOptionsSlot <- renderUI({
       # check required information
       if(is.null(input$dataType) || input$dataType == " "){
@@ -12758,11 +12680,6 @@ shinyServer(
       }
       else if(is.null(input$decomposeOptions)
         || input$decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
 
         return()
       }
@@ -12803,7 +12720,7 @@ shinyServer(
           if(input$dataType == "Oxygen"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[2]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -12856,7 +12773,7 @@ shinyServer(
           else if(input$dataType == "Photosynthesis"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[3]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -12908,7 +12825,7 @@ shinyServer(
           else if(input$dataType == "Biological Oxygen Demand"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[4]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -12960,7 +12877,7 @@ shinyServer(
           else if(input$dataType == "Nutrients"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[5]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13012,7 +12929,7 @@ shinyServer(
           else if(input$dataType == "Augmentation Value"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[6]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13064,7 +12981,7 @@ shinyServer(
           if(input$dataType == "Food Amount"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[7]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run breakpoint analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13131,11 +13048,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
-
-        return()
-      }
       # check for all valid tipping point arguments
       else if(!is.numeric(input$startup)){
         return()
@@ -13157,11 +13069,6 @@ shinyServer(
       }
       else if(is.null(input$decomposeOptions)
         || input$decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
 
         return()
       }
@@ -13192,11 +13099,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
-
-        return()
-      }
       # check for all valid tipping point arguments
       else if(!is.numeric(input$startup)){
         return()
@@ -13220,11 +13122,6 @@ shinyServer(
       }
       else if(is.null(input$decomposeOptions)
         || input$decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
 
         return()
       }
@@ -13271,7 +13168,7 @@ shinyServer(
           if(input$dataType == "Oxygen"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[2]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13311,7 +13208,7 @@ shinyServer(
           if(input$dataType == "Photosynthesis"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[3]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13351,7 +13248,7 @@ shinyServer(
           if(input$dataType == "Oxygen"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[4]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13391,7 +13288,7 @@ shinyServer(
           if(input$dataType == "Nutrients"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[5]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13431,7 +13328,7 @@ shinyServer(
           if(input$dataType == "Augmentation Value"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[6]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13471,7 +13368,7 @@ shinyServer(
           if(input$dataType == "Food Amount"){
             # decompose simulated data
             decomposed <- decompose(ts(ppSim()[[7]],
-                                       frequency=input$frequency))
+                                       frequency=1440))
 
             # run ews analysis on desired component
             if(input$decomposeOptions == "Observed (Simulated Data)"){
@@ -13529,11 +13426,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
-
-        return()
-      }
       # check for all valid tipping point arguments
       else if(!is.numeric(input$startup)){
         return()
@@ -13564,11 +13456,6 @@ shinyServer(
       }
       else if(is.null(input$decomposeOptions)
         || input$decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
 
         return()
       }
@@ -13606,11 +13493,6 @@ shinyServer(
 
         return()
       }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
-
-        return()
-      }
       # check for all valid tipping point arguments
       else if(!is.numeric(input$startup)){
         return()
@@ -13635,11 +13517,6 @@ shinyServer(
       }
       else if(is.null(input$decomposeOptions)
         || input$decomposeOptions == " "){
-
-        return()
-      }
-      else if(is.null(input$frequency)
-        || !is.numeric(input$frequency)){
 
         return()
       }
