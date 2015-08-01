@@ -690,14 +690,16 @@ shinyServer(
           if(input$quick_dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$trend, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Trend")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$quick_dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$trend, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Trend")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -1251,14 +1253,16 @@ shinyServer(
           if(input$quick_dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$seasonal, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Seasonal (Periodicity)")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$quick_dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$seasonal, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Seasonal (Periodicity)")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -1812,14 +1816,16 @@ shinyServer(
           if(input$quick_dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$random, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Random (Residuals)")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$quick_dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$quick_frequency))
-            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$random, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Random (Residuals)")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -2949,14 +2955,16 @@ shinyServer(
           if(input$dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$trend, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Trend")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$frequency))
-            plot(decomposed$trend, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$trend, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Trend")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -3510,14 +3518,16 @@ shinyServer(
           if(input$dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$seasonal, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Seasonal (Periodicity)")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$frequency))
-            plot(decomposed$seasonal, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$seasonal, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Seasonal (Periodicity)")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
@@ -4135,14 +4145,16 @@ shinyServer(
           if(input$dataType == "Prey"){
             decomposed = decompose(ts(lvPredPrey()[[1]],
                                       frequency=input$frequency))
-            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis)
+            plot(y=decomposed$random, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l")
             title(main="Prey: Random (Residuals)")
             legend("topleft", input$preyLabel, lty=1, col="black", bty="n")
           }
           else if(input$dataType == "Predator"){
             decomposed = decompose(ts(lvPredPrey()[[2]],
                                       frequency=input$frequency))
-            plot(decomposed$random, xlab=input$xaxis, ylab=input$yaxis, col="red")
+            plot(y=decomposed$random, x=seq(1, input$time+1, 1),
+                  xlab=input$xaxis, ylab=input$yaxis, type="l", col="red")
             title(main="Predator: Random (Residuals)")
             legend("topleft", input$predatorLabel, lty=1, col="red", bty="n")
           }
