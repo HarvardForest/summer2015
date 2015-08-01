@@ -6078,7 +6078,7 @@ decomposedData <- decompose(ts(data[[1]], frequency=2))
 bp1 <- processStream(data[[1]], cpmType='GLR')
 
 ## Exponential: Generalized Likelihood Ratio test statistic for Exponential
-  ## distribution, as in [Ross, 2013]. Used to detect changes in the parameter
+  ## distribution. Used to detect changes in the parameter
     ## of an Exponentially distributed sequence.
 
 bp2 <- processStream(data[[1]], cpmType='Exponential')
@@ -6097,7 +6097,7 @@ gen_EWS <- generic_ews(timeseries=decomposedData$x,
 
 ## quick detection analysis for generic early warning signals
 
-#quick_EWS <- qda_ews(timeseries=sdecomposedData$x,
+#quick_EWS <- qda_ews(timeseries=decomposedData$x,
 #                      param = NULL, winsize = 50, detrending = c('no',
 #                      'gaussian', 'linear', 'first-diff'), bandwidth = NULL,
 #                      boots = 100, s_level = 0.05, cutoff = 0.05,
