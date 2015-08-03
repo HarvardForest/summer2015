@@ -6,6 +6,13 @@
 
 #### Dates: May 26, 2015 - August 7, 2015
 
+# View the apps:
+### Lotka-Volterra Predator Prey:
+https://ecoapps-lvpredatorprey.herokuapp.com/ or https://nthnjustice.shinyapps.io/ecoapps-lvpredatorprey
+
+### Pitcher Plant:
+http://ecoapps-pitcherplant.herokuapp.com/ or https://nthnjustice.shinyapps.io/ecoapps-pitcherplant
+
 #### Goal: 
 A computational tool used to investigate tipping points and early warning signals in simulations of ecosystem dynamics
 
