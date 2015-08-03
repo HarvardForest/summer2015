@@ -9,6 +9,11 @@
 #### Goal: 
 A computational tool used to investigate tipping points and early warning signals in simulations of ecosystem dynamics
 
+# View the app:
+http://ecoapps-pitcherplant.herokuapp.com/
+or
+https://nthnjustice.shinyapps.io/ecoapps-pitcherplant
+
 #### Method: 
 Multiple [Shiny](http://shiny.rstudio.com/) web applications, where each app simulates a different ecological model
 
