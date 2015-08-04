@@ -2,7 +2,7 @@
 ################################################################################
 ################## Lotka-Volterra Predator-Prey ################################
 ####################### By: Nathan Justice #####################################
-##################### Last edited: 31July2015 ##################################
+##################### Last edited: 04July2015 ##################################
 ################################################################################
 ################################################################################
 
@@ -4969,7 +4969,7 @@ shinyServer(
                 return(processStream(lvPredPrey()[[2]], cpmType="Exponential"))
               }
               else if(input$quick_cpmType == "Gaussian sequence"){
-                return(processStream(lvPredPrey()[[2]]), cpmType="GLR")
+                return(processStream(lvPredPrey()[[2]], cpmType="GLR"))
               }
             }
             else if(input$quick_decomposeOptions == "Trend"){
