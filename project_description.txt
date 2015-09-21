@@ -1,0 +1,74 @@
+EcoApps
+Summer REU - 2015
+Nathan Justice
+
+
+Repositories:
+
+There are two different GitHub repositories under the Harvard Forest organization for the EcoApps project. 
+
+The first of which is “summer2015”. This is the repository used throughout the summer for developing and testing. The master branch has a directory named “Project”. This folder has sub-folders for the models and Shiny applications. A branch exists for each application (lvpredprey and pitcherplant). Within each of these branches, there is also supplementary material associated with that particular application instance. The master branch is effectively a 'merged' example of the other branches (the ones representing distinct applications). The master branch is not a Git merged example because it contains other supplementary material not associated with any of the applications specifically. The folders and files in the “Project” directory of the master branch are copied and pasted in from the application branches – using a Git merge command would complicate things unnecessarily. 
+
+My advice is to not use this repository anymore; its file structure is convoluted, the branching set up isn't particularly helpful, there is a lot of material relevant only to the REU program, and the other repository is what the applications are launched through. 
+
+The other repository is “ecoapps”. This repository has a detailed README.md file that links to the container site, each individual application (via both Heroku and shiny server), and instructions for launching an application locally. There is only a master branch for this repository. Each directory (with the exception of the 'models' folder) is a self-contained application with all of the relevant files.
+
+I suggest using the “ecoapps” repository for all future development. 
+
+Deploying:
+
+If an update is made to an application, follow these steps to re-deploy the application. These steps do not include pushing to the “summer2015” repository. Again, I think this repository should be abandoned. I'm also writing this under an assumption that there is a general understanding of GitHub. Therefore, not all of the steps are detailed explicitly.   
+
+
+
+To GitHub:
+
+•	Clone the “ecoapps” repository
+◦	git clone https://github.com/HarvardForest/ecoapps.git
+•	Make the update in the appropriate app-specific directory and push 
+◦	git push origin master
+
+
+To Shiny server:
+
+•	Open either the server.R or ui.R file in Rstudio and click the “Publish to Server” button on the upper write of the script window (the blue symbol)
+•	Set the destination account to 
+◦	Account: ecoapps
+◦	Email: n.justice@outlook.com
+◦	Password: redeft1907
+◦	You may need to login on the website and secure an Access Token – the interface and process is very straightforward (http://www.shinyapps.io/)
+•	The apps have files associated with them that will link them directly to the correct instance and url. 
+
+Due to the limitations of the Shiny server, we've also set up identical instances of the apps on Heroku.
+
+To Heroku:
+
+•	On the website, login to Heroku (https://id.heroku.com/login)
+◦	Email: matthewklau@fas.harvard.edu
+◦	Password: redeft1907
+•	Click on the desired application
+◦	the one named “ecoapps” is the container site and it is only hosted via Heroku (no Shiny server equivalent) 
+•	Under the “Deploy” tab, follow the explicit instructions for cloning and pushing to Heroku git
+•	IMPORTANT NOTES:
+◦	When you clone the Heroku git repository, put it separate from the “ecoapps” GitHub directory. The Heroku equivalents need to be independent because they are not launched through GitHub – they are launched through Heroku's Git system (which is independent). When you make an update to an app, do it in the “ecoapps” GitHub repository, copy all of the files from that directory, and paste them (replacing old versions) into the corresponding Heroku directory.
+•	REMEMBER to deploy equivalent copies of the apps after an update to both Shiny server and Heroku.
+
+
+  I recommend the following file structure:
+•	Desktop
+◦	REU2015
+▪	ecoapps (the GitHub cloned repository)
+•	lvpredpreyApp (used to 'Publish' to Shiny server)
+•	models
+•	pitcherplantApp (used to 'Publish' to Shiny server)
+•	website (this is the code for the container site – not published via Shiny server)
+•	DESCRIPTION
+•	LICENSE
+•	README.md
+▪	HerokuLaunch (utilizes the Heroku Git system)
+•	ecoapps (this is a copy of the code for the container site – this is important because it is the only instance of the container site)
+•	ecoapps-lvpredatorprey (Heroku equivalent from the Shiny server)
+•	ecoapps-pitcherplant (Heroku equivalent from the Shiny server)
+▪	summer2015 (which I think should be avoided)
+
+All of the links for all of the apps (both Heroku and Shiny launches) are on the “ecoapps” GitHub repository README.md. (https://github.com/HarvardForest/ecoapps)
